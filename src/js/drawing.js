@@ -1,3 +1,12 @@
+/*
+
+TODO:
+
+Consolidate drawing.js and bonsai_square.js, abstract out any hardcoded elements
+
+*/
+
+
 
 //this looks like shit.
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
