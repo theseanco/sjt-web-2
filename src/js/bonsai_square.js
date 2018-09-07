@@ -9,27 +9,41 @@ The trick to this is to control the easing. I want the squares to go from 0.3 op
 There's a list of types of easing here http://docs.bonsaijs.org/overview/Easing.html.
 But it's actually easier
 
+According to the Execution documents, any code executed within the `bonsai.run` statement is stringified and run in a different context to the rest of the code.
+
+http://docs.bonsaijs.org/overview/Execution.html
+
+In order to communicate with Bonsai you need to use this method of communication:
+
+http://docs.bonsaijs.org/overview/Communication.html
+
 */
 
+//currently hardcoded but will be abstracted out
+const elementName = 'movie';
+const elementWidth = document.getElementById(elementName).clientWidth;
+const elementHeight = document.getElementById(elementName).clientHeight;
 
-bonsai.run(document.getElementById('movie'), {
-    code: function() {
+console.log(elementWidth, elementHeight)
 
-      //create the rectangle
-      var rect = new Rect(10, 10, 100, 100)
+bonsai.run(document.getElementById(elementName), {
+        code: function() {
+
+            //create the rectangle
+      var rect = new Rect(10, 10, 30, 30)
         .addTo(stage)
-        .attr({fillColor: 'green', opacity: 0.3})
+        .attr({fillColor: 'green', opacity: 0.5})
 
         //the keyframe animation to symbolise 'played'
-        var animation = new KeyframeAnimation('2s', {
-          from: {opacity: 0.3},
+        var animation = new KeyframeAnimation('.5s', {
+          from: {opacity: 0.5},
           '5%': {opacity: 1},
-          to: {opacity: 0.3}
+          to: {opacity: 0.5}
         });
 
         rect.animate(animation)
 
     },
-    width: document.getElementById('movie').clientWidth,
-    height: document.getElementById('movie').clientHeight
+    width: elementWidth,
+    height: elementHeight
   });
