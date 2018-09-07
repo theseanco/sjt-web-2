@@ -1,0 +1,31 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto
+}
+
+.container {
+  background-color: green;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-div {
+  background-color: blanchedAlmond;
+  width: 50%;
+  margin: 5%
+}
+
+.rightdiv {
+  background-color: blanchedAlmond;
+  width: 50%;
+  margin: 5%;
+  border-style: solid;
+}
+
+.text-container {
+  padding: 10px
+}
