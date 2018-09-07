@@ -1,10 +1,8 @@
 //this looks like shit.
-import TranslationGroup from "./TranslateGroup.js";
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
 
 //add to the drawing div
-var elem = document.getElementById('drawing');
-const noteArray = [0,5,10,1];
+const noteArray = [0,3,7,12];
 var synth = new Tone.PolySynth().toMaster();
 //number of voices to create, each will be instantiated as a new class
 let numberOfVoices = 4;
@@ -12,6 +10,21 @@ let numberOfVoices = 4;
 //Function to permute available notes
 const permuteNotes = (notesToPermute) => {
   return permute.all(notesToPermute)
+}
+
+//Function to create an array of notes based on Gthe number of boxes checked or something.
+//This would need to take an array of booleans and an array of numbers.
+//Then use a map on the array of booleans to create a new array.
+//This can be used to generate note offsets as well as iteration offsets
+//this also checks if the number of booleans exceeds the number of values, and adds a 0 by typechecking if so.
+const createOffsetArray = (createOffset = [false], offsetNumber = [0,0,0,0,0,0,0]) => {
+  let offsetArray = [];
+  const createoffsetArray = createOffset.map((data,i) => {
+    if (data) {
+      offsetNumber[i] == null ? offsetArray.push(0) : offsetArray.push(offsetNumber[i])
+    }
+  })
+  return offsetArray
 }
 
 //for loop to generate an array of permutation classes. This should be a function in itself so that it can be refreshed if needs be.
@@ -28,38 +41,10 @@ const generateVoices = (numberOfVoices) => {
 //generate an array of synths to be used
 const voiceArray = generateVoices(numberOfVoices)
 
-//create the window used to draw with two.js, inheriting the dimensions of the div
-var two = new Two({
-  width: elem.offsetWidth,
-  height: elem.offsetHeight,
-  autostart: true
-}).appendTo(elem);
-
-/*
-
-Failure
-//adding a decrementormethod to the group to make it jump off of the screen
-
-*/
-
-var circle = two.makeCircle(100, two.height, 40);
-var rect = two.makeRectangle(230, two.height, 50, 50);
-var translation = 0;
-var group = two.makeGroup(circle,rect)
-
-two.bind('update', function(frameCount) {
-  //translationGroup.decrement()
-});
-
-//LOOP in which SJT will go.
-//This needs basically to increment something on loop only, nothing more.
-//The rest should be abstracted out.
-
 //taken from https://tonejs.github.io/docs/r12/Loop
-
 var loop = new Tone.Loop(function(time){
     //an array of offsets
-    const offsets = [50, 57, 62, 53, 54]
+    const offsets = [50, 57, 38, 62]
     //a map function which plays the note of every index of array of SJT classes and then returns them.
     const midiNoteArray = voiceArray.map((data,i) => {
       voiceArray[i].playNote();
@@ -68,4 +53,5 @@ var loop = new Tone.Loop(function(time){
     synth.triggerAttackRelease(midiNoteArray,"16n");
 }, "16n").start(0);
 
-Tone.Transport.start();
+//UNCOMMENT TO START
+//Tone.Transport.start();

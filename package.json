@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "bonsai": "^0.4.2",
     "tone": "^0.12.80",
     "two.js": "^0.7.0-alpha.1"
   },
