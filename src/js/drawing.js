@@ -1,8 +1,9 @@
+
 //this looks like shit.
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
 
 //add to the drawing div
-const noteArray = [0,5,7,12,3];
+const noteArray = [0,1,2,3,4];
 var synth = new Tone.PolySynth().toMaster();
 //number of voices to create, each will be instantiated as a new class
 let numberOfVoices = 4;
@@ -50,8 +51,17 @@ var loop = new Tone.Loop(function(time){
       voiceArray[i].playNote();
       return(Tone.Frequency(data.note+offsets[i],"midi"))
     })
-    synth.triggerAttackRelease(midiNoteArray,"16n");
-}, "16n").start(0);
+    synth.triggerAttackRelease(midiNoteArray,"8n");
+
+    //THIS WORKS ON THE BONSAI SQUARE. This seems to be out of scope, but it does work
+    //There's a problem, in that the generation index doesn't show the position AFTER the iterations, it just goes from 0 -> end
+    //The new note needs to be compared to the generation array
+    //This is done using indexOf: noteArray.indexOf(voiceArray[0].note)
+    movie.sendMessage('animateSquare', {
+      square: noteArray.indexOf(voiceArray[0].note)
+    })
+
+}, "8n").start(0);
 
 //UNCOMMENT TO START
-Tone.Transport.start();
+//Tone.Transport.start();
