@@ -2,7 +2,7 @@
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
 
 //add to the drawing div
-const noteArray = [0,3,7,12];
+const noteArray = [0,5,7,12,3];
 var synth = new Tone.PolySynth().toMaster();
 //number of voices to create, each will be instantiated as a new class
 let numberOfVoices = 4;
@@ -54,4 +54,4 @@ var loop = new Tone.Loop(function(time){
 }, "16n").start(0);
 
 //UNCOMMENT TO START
-//Tone.Transport.start();
+Tone.Transport.start();
