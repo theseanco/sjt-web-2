@@ -27,3 +27,7 @@ Tone.frequency(38,"midi")
 ```
 
 What we want to do is map the SJT values onto something like a scale/arpeggio and have it be iterated over.
+
+// September 10 - First refactoring
+
+Export all of bonsai_square_events as a function?

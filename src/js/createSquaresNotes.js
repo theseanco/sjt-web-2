@@ -1,11 +1,11 @@
 //Class for generating notes
+//TODO: Maybe offsets don't need to be generated in an array
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
 
-const noteArray = [0,3,7,12,11,18,30];
+const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '8n', elementName = 'movie') => {
+
 var synth = new Tone.PolySynth().toMaster();
-var synth2 = new Tone.PolySynth().toMaster();
-let numberOfVoices = 4;
-const elementName = 'movie';
+let numberOfVoices = 1;
 const elementWidth = document.getElementById(elementName).clientWidth;
 const elementHeight = document.getElementById(elementName).clientHeight;
 const totalRects = noteArray.length;
@@ -24,8 +24,6 @@ const createOffsetArray = (createOffset = [false], offsetNumber = [0,0,0,0,0,0,0
   })
   return offsetArray
 }
-
-console.log(createOffsetArray([true,true,true],[0,3,4,5]))
 
 //for loop to generate an array of permutation classes. This should be a function in itself so that it can be refreshed if needs be.
 const generateVoices = (numberOfVoices) => {
@@ -54,7 +52,7 @@ var movie = bonsai.run(
 
       //This is a message which takes the properties of the div
       stage.on('message:divProperties', function(data) {
-        const totalWidth = data.width;
+        const totalWidth = data.width-30;
         const totalHeight = data.height;
         const totalRectsData = data.totalRects
         for(i=0; i<totalRectsData; i++) {
@@ -101,24 +99,23 @@ movie.on('load', function() {
 });
 
 
-//taken from https://tonejs.github.io/docs/r12/Loop
-var loop = new Tone.Loop(function(time){
+//This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
+return ( new Tone.Loop(function(time){
     //an array of offsets
-    const offsets = createOffsetArray([true,true,true,true],[30,37,42,49])
+    const offsets = createOffsetArray(offsetsOn, offsetNumbers)
     //a map function which plays the note of every index of array of SJT classes and then returns them.
     const midiNoteArray = voiceArray.map((data,i) => {
       voiceArray[i].playNote();
       return(Tone.Frequency(data.note+offsets[i],"midi"))
     })
-    synth.triggerAttackRelease(midiNoteArray,"8n");
+    synth.triggerAttackRelease(midiNoteArray,noteLength);
 
         //OUT OF SCOPE
     movie.sendMessage('animateSquare', {
       square: noteArray.indexOf(voiceArray[0].note)
     })
 
-}, "8n").start(0);
+}, noteLength));
+}
 
-
-//UNCOMMENT TO START
-//Tone.Transport.start();
+export default creatorFunction
