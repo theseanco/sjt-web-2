@@ -12,7 +12,8 @@ import Tone from 'tone'
 TODO:
 
 Extract out PlayPause into a general-purpose button for use in both the root document as well as SJTUnit
-Make a "Create Loop" button in SJTUnit, which will reveal "play loop" and "stop loop" buttons.
+x Make a "Create Loop" button in SJTUnit, which will reveal "play loop" and "stop loop" buttons.
+Make things temposync
 
 */
 
@@ -38,7 +39,7 @@ class App extends Component {
           <SJTUnit />
         </div>
         <div className="div-styling" >
-          thibgdfjksl
+          <SJTUnit />
         </div>
       </div>
       <div>
