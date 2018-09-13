@@ -108,7 +108,8 @@ movie.on('load', function() {
 
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
-return ( new Tone.Loop(function(time){
+return (
+  [new Tone.Loop(function(time){
     //an array of offsets
     const offsets = createOffsetArray(offsetsOn, offsetNumbers)
     //a map function which plays the note of every index of array of SJT classes and then returns them.
@@ -117,16 +118,8 @@ return ( new Tone.Loop(function(time){
       return(Tone.Frequency(data.note+offsets[i],"midi"))
     })
     synth.triggerAttackRelease(midiNoteArray,noteLength);
-    console.log("NOTE")
-
-        //OUT OF SCOPE
-        /*
-    movie.sendMessage('animateSquare', {
-      square: noteArray.indexOf(voiceArray[0].note)
-    })
-    */
-
-}, noteLength));
+}, noteLength) , noteArray]
+)
 }
 
 export default creatorFunction

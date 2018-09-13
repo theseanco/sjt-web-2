@@ -7,7 +7,26 @@ import SJTUnit from "./Components/SJTUnit/SJTUnit"
 import PlayPause from "./Components/PlayPause/PlayPause"
 import Tone from 'tone'
 
-// Tone.Transport.start()
+/*
+
+TODO:
+
+Extract out PlayPause into a general-purpose button for use in both the root document as well as SJTUnit
+Make a "Create Loop" button in SJTUnit, which will reveal "play loop" and "stop loop" buttons.
+
+*/
+
+//This works to start the transport
+const stopPlaying = () => {
+  Tone.Transport.stop();
+  console.log("stopped")
+}
+
+//This works to stop the transport
+const startPlaying = () => {
+  Tone.Transport.start("+0.1");
+  console.log("started")
+}
 
 class App extends Component {
 
@@ -15,11 +34,11 @@ class App extends Component {
     return (
       <div>
       <div className="container">
-        <div className="div-styling">
+        <div className="div-styling" >
           <SJTUnit />
         </div>
-        <div className="div-styling">
-          <SJTUnit />
+        <div className="div-styling" >
+          thibgdfjksl
         </div>
       </div>
       <div>

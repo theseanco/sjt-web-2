@@ -1,3 +1,14 @@
+/*
+
+This component returns a div that has:
+
+- A loop, determined by the props provided
+- A button, which stops and starts the loop
+- Some sets of text which display information about the loop.
+
+*/
+
+
 import React from 'react';
 //import './require.js'
 //import bonsai from 'bonsai'
@@ -8,20 +19,68 @@ import createNotesAndSquares from "./createSquaresNotes.js";
 import './SJT.js';
 import Tone from 'tone';
 
-const SJTUnit = () => {
+
+class SJTUnit extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  loopStop = (loop) => {
+    loop.stop(0)
+  }
+
+  loopStart = (loop) => {
+    loop.start("+0.1")
+  }
+
+  //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares.
+  createLoop = (stuff) => {
+    console.log("bang")
+    return(
+    createNotesAndSquares(
+      stuff.noteArray,
+      stuff.offsetsOn,
+      stuff.offsetNumbers,
+      stuff.initialIteration,
+      stuff.noteLength
+    )
+  )
+  }
+
+  //for testing, not relevant just now
+  createDefaultLoop = (stuff) => {
+    console.log("bang")
+    return(
+    createNotesAndSquares()
+  )
+  }
+
   //THIS NEEDS TO BE DONE DYNAMICALLY
-  const loopTwo = createNotesAndSquares([12,2,4,5,9],
-    [true],
-    [57],
-    4,
-    '16n',
-    'movie2').start();
+
+
 //	  Tone.Transport.start();
+  render() {
+
+    const loopOne = this.createLoop(
+      {
+        noteArray: [0,1,2,3,4],
+        offsetsOn: [true],
+        offsetNumbers: [50],
+        initialIteration: 0,
+        noteLength: "8n"
+      }
+    )
+
   return (
-    <div className="thisDiv">
+    <div className="thisDiv" >
       Thigins
+      {/* This could be extracted out into a play/stop button. */}
+      <button onClick={() => this.loopStart(loopOne[0])}>Play Loop</button>
+      <button onClick={() => this.loopStop(loopOne[0])}>Stop Loop</button>
     </div>
   )
+}
 }
 
 export default SJTUnit
