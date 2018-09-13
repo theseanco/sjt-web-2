@@ -8,8 +8,9 @@ class PlayPause extends React.Component {
 
   constructor(props) {
     super(props);
+    //playing defaults to true because loops are created independently of one another.
     this.state = {
-      playing: false
+      playing: true
     }
   }
 
@@ -35,6 +36,9 @@ class PlayPause extends React.Component {
   }
 
   render() {
+    if (this.state.playing) {
+      this.startPlaying()
+    }
     //SETTING STATE INSIDE OF FUNCTION
   return (
     <button onClick={this.handleClick}>

@@ -118,7 +118,8 @@ return (
       return(Tone.Frequency(data.note+offsets[i],"midi"))
     })
     synth.triggerAttackRelease(midiNoteArray,noteLength);
-}, noteLength) , noteArray]
+    console.log(voiceArray[0], offsets);
+}, noteLength) , voiceArray[0]]
 )
 }
 

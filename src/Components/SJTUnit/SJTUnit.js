@@ -5,6 +5,7 @@ This component returns a div that has:
 - A loop, determined by the props provided
 - A button, which stops and starts the loop
 - Some sets of text which display information about the loop.
+- A slider, which can be used to set the initial pitch
 
 */
 
@@ -32,6 +33,14 @@ class SJTUnit extends React.Component {
     */
     this.state = {
       loopCreated: false,
+      //loopState is added in order to
+      loopState: {
+        noteArray: [0,2,5,7,12],
+        offsetsOn: [true],
+        offsetNumbers: [50],
+        initialIteration: 0,
+        noteLength: "16n"
+      }
     }
   }
 
@@ -64,12 +73,43 @@ class SJTUnit extends React.Component {
   )
   }
 
-  //for testing, not relevant just now
+  clearLoop = () => {
+    //This will make the state remove the relevant buttons from the DOM.
+    this.setState({loopCreated: false});
+    this.setState({loopState: {
+        noteArray: [0,2,5,7,12],
+        offsetsOn: [true],
+        offsetNumbers: [50],
+        initialIteration: 0,
+        noteLength: "16n"
+      }})
+  }
+
+  //for testing
   createDefaultLoop = (stuff) => {
     console.log("bang")
     return(
     createNotesAndSquares()
   )
+  }
+
+  setInitialOffset = (e) => {
+    const offsetEvent = parseInt(e.target.value);
+    let stateSetting = Object.assign({},this.state.loopState);
+    console.log(offsetEvent);
+    stateSetting.offsetNumbers = [offsetEvent]
+    this.setState({loopState:stateSetting})
+    /*
+    //using this method to inherit object properties  https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react
+    this.setState(prevState => ({
+      loopState: {
+        ....loopState,
+        offsetNumbers: [offsetEvent]
+      }
+    })
+  )
+  */
+
   }
 
   //THIS NEEDS TO BE DONE DYNAMICALLY
@@ -84,12 +124,25 @@ class SJTUnit extends React.Component {
         <div>
         <button onClick={() => this.loopStart(this.loop[0])}>Play Loop</button>
         <button onClick={() => this.loopStop(this.loop[0])}>Stop Loop</button>
+        <button onClick={() => {
+          this.loopStop(this.loop[0]);
+          this.clearLoop()
+        }}>Clear Loop</button>
       </div>
       )
     } else {
       buttons = (
         <div>
-          <button onClick={() => {this.loop = this.createLoop()}}>Create Loop</button>
+          {/* The button is created using loopState as it is when the button is pressed */}
+          <label>
+            Scale Indices:
+            <input type="text" name="indices" />
+          </label>
+          <label>
+            initial MIDI note: {this.state.loopState.offsetNumbers[0]}
+            <input type="range" name="initial pitch" onChange={this.setInitialOffset} min="30" max="90"/>
+          </label>
+          <button onClick={() => {this.loop = this.createLoop(this.state.loopState)}}>Create Loop</button>
         </div>
       )
     }

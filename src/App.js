@@ -13,6 +13,8 @@ TODO:
 
 Extract out PlayPause into a general-purpose button for use in both the root document as well as SJTUnit
 x Make a "Create Loop" button in SJTUnit, which will reveal "play loop" and "stop loop" buttons.
+x Create offset input field
+- Make offset field a slider
 Make things temposync
 
 */
