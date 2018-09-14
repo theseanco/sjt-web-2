@@ -11,10 +11,8 @@ import Tone from 'tone'
 
 TODO:
 
-- Extract out PlayPause into a general-purpose button for use in both the root document as well as SJTUnit
-- Display generation information on
 - Tempo slider
--
+- Dynamically generate SJT divs, with buttons to add them.
 
 TODO:
 
