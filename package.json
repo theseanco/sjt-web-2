@@ -1,25 +1,19 @@
 {
-  "name": "sjt-web-2",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "sjt-web",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
     "bonsai": "^0.4.2",
-    "tone": "^0.12.80",
-    "two.js": "^0.7.0-alpha.1"
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0",
+    "react-scripts": "1.1.5",
+    "requirejs": "^2.3.6",
+    "tone": "^0.12.80"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/theseanco/sjt-web-2.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/theseanco/sjt-web-2/issues"
-  },
-  "homepage": "https://github.com/theseanco/sjt-web-2#readme"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
 }
