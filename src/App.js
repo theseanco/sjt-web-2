@@ -12,13 +12,9 @@ import Tone from 'tone'
 TODO:
 
 - Extract out PlayPause into a general-purpose button for use in both the root document as well as SJTUnit
-x Make a "Create Loop" button in SJTUnit, which will reveal "play loop" and "stop loop" buttons.
-x Create offset input field
-x Make offset field a slider
-x quantize loop starts
-- PlayPause is now broken, maybe it doesn't actually need to be fixed?
-x Add a way to create an initial array of notes
 - Display generation information on
+- Tempo slider
+-
 
 TODO:
 
@@ -39,7 +35,23 @@ const startPlaying = () => {
 
 class App extends Component {
 
+  constructor (props) {
+    super(props);
+    this.state = {
+      arrayOfIndexes: [true, false, false, false]
+    }
+  }
+
+  addSJT = () => {
+    this.setState((state, props) => {
+      return {arrayOfIndexes: state.arrayOfIndexes.push(true)}
+    })
+  }
+
   render() {
+
+    startPlaying();
+
     return (
       <div>
       <div className="container">
@@ -50,9 +62,15 @@ class App extends Component {
           <SJTUnit />
         </div>
       </div>
+
+
+      <button onClick={this.addSJT}>Addd SJTUnit</button>
+      {/*
       <div>
         <PlayPause />
       </div>
+      */}
+
     </div>
     );
   }

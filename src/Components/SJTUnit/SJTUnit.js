@@ -8,10 +8,6 @@ This component returns a div that has:
 - A slider, which can be used to set the initial pitch
 - A text field, which takes a space delimited string of integers which will be turned into an array and be used as notes to go through the Steinhaus johnson trotter algorithm
 
-TODO:
-
-onChange={() => console.log(this.loop[1].iterator)} WILL log iterator, so this.loop[1] carries CURRENT information as loop is repeatedly executing a function. Create an event listener to grab information from within the loop to be displayed alongside the stop/play/delete buttons. 
-
 */
 
 
@@ -161,7 +157,7 @@ class SJTUnit extends React.Component {
           this.loopStop(this.loop[0]);
           this.clearLoop()
         }}>Clear Loop</button>
-        <input type="text" name="thing" onChange={() => console.log(this.loop[1].iterator)} />
+        <input type="text" name="thing" onChange={() => console.log(this.loop)} />
       </div>
       )
     } else {
