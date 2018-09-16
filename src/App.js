@@ -12,7 +12,11 @@ import Tone from 'tone'
 TODO:
 
 - Tempo slider
-- Dynamically generate SJT divs, with buttons to add them.
+- Make things not look dreadful
+  - Pre-align four divs and bottom tempo/volume div
+  - Color scheme, nice buttons
+  - Better fonts
+- visuals
 
 TODO:
 
@@ -36,14 +40,41 @@ class App extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      arrayOfIndexes: [true, false, false, false]
+      //Booleans control whether loops are activated or not
+      arrayOfIndexes: [false , false, false, false]
     }
   }
 
+  //Function to add a SJT component. Not used
   addSJT = () => {
     this.setState((state, props) => {
       return {arrayOfIndexes: state.arrayOfIndexes.push(true)}
     })
+  }
+
+  //Function to invert a boolean of a particular index of the state array
+  invertState = (index) => {
+    let stateArray = this.state.arrayOfIndexes;
+    stateArray[index] = !stateArray[index];
+    this.setState({arrayOfIndexes: stateArray})
+  }
+
+  //Function to remove a particular index of a state array.
+  removeFromArray = (index) => {
+    let stateArray = this.state.arrayOfIndexes;
+    stateArray = stateArray.splice(index,1)
+    this.setState({arrayOfIndexes: stateArray})
+  }
+
+  //Function to add an index to the end of the state array.
+  addToArray = (index) => {
+    let stateArray = this.state.arrayOfIndexes;
+    stateArray = stateArray.push(true);
+    this.setState({arrayOfIndexes: stateArray})
+  }
+
+  testFunction = (index) => {
+    console.log("works", index);
   }
 
   render() {
@@ -53,23 +84,25 @@ class App extends Component {
     return (
       <div>
       <div className="container">
-        <div className="div-styling" >
-          <SJTUnit />
+        {
+          this.state.arrayOfIndexes.map((data, i) => {
+            if (!data) {
+              return(
+              <div className="div-styling" key={i}>
+              <button onClick={() => this.invertState(i)}>Create Loop</button>
+            </div>
+          )
+            } else {
+              return (
+                  <div className="div-styling" key={i}>
+                    <SJTUnit key={i} externalFunction={() => this.invertState(i)} />
+                  </div>
+              )
+            }
+          })
+        }
+              </div>
         </div>
-        <div className="div-styling" >
-          <SJTUnit />
-        </div>
-      </div>
-
-
-      <button onClick={this.addSJT}>Addd SJTUnit</button>
-      {/*
-      <div>
-        <PlayPause />
-      </div>
-      */}
-
-    </div>
     );
   }
 }

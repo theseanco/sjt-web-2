@@ -43,16 +43,19 @@ class SJTUnit extends React.Component {
         noteLength: "16n"
       },
       //This will be added as a string then converted into noteArray on creation
-      noteArrayString: ""
+      noteArrayString: "",
+      loopPlaying: false,
     }
   }
 
   loopStop = (loop) => {
+    this.setState({loopPlaying: false})
     loop.stop(0)
   }
 
   loopStart = (loop) => {
     loop.start("@1m")
+    this.setState({loopPlaying: true})
   }
 
   //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares, old version where noteArray is designed to take an array
@@ -108,6 +111,7 @@ class SJTUnit extends React.Component {
   clearLoop = () => {
     //This will make the state remove the relevant buttons from the DOM.
     this.setState({loopCreated: false});
+    //An object containing information used to create a loop.
     this.setState({loopState: {
         noteArray: [0,2,5,7,12],
         offsetsOn: [true],
@@ -137,8 +141,21 @@ class SJTUnit extends React.Component {
   )
   }
 
+  //function to update component state with a string.
   setIndices = (e) => {
     this.setState({noteArrayString: e.target.value});
+  }
+
+  //function to update component state with the note length
+  setNoteLength = (e) => {
+    const noteLengthValue = e.target.value;
+    this.setState(prevState => ({
+      loopState: {
+        ...prevState.loopState,
+        noteLength: noteLengthValue
+      }
+    })
+  )
   }
 
   //THIS NEEDS TO BE DONE DYNAMICALLY
@@ -151,13 +168,13 @@ class SJTUnit extends React.Component {
     if (this.state.loopCreated) {
       buttons = (
         <div>
-        <button onClick={() => this.loopStart(this.loop[0])}>Play Loop</button>
-        <button onClick={() => this.loopStop(this.loop[0])}>Stop Loop</button>
+          {
+          !this.state.loopPlaying ? <button onClick={() => this.loopStart(this.loop[0])}>Play Loop</button> : <button onClick={() => this.loopStop(this.loop[0])}>Stop Loop</button>
+              }
         <button onClick={() => {
           this.loopStop(this.loop[0]);
           this.clearLoop()
         }}>Clear Loop</button>
-        <input type="text" name="thing" onChange={() => console.log(this.loop)} />
       </div>
       )
     } else {
@@ -168,14 +185,26 @@ class SJTUnit extends React.Component {
             Scale Indices:
             <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.setIndices} />
           </label>
+
           <label>
             initial MIDI note: {this.state.loopState.offsetNumbers[0]}
             <input type="range" name="initial pitch" onChange={this.setInitialOffset} min="30" max="90" value="50"/>
           </label>
+
           <label>
             Note Duration: NOTE DONE YET
+            <select onChange={this.setNoteLength}>
+              <option value="2n" >2n</option>
+              <option value="4n">4n</option>
+              {/*TODO: selected is apparently bad */}
+              <option selected value="8n">8n</option>
+              <option value="16n">16n</option>
+            </select>
           </label>
+
           <button onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</button>
+
+          <button onClick={this.props.externalFunction}> Delete Loop </button>
         </div>
       )
     }
