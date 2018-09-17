@@ -13,14 +13,14 @@ TODO:
 
 - Make things not look dreadful
   - Pre-align four divs and bottom tempo/volume div
-  - Sliders need to look better 
+  - Sliders need to look better
   - Color scheme, nice buttons
   - Better fonts
 - visuals
-
-TODO:
-
-onChange={() => console.log(this.loop[1].iterator)} WILL log iterator, so this.loop[1] carries CURRENT information as loop is repeatedly executing a function. Create an event listener to grab information from within the loop to be displayed alongside the stop/play/delete buttons.
+- errors with multiple of the same values on input
+- Input formatting
+- formatting input values to scales
+- onChange={() => console.log(this.loop[1].iterator)} WILL log iterator, so this.loop[1] carries CURRENT information as loop is repeatedly executing a function. Create an event listener to grab information from within the loop to be displayed alongside the stop/play/delete buttons.
 */
 
 //This works to start the transport
@@ -40,8 +40,10 @@ A default tempo value.
 
 TODO: Perhaps this isn't the best way to do this, starting with a hardcoded value, but it works for now.
 */
+//Some values that are used in tempo and bpm calculation
 const defaultTempo = 100;
 const defaultVolume = -3;
+const minVolume = -40;
 
 class App extends Component {
 
@@ -89,12 +91,13 @@ class App extends Component {
   }
 
   //function to set the bpm of  the transport and apply it to state to be printed to the page.
-
+  //TODO: A LOT of errors that are: "Failed to execute 'setValueAtTime' on 'AudioParam': The provided float value is non-finite."
   setBpm = (e) => {
     const tempoValue = parseInt(e.target.value);
     const currentState = this.state.tempoValue;
     const difference = Math.abs(tempoValue - currentState);
-
+    //check if value is finite
+    if (isFinite(tempoValue)) {
     //Check the difference in the values. If it's more than 2, it's a good idea to ramp it.
     if(difference <= 2) {
       //no ramp
@@ -105,23 +108,32 @@ class App extends Component {
       this.setState({tempoValue: tempoValue});
       Tone.Transport.bpm.rampTo(tempoValue,difference/50)
     }
-
-    console.log(Math.abs(tempoValue - currentState));
+  }
   }
 
   setVolume = (e) => {
     //NOTE: This is done in decibels and may need tuning up.
     const volumeValue = parseFloat(e.target.value);
-    console.log(volumeValue);
+    if (isFinite(volumeValue)) {
+    this.setState({volume: volumeValue})
+    console.log(String(volumeValue));
     //NOTE: The use of signal `.value` call is essential here.
     //Documented here: https://github.com/Tonejs/Tone.js/wiki/Signals
     Tone.Master.volume.rampTo(volumeValue,0.1)
   }
+  }
+
+  //Function taken from https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges to scale volume values to be more user-accessible for people who don't know about decibels
+
+  convertRange = ( value, r1, r2 ) => {
+    return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
+  }
 
   componentDidMount() {
     startPlaying();
-    //This needs
+    //set default tempo and volume values
     Tone.Transport.bpm.value = defaultTempo;
+    Tone.Master.volume.value = defaultVolume
   }
 
   render() {
@@ -155,8 +167,8 @@ class App extends Component {
         </div>
         <div>
           <p>Volume slider</p>
-          <input type="range" min="-20" max="0" step="0.01" value={defaultVolume} onChange={this.setVolume}></input>
-          {this.state.volume}
+          <input type="range" min={String(minVolume)} max="0" step="0.01" value={defaultVolume} onChange={this.setVolume}></input>
+          {parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))}
         </div>
         </div>
         </div>
