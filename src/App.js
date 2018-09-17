@@ -42,7 +42,7 @@ A default tempo value.
 TODO: Perhaps this isn't the best way to do this, starting with a hardcoded value, but it works for now.
 */
 const defaultTempo = 100;
-const defaultVolume = 80;
+const defaultVolume = -3;
 
 class App extends Component {
 
@@ -120,6 +120,15 @@ class App extends Component {
     console.log(Math.abs(tempoValue - currentState));
   }
 
+  setVolume = (e) => {
+    //NOTE: This is done in decibels and may need tuning up. 
+    const volumeValue = parseFloat(e.target.value);
+    console.log(volumeValue);
+    //NOTE: The use of signal `.value` call is essential here.
+    //Documented here: https://github.com/Tonejs/Tone.js/wiki/Signals
+    Tone.Master.volume.rampTo(volumeValue,0.1)
+  }
+
   componentDidMount() {
     startPlaying();
     //This needs
@@ -157,7 +166,7 @@ class App extends Component {
         </div>
         <div>
           <p>Volume slider</p>
-          <input type="range" min="0" max="100" value={defaultVolume} onChange={this.setVolume}></input>
+          <input type="range" min="-20" max="0" step="0.01" value={defaultVolume} onChange={this.setVolume}></input>
           {this.state.volume}
         </div>
         </div>
