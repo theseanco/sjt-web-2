@@ -53,7 +53,11 @@ class App extends Component {
       //Booleans control whether loops are activated or not
       arrayOfIndexes: [false , false, false, false],
       tempoValue: defaultTempo,
-      volume: defaultVolume
+      volume: defaultVolume,
+      colours: ["rgba(71, 151, 97, 0.5)",
+      "rgba(206, 188, 129, 0.5)",
+      "rgba(161, 110, 131, 0.5)",
+      "rgba(177, 159, 158, 0.5)" ]
     }
   }
 
@@ -142,36 +146,34 @@ class App extends Component {
 
 
     return (
-      <div>
       <div className="container">
         {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
               return(
-              <div className="div-styling" key={i}>
-              <button onClick={() => this.invertState(i)}>Create Loop</button>
+              <div className="div-styling" key={i} style={{background: this.state.colours[i]}}>
+              <button onClick={() => this.invertState(i)} >Create Loop</button>
             </div>
           )
             } else {
               return (
-                  <div className="div-styling" key={i}>
+                  <div className="div-styling" key={i} style={{background: this.state.colours[i]}}>
                     <SJTUnit key={i} externalFunction={() => this.invertState(i)} />
                   </div>
               )
             }
           })
         }
-        <div>
-          <div>
-          <p>Tempo Slider</p>
+        <div className="slidersDiv">
+          <div className="slider">
+          <p className="sliderTitle">Tempo Slider</p>
           <input type="range" min="40" max="160" value={defaultTempo} onChange={this.setBpm}></input>
           {this.state.tempoValue}
         </div>
-        <div>
-          <p>Volume slider</p>
+        <div className="slider">
+          <p className="sliderTitle">Volume slider</p>
           <input type="range" min={String(minVolume)} max="0" step="0.01" value={defaultVolume} onChange={this.setVolume}></input>
           {parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))}
-        </div>
         </div>
         </div>
         </div>

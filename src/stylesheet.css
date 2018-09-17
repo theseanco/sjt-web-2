@@ -4,25 +4,46 @@ html, body {
   margin: 0 auto
 }
 
+#root {
+  height: 100%
+}
+
 .container {
-  background-color: green;
+  background-color: #19181A;
   height: 100%;
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: stretch;
 }
 
-.div-styling {
-  background-color: blanchedAlmond;
-  margin: 5%;
-  flex: 1
-}
+/*
 
+Default background colour on this div is the green of the first 
+
+*/
+.div-styling {
+  margin: 1%;
+  flex: 1;
+  background: rgba(71,151,97,0.4)
+}
 
 
 .text-container {
   padding: 10px
+}
+
+.slidersDiv {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  margin-top: 0px
+}
+
+.sliderTitle {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
 }
