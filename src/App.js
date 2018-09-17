@@ -11,9 +11,9 @@ import Tone from 'tone'
 
 TODO:
 
-- Tempo slider
 - Make things not look dreadful
   - Pre-align four divs and bottom tempo/volume div
+  - Sliders need to look better 
   - Color scheme, nice buttons
   - Better fonts
 - visuals
@@ -35,13 +35,23 @@ const startPlaying = () => {
   console.log("started")
 }
 
+/*
+A default tempo value.
+
+TODO: Perhaps this isn't the best way to do this, starting with a hardcoded value, but it works for now.
+*/
+const defaultTempo = 100;
+const defaultVolume = -3;
+
 class App extends Component {
 
   constructor (props) {
     super(props);
     this.state = {
       //Booleans control whether loops are activated or not
-      arrayOfIndexes: [false , false, false, false]
+      arrayOfIndexes: [false , false, false, false],
+      tempoValue: defaultTempo,
+      volume: defaultVolume
     }
   }
 
@@ -73,13 +83,49 @@ class App extends Component {
     this.setState({arrayOfIndexes: stateArray})
   }
 
+
   testFunction = (index) => {
     console.log("works", index);
   }
 
+  //function to set the bpm of  the transport and apply it to state to be printed to the page.
+
+  setBpm = (e) => {
+    const tempoValue = parseInt(e.target.value);
+    const currentState = this.state.tempoValue;
+    const difference = Math.abs(tempoValue - currentState);
+
+    //Check the difference in the values. If it's more than 2, it's a good idea to ramp it.
+    if(difference <= 2) {
+      //no ramp
+      Tone.Transport.bpm.value = tempoValue;
+      this.setState({tempoValue: tempoValue});
+    } else {
+      //ramp
+      this.setState({tempoValue: tempoValue});
+      Tone.Transport.bpm.rampTo(tempoValue,difference/50)
+    }
+
+    console.log(Math.abs(tempoValue - currentState));
+  }
+
+  setVolume = (e) => {
+    //NOTE: This is done in decibels and may need tuning up.
+    const volumeValue = parseFloat(e.target.value);
+    console.log(volumeValue);
+    //NOTE: The use of signal `.value` call is essential here.
+    //Documented here: https://github.com/Tonejs/Tone.js/wiki/Signals
+    Tone.Master.volume.rampTo(volumeValue,0.1)
+  }
+
+  componentDidMount() {
+    startPlaying();
+    //This needs
+    Tone.Transport.bpm.value = defaultTempo;
+  }
+
   render() {
 
-    startPlaying();
 
     return (
       <div>
@@ -101,7 +147,19 @@ class App extends Component {
             }
           })
         }
-              </div>
+        <div>
+          <div>
+          <p>Tempo Slider</p>
+          <input type="range" min="40" max="160" value={defaultTempo} onChange={this.setBpm}></input>
+          {this.state.tempoValue}
+        </div>
+        <div>
+          <p>Volume slider</p>
+          <input type="range" min="-20" max="0" step="0.01" value={defaultVolume} onChange={this.setVolume}></input>
+          {this.state.volume}
+        </div>
+        </div>
+        </div>
         </div>
     );
   }
