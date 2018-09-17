@@ -103,10 +103,13 @@ class App extends Component {
       //no ramp
       Tone.Transport.bpm.value = tempoValue;
       this.setState({tempoValue: tempoValue});
-    } else {
+    } else if (difference < 10) {
       //ramp
       this.setState({tempoValue: tempoValue});
       Tone.Transport.bpm.rampTo(tempoValue,difference/50)
+    } else {
+      this.setState({tempoValue: tempoValue});
+      Tone.Transport.bpm.rampTo(tempoValue,1)
     }
   }
   }
@@ -123,8 +126,7 @@ class App extends Component {
   }
   }
 
-  //Function taken from https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges to scale volume values to be more user-accessible for people who don't know about decibels
-
+  //Function taken from https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges to scale volume value printouts to 0-100 to be more user-accessible for people who don't know about decibels
   convertRange = ( value, r1, r2 ) => {
     return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
   }
