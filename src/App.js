@@ -12,10 +12,12 @@ import Tone from 'tone'
 TODO:
 
 - Make things not look dreadful
-  - Pre-align four divs and bottom tempo/volume div
   - Sliders need to look better
-  - Color scheme, nice buttons
+  - nice buttons
   - Better fonts
+
+NEXT: ADD BUTTONS FROM HERE https://fdossena.com/?p=html5cool/buttons/i.frag
+
 - visuals
 - errors with multiple of the same values on input
 - Input formatting
@@ -52,11 +54,15 @@ class App extends Component {
     this.state = {
       //Booleans control whether loops are activated or not
       arrayOfIndexes: [false , false, false, false],
+      //inherits from global variable
       tempoValue: defaultTempo,
+      //inherits from global variable
       volume: defaultVolume,
+      //Four colours taken from color scheme site.
+      //Four colours taken from color scheme site.
       colours: ["rgba(71, 151, 97, 0.5)",
-      "rgba(206, 188, 129, 0.5)",
       "rgba(161, 110, 131, 0.5)",
+      "rgba(206, 188, 129, 0.5)",
       "rgba(177, 159, 158, 0.5)" ]
     }
   }
