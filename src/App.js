@@ -11,10 +11,9 @@ import Tone from 'tone'
 
 TODO:
 
-x Tempo slider
-- CHANGING TEMPO SLIDER MECHANISM
 - Make things not look dreadful
   - Pre-align four divs and bottom tempo/volume div
+  - Sliders need to look better 
   - Color scheme, nice buttons
   - Better fonts
 - visuals
@@ -90,17 +89,7 @@ class App extends Component {
   }
 
   //function to set the bpm of  the transport and apply it to state to be printed to the page.
-  //TODO: This needs to be a ramp if the values are too far apart. Perhaps a progressive ramp
-  /*
 
-  Working out:
-
-  diff / 10:
-
-  2 = 0.2s
-  160 = 16.0s
-
-  */
   setBpm = (e) => {
     const tempoValue = parseInt(e.target.value);
     const currentState = this.state.tempoValue;
@@ -121,7 +110,7 @@ class App extends Component {
   }
 
   setVolume = (e) => {
-    //NOTE: This is done in decibels and may need tuning up. 
+    //NOTE: This is done in decibels and may need tuning up.
     const volumeValue = parseFloat(e.target.value);
     console.log(volumeValue);
     //NOTE: The use of signal `.value` call is essential here.
