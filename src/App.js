@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 //old CSS imported from old project
 import './stylesheet.css'
+//buttons
+import './buttons.css'
 //components
 import SJTUnit from "./Components/SJTUnit/SJTUnit"
 import PlayPause from "./Components/PlayPause/PlayPause"
@@ -12,10 +14,13 @@ import Tone from 'tone'
 TODO:
 
 - Make things not look dreadful
-  - Pre-align four divs and bottom tempo/volume div
   - Sliders need to look better
-  - Color scheme, nice buttons
+  - nice buttons
   - Better fonts
+
+x NEXT: ADD BUTTONS FROM HERE https://fdossena.com/?p=html5cool/buttons/i.frag
+- Center
+
 - visuals
 - errors with multiple of the same values on input
 - Input formatting
@@ -52,8 +57,16 @@ class App extends Component {
     this.state = {
       //Booleans control whether loops are activated or not
       arrayOfIndexes: [false , false, false, false],
+      //inherits from global variable
       tempoValue: defaultTempo,
-      volume: defaultVolume
+      //inherits from global variable
+      volume: defaultVolume,
+      //Four colours taken from color scheme site.
+      //Four colours taken from color scheme site.
+      colours: ["rgba(71, 151, 97, 0.5)",
+      "rgba(161, 110, 131, 0.5)",
+      "rgba(206, 188, 129, 0.5)",
+      "rgba(177, 159, 158, 0.5)" ]
     }
   }
 
@@ -142,36 +155,38 @@ class App extends Component {
 
 
     return (
-      <div>
+
+
       <div className="container">
         {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
               return(
-              <div className="div-styling" key={i}>
-              <button onClick={() => this.invertState(i)}>Create Loop</button>
-            </div>
+              <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}}>
+                <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Create Loop</a>
+              </div>
           )
             } else {
               return (
-                  <div className="div-styling" key={i}>
+                  <div className="div-styling" key={i} style={{background: this.state.colours[i]}}>
                     <SJTUnit key={i} externalFunction={() => this.invertState(i)} />
                   </div>
               )
             }
           })
         }
-        <div>
-          <div>
-          <p>Tempo Slider</p>
+
+        {/* This could do with being extracted out */}
+        <div className="slidersDiv">
+          <div className="slider">
+          <p className="sliderTitle">Tempo Slider</p>
           <input type="range" min="40" max="160" value={defaultTempo} onChange={this.setBpm}></input>
           {this.state.tempoValue}
         </div>
-        <div>
-          <p>Volume slider</p>
+        <div className="slider">
+          <p className="sliderTitle">Volume slider</p>
           <input type="range" min={String(minVolume)} max="0" step="0.01" value={defaultVolume} onChange={this.setVolume}></input>
           {parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))}
-        </div>
         </div>
         </div>
         </div>

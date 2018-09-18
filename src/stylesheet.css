@@ -4,25 +4,84 @@ html, body {
   margin: 0 auto
 }
 
+#root {
+  height: 100%
+}
+
 .container {
-  background-color: green;
+  background-color: #19181A;
   height: 100%;
   width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: stretch;
 }
 
+/*
+
+Default background colour on this div is the green of the first
+
+*/
 .div-styling {
-  background-color: blanchedAlmond;
-  margin: 5%;
-  flex: 1
+  margin: 1%;
+  flex: 1;
+  background: rgba(71,151,97,0.4)
 }
 
+/* This will center the contents of a particular div */
+.center-contents {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.buttonHolder {
+  height: 100%
+}
 
 .text-container {
   padding: 10px
+}
+
+/* styled div containing tempo/sliders */
+.slidersDiv {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  margin-top: 0px
+}
+
+.sliderTitle {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+/*
+Border colours have been changed to make things look a bit better
+*/
+.initialiseButton {
+  padding: 0.35em 1.2em;
+  border: 0.1em solid rgba(255,255,255,0.6);
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+  text-align: center;
+  transition: all 0.2s;
+}
+.initialiseButton:hover {
+  color: #000000;
+  background-color: rgba(255,255,255,0.6)
+}
+
+/* added styling for buttons to drop them in the center of SJT Creation Divs */
+.initialiseButtonStyling {
+  height: 50%;
+  width: 60%
 }

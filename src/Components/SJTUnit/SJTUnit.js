@@ -20,6 +20,8 @@ import createNotesAndSquares from "./createSquaresNotes.js";
 //Steinhaus Johnson Trotter permutation algorithm
 import './SJT.js';
 import Tone from 'tone';
+//stylesheet for buttons
+import './SJTUnit_Styles.css'
 
 
 class SJTUnit extends React.Component {
@@ -167,32 +169,41 @@ class SJTUnit extends React.Component {
 
     if (this.state.loopCreated) {
       buttons = (
-        <div>
+        <div className="createdLoopLayout">
+          <div className="createdLoopButtonContainer center-contents">
           {
-          !this.state.loopPlaying ? <button onClick={() => this.loopStart(this.loop[0])}>Play Loop</button> : <button onClick={() => this.loopStop(this.loop[0])}>Stop Loop</button>
+          !this.state.loopPlaying ? <a className="SJTUnitButton createdLoopButton" onClick={() => this.loopStart(this.loop[0])}>Play Loop</a> : <a className="SJTUnitButton createdLoopButton" onClick={() => this.loopStop(this.loop[0])}>Stop Loop</a>
               }
-        <button onClick={() => {
+            </div>
+            <div className="createdLoopButtonContainer center-contents">
+        <a className="SJTUnitButton createdLoopButton " onClick={() => {
           this.loopStop(this.loop[0]);
           this.clearLoop()
-        }}>Clear Loop</button>
+        }}>Clear Loop</a>
+      </div>
       </div>
       )
     } else {
       buttons = (
-        <div>
+        <div className="loopCreationLayout">
           {/* The button is created using loopState as it is when the button is pressed */}
+          <div className="dataInputUnit center-contents">
           <label>
             Scale Indices:
             <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.setIndices} />
           </label>
+        </div>
 
+        <div className="dataInputUnit center-contents">
           <label>
             initial MIDI note: {this.state.loopState.offsetNumbers[0]}
             <input type="range" name="initial pitch" onChange={this.setInitialOffset} min="30" max="90" value="50"/>
           </label>
+        </div>
 
+          <div className="dataInputUnit center-contents">
           <label>
-            Note Duration: NOTE DONE YET
+            Note Duration:
             <select onChange={this.setNoteLength}>
               <option value="2n" >2n</option>
               <option value="4n">4n</option>
@@ -201,17 +212,18 @@ class SJTUnit extends React.Component {
               <option value="16n">16n</option>
             </select>
           </label>
+        </div>
 
-          <button onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</button>
-
-          <button onClick={this.props.externalFunction}> Delete Loop </button>
+          <div className="dataInputUnit center-contents">
+          <a className="SJTUnitButton" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</a>
+          <a className="SJTUnitButton" onClick={this.props.externalFunction}> Delete Loop </a>
+        </div>
         </div>
       )
     }
 
   return (
-    <div className="thisDiv" >
-      Thigins
+    <div className="buttonHolder" >
       {/* This could be extracted out into a play/stop button. */}
       {buttons}
     </div>
