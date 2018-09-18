@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 //old CSS imported from old project
 import './stylesheet.css'
+//buttons
+import './buttons.css'
 //components
 import SJTUnit from "./Components/SJTUnit/SJTUnit"
 import PlayPause from "./Components/PlayPause/PlayPause"
@@ -158,7 +160,7 @@ class App extends Component {
             if (!data) {
               return(
               <div className="div-styling" key={i} style={{background: this.state.colours[i]}}>
-              <button onClick={() => this.invertState(i)} >Create Loop</button>
+              <button onClick={() => this.invertState(i)} className="button1" >Create Loop</button>
             </div>
           )
             } else {
