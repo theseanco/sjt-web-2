@@ -154,13 +154,16 @@ class App extends Component {
 
 
     return (
+
+
       <div className="container">
         {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
               return(
               <div className="div-styling" key={i} style={{background: this.state.colours[i]}}>
-              <button onClick={() => this.invertState(i)} className="button1" >Create Loop</button>
+                <a className="styledButton" onClick={() => this.invertState(i)}>Create Loop</a>
+               {/* <button onClick={() => this.invertState(i)} className="styledButton" >Create Loop</button>  */}
             </div>
           )
             } else {

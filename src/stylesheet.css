@@ -21,7 +21,7 @@ html, body {
 
 /*
 
-Default background colour on this div is the green of the first 
+Default background colour on this div is the green of the first
 
 */
 .div-styling {
@@ -46,4 +46,26 @@ Default background colour on this div is the green of the first
   margin-top: 0px;
   margin-bottom: 0px;
   text-align: center;
+}
+
+/*
+Border colours have been changed to make things look a bit better
+*/
+.styledButton {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid rgba(255,255,255,0.6);
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color: #FFFFFF;
+  text-align: center;
+  transition: all 0.2s;
+}
+.styledButton:hover {
+  color: #000000;
+  background-color: rgba(255,255,255,0.6)
 }

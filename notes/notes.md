@@ -50,3 +50,8 @@ Background:
 
 RGBA colours, for background opacity:
 [rgba(71, 151, 97, 0.5), rgba(206, 188, 129, 0.5), rgba(161, 110, 131, 0.5), rgba(177, 159, 158, 0.5) ]
+
+### Buttons
+
+Buttons taken from here: https://fdossena.com/?p=html5cool/buttons/i.frag
+I had to retype all of the CSS to get it to work, for some reason. 

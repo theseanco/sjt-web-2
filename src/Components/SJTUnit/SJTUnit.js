@@ -20,6 +20,8 @@ import createNotesAndSquares from "./createSquaresNotes.js";
 //Steinhaus Johnson Trotter permutation algorithm
 import './SJT.js';
 import Tone from 'tone';
+//stylesheet for buttons
+import './SJTUnit_Styles.css'
 
 
 class SJTUnit extends React.Component {
@@ -192,7 +194,7 @@ class SJTUnit extends React.Component {
           </label>
 
           <label>
-            Note Duration: NOTE DONE YET
+            Note Duration:
             <select onChange={this.setNoteLength}>
               <option value="2n" >2n</option>
               <option value="4n">4n</option>
@@ -202,16 +204,15 @@ class SJTUnit extends React.Component {
             </select>
           </label>
 
-          <button onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</button>
+          <a className="createDeleteButton" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</a>
 
-          <button onClick={this.props.externalFunction}> Delete Loop </button>
+          <a className="createDeleteButton" onClick={this.props.externalFunction}> Delete Loop </a>
         </div>
       )
     }
 
   return (
     <div className="thisDiv" >
-      Thigins
       {/* This could be extracted out into a play/stop button. */}
       {buttons}
     </div>
