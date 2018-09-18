@@ -18,7 +18,8 @@ TODO:
   - nice buttons
   - Better fonts
 
-NEXT: ADD BUTTONS FROM HERE https://fdossena.com/?p=html5cool/buttons/i.frag
+x NEXT: ADD BUTTONS FROM HERE https://fdossena.com/?p=html5cool/buttons/i.frag
+- Center
 
 - visuals
 - errors with multiple of the same values on input
@@ -161,10 +162,9 @@ class App extends Component {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
               return(
-              <div className="div-styling" key={i} style={{background: this.state.colours[i]}}>
-                <a className="styledButton" onClick={() => this.invertState(i)}>Create Loop</a>
-               {/* <button onClick={() => this.invertState(i)} className="styledButton" >Create Loop</button>  */}
-            </div>
+              <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}}>
+                <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Create Loop</a>
+              </div>
           )
             } else {
               return (
@@ -175,6 +175,8 @@ class App extends Component {
             }
           })
         }
+
+        {/* This could do with being extracted out */}
         <div className="slidersDiv">
           <div className="slider">
           <p className="sliderTitle">Tempo Slider</p>

@@ -1,7 +1,7 @@
-.createDeleteButton {
+.SJTUnitButton {
   display: inline-block;
   padding: 0.35em 1.2em;
-  border: 0.1em solid #FFFFFF;
+  border: 0.1em solid rgba(255,255,255,0.6);
   margin: 0 0.3em 0.3em 0;
   border-radius: 0.12em;
   box-sizing: border-box;
@@ -12,7 +12,46 @@
   text-align: center;
   transition: all 0.2s;
 }
-.createDeleteButton:hover {
+.SJTUnitButton:hover {
   color: #000000;
   background-color: rgba(255,255,255,0.6)
+}
+
+.textStyling {
+  font-family: 'Roboto', sans-serif;
+  color: #FFFFFF
+}
+
+/* Layout for the menu to create a loop */
+.loopCreationLayout {
+  display: flex;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  color: #FFFFFF;
+  height: 100%
+}
+
+/* Layout for the menu once the loop is created */
+.createdLoopLayout {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+/* div container to align buttons WITHIN createdLoopLayout, which will then be styled with createdLoopButton*/
+.createdLoopButtonContainer {
+  height: 100%;
+  width: 50%
+}
+
+.createdLoopButton {
+  width:  50%;
+  height: 30%;
+}
+
+/* Styling for components within the */
+.dataInputUnit {
+  width: 50%;
+  height: 100%;
+  text-align:center
 }
