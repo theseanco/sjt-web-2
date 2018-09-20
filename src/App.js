@@ -177,17 +177,17 @@ class App extends Component {
         }
 
         {/* This could do with being extracted out */}
+        {/* TEMPO: x bpm VOLUME: x*/}
         <div className="slidersDiv">
           <div className="slider">
-          <p className="sliderTitle">Tempo Slider</p>
-          <input type="range" min="40" max="160" value={defaultTempo} onChange={this.setBpm}></input>
-          {this.state.tempoValue}
+          <p className="sliderTitle">Tempo: {this.state.tempoValue} BPM </p>
+          <input type="range" min="40" max="160" onChange={this.setBpm}></input>
         </div>
         <div className="slider">
-          <p className="sliderTitle">Volume slider</p>
-          <input type="range" min={String(minVolume)} max="0" step="0.01" value={defaultVolume} onChange={this.setVolume}></input>
-          {parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))}
-        </div>
+          <p className="sliderTitle">{`Volume: `}
+{parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))} </p>
+          <input type="range" min={String(minVolume)} max="0" step="0.01" onChange={this.setVolume}></input>
+                  </div>
         </div>
         </div>
     );

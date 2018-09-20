@@ -42,7 +42,7 @@ class SJTUnit extends React.Component {
         offsetsOn: [true],
         offsetNumbers: [50],
         initialIteration: 0,
-        noteLength: "16n"
+        noteLength: "4n"
       },
       //This will be added as a string then converted into noteArray on creation
       noteArrayString: "",
@@ -197,24 +197,24 @@ class SJTUnit extends React.Component {
         <div className="dataInputUnit center-contents">
           <label>
             initial MIDI note: {this.state.loopState.offsetNumbers[0]}
-            <input type="range" name="initial pitch" onChange={this.setInitialOffset} min="30" max="90" value="50"/>
+            <input type="range" name="initial pitch" onChange={this.setInitialOffset} min="30" max="90" />
           </label>
         </div>
 
           <div className="dataInputUnit center-contents">
           <label>
             Note Duration:
-            <select onChange={this.setNoteLength}>
+            <select defaultValue="4n" onChange={this.setNoteLength}>
               <option value="2n" >2n</option>
               <option value="4n">4n</option>
               {/*TODO: selected is apparently bad */}
-              <option selected value="8n">8n</option>
+              <option value="8n">8n</option>
               <option value="16n">16n</option>
             </select>
           </label>
         </div>
 
-          <div className="dataInputUnit center-contents">
+          <div className="dataInputUnit center-contents flow-table">
           <a className="SJTUnitButton" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</a>
           <a className="SJTUnitButton" onClick={this.props.externalFunction}> Delete Loop </a>
         </div>
