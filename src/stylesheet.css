@@ -59,6 +59,14 @@ Default background colour on this div is the green of the first
   text-align: center;
 }
 
+.slider {
+  width: 40%
+}
+
+#slider-styling{
+  height: 0.2rem;
+}
+
 /*
 Border colours have been changed to make things look a bit better
 */
