@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-//old CSS imported from old project
+//Styling imported, ported from old project
 import './stylesheet.css'
 //buttons
 import './buttons.css'
@@ -8,12 +8,6 @@ import './buttons.css'
 import SJTUnit from "./Components/SJTUnit/SJTUnit"
 import PlayPause from "./Components/PlayPause/PlayPause"
 import Tone from 'tone'
-/*
-POSSIBLY NOT THE BEST THING TO IMPORT. STYLES ARE TOO PARTICULAR TO THE COMPONENT.
-//import enhanced range slider
-import InputRange from 'react-input-range';
-import 'react-input-range/lib/css/index.css'
-*/
 //Import enhanced range slider
 import Slider from 'react-rangeslider'
 //Custom stylesheet for Slider - Makes the slider smaller to better sit underneath loop generators.
@@ -24,7 +18,7 @@ import './sliderstyles.css'
 TODO:
 
 
-- visuals
+- visuals using React Konva 
 - errors with multiple of the same values on input
 - Input formatting
 - formatting input values to scales
@@ -64,7 +58,6 @@ class App extends Component {
       tempoValue: defaultTempo,
       //inherits from global variable
       volume: defaultVolume,
-      //Four colours taken from color scheme site.
       //Four colours taken from color scheme site.
       colours: ["rgba(71, 151, 97, 0.5)",
       "rgba(161, 110, 131, 0.5)",
@@ -171,18 +164,14 @@ class App extends Component {
   }
 
   render() {
-
-
     return (
-
-
       <div className="container">
         {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
               return(
               <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}}>
-                <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Create Loop</a>
+                <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Initialise Loop {i+1}</a>
               </div>
           )
             } else {
@@ -196,7 +185,6 @@ class App extends Component {
         }
 
         {/* This could do with being extracted out */}
-        {/* TEMPO: x bpm VOLUME: x*/}
         <div className="slidersDiv">
           <div className="slider">
           <p className="sliderTitle">Tempo: {this.state.tempoValue}</p>
@@ -212,7 +200,6 @@ class App extends Component {
         <div className="slider">
           <p className="sliderTitle">{`Volume: `}
 {parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))} </p>
-          {/* <input type="range" min={String(minVolume)} max="0" step="0.01" onChange={this.setVolume}></input> */}
           <Slider
             value={this.state.volumeValue}
             orientation="horizontal"
