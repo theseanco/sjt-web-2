@@ -54,4 +54,14 @@ RGBA colours, for background opacity:
 ### Buttons
 
 Buttons taken from here: https://fdossena.com/?p=html5cool/buttons/i.frag
-I had to retype all of the CSS to get it to work, for some reason. 
+I had to retype all of the CSS to get it to work, for some reason.
+
+### Range sliders:
+
+Attempted to use `react-rangesldier`
+
+https://github.com/whoisandy/react-rangeslider
+
+Not so much luck, didn't look great either.
+
+Attempted to use react-input-range

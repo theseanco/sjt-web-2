@@ -22,6 +22,8 @@ import './SJT.js';
 import Tone from 'tone';
 //stylesheet for buttons
 import './SJTUnit_Styles.css'
+import Slider from 'react-rangeslider'
+import '../../sliderstyles.css'
 
 
 class SJTUnit extends React.Component {
@@ -42,7 +44,7 @@ class SJTUnit extends React.Component {
         offsetsOn: [true],
         offsetNumbers: [50],
         initialIteration: 0,
-        noteLength: "16n"
+        noteLength: "4n"
       },
       //This will be added as a string then converted into noteArray on creation
       noteArrayString: "",
@@ -132,7 +134,14 @@ class SJTUnit extends React.Component {
   }
 
   setInitialOffset = (e) => {
-    const offsetEvent = parseInt(e.target.value);
+    let offsetEvent;
+    if (typeof(e) === 'object') {
+      //parse the target value object
+      offsetEvent = parseInt(e.target.value)
+    } else if (typeof(e) === 'number') {
+      //directly assign the target value object
+      offsetEvent = parseInt(e)
+    }
     //using this method to inherit object properties  https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react
     this.setState(prevState => ({
       loopState: {
@@ -172,11 +181,11 @@ class SJTUnit extends React.Component {
         <div className="createdLoopLayout">
           <div className="createdLoopButtonContainer center-contents">
           {
-          !this.state.loopPlaying ? <a className="SJTUnitButton createdLoopButton" onClick={() => this.loopStart(this.loop[0])}>Play Loop</a> : <a className="SJTUnitButton createdLoopButton" onClick={() => this.loopStop(this.loop[0])}>Stop Loop</a>
+          !this.state.loopPlaying ? <a className="SJTUnitButton createdLoopButton center-contents" onClick={() => this.loopStart(this.loop[0])}>Play Loop</a> : <a className="SJTUnitButton createdLoopButton center-contents" onClick={() => this.loopStop(this.loop[0])}>Stop Loop</a>
               }
             </div>
             <div className="createdLoopButtonContainer center-contents">
-        <a className="SJTUnitButton createdLoopButton " onClick={() => {
+        <a className="SJTUnitButton createdLoopButton center-contents" onClick={() => {
           this.loopStop(this.loop[0]);
           this.clearLoop()
         }}>Clear Loop</a>
@@ -197,24 +206,28 @@ class SJTUnit extends React.Component {
         <div className="dataInputUnit center-contents">
           <label>
             initial MIDI note: {this.state.loopState.offsetNumbers[0]}
-            <input type="range" name="initial pitch" onChange={this.setInitialOffset} min="30" max="90" value="50"/>
+            <Slider
+              onChange={this.setInitialOffset}
+              min={30}
+              max={90}
+              value={this.state.loopState.offsetNumbers[0]}
+              tooltip={false}/>
           </label>
         </div>
 
           <div className="dataInputUnit center-contents">
           <label>
             Note Duration:
-            <select onChange={this.setNoteLength}>
+            <select defaultValue="4n" onChange={this.setNoteLength}>
               <option value="2n" >2n</option>
               <option value="4n">4n</option>
-              {/*TODO: selected is apparently bad */}
-              <option selected value="8n">8n</option>
+              <option value="8n">8n</option>
               <option value="16n">16n</option>
             </select>
           </label>
         </div>
 
-          <div className="dataInputUnit center-contents">
+          <div className="dataInputUnit center-contents flow-table">
           <a className="SJTUnitButton" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</a>
           <a className="SJTUnitButton" onClick={this.props.externalFunction}> Delete Loop </a>
         </div>

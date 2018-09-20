@@ -8,18 +8,21 @@ import './buttons.css'
 import SJTUnit from "./Components/SJTUnit/SJTUnit"
 import PlayPause from "./Components/PlayPause/PlayPause"
 import Tone from 'tone'
+/*
+POSSIBLY NOT THE BEST THING TO IMPORT. STYLES ARE TOO PARTICULAR TO THE COMPONENT.
+//import enhanced range slider
+import InputRange from 'react-input-range';
+import 'react-input-range/lib/css/index.css'
+*/
+//Import enhanced range slider
+import Slider from 'react-rangeslider'
+//Custom stylesheet for Slider - Makes the slider smaller to better sit underneath loop generators.
+import './sliderstyles.css'
 
 /*
 
 TODO:
 
-- Make things not look dreadful
-  - Sliders need to look better
-  - nice buttons
-  - Better fonts
-
-x NEXT: ADD BUTTONS FROM HERE https://fdossena.com/?p=html5cool/buttons/i.frag
-- Center
 
 - visuals
 - errors with multiple of the same values on input
@@ -103,10 +106,20 @@ class App extends Component {
     console.log("works", index);
   }
 
+
+
   //function to set the bpm of  the transport and apply it to state to be printed to the page.
   //TODO: A LOT of errors that are: "Failed to execute 'setValueAtTime' on 'AudioParam': The provided float value is non-finite."
+  //This is now deprecated in favour of using react-input-range component grabbed from npm.
   setBpm = (e) => {
-    const tempoValue = parseInt(e.target.value);
+    let tempoValue;
+    if (typeof(e) === 'object') {
+      //parse the target value object
+      tempoValue = parseInt(e.target.value)
+    } else if (typeof(e) === 'number') {
+      //directly assign the target value object
+      tempoValue = parseInt(e)
+    }
     const currentState = this.state.tempoValue;
     const difference = Math.abs(tempoValue - currentState);
     //check if value is finite
@@ -128,16 +141,22 @@ class App extends Component {
   }
 
   setVolume = (e) => {
-    //NOTE: This is done in decibels and may need tuning up.
-    const volumeValue = parseFloat(e.target.value);
+    let volumeValue
+    if (typeof(e) === 'object') {
+      //parse the target value object
+      volumeValue = parseFloat(e.target.value)
+    } else if (typeof(e) === 'number') {
+      //directly assign the target value object
+      volumeValue = parseFloat(e)
+    }
     if (isFinite(volumeValue)) {
     this.setState({volume: volumeValue})
-    console.log(String(volumeValue));
     //NOTE: The use of signal `.value` call is essential here.
     //Documented here: https://github.com/Tonejs/Tone.js/wiki/Signals
     Tone.Master.volume.rampTo(volumeValue,0.1)
   }
-  }
+}
+
 
   //Function taken from https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges to scale volume value printouts to 0-100 to be more user-accessible for people who don't know about decibels
   convertRange = ( value, r1, r2 ) => {
@@ -177,16 +196,31 @@ class App extends Component {
         }
 
         {/* This could do with being extracted out */}
+        {/* TEMPO: x bpm VOLUME: x*/}
         <div className="slidersDiv">
           <div className="slider">
-          <p className="sliderTitle">Tempo Slider</p>
-          <input type="range" min="40" max="160" value={defaultTempo} onChange={this.setBpm}></input>
-          {this.state.tempoValue}
+          <p className="sliderTitle">Tempo: {this.state.tempoValue}</p>
+       <Slider
+        value={this.state.tempoValue}
+        orientation="horizontal"
+        onChange={value => this.setBpm(value)}
+        min={60}
+        max={160}
+        tooltip={false}
+      />
         </div>
         <div className="slider">
-          <p className="sliderTitle">Volume slider</p>
-          <input type="range" min={String(minVolume)} max="0" step="0.01" value={defaultVolume} onChange={this.setVolume}></input>
-          {parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))}
+          <p className="sliderTitle">{`Volume: `}
+{parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))} </p>
+          {/* <input type="range" min={String(minVolume)} max="0" step="0.01" onChange={this.setVolume}></input> */}
+          <Slider
+            value={this.state.volumeValue}
+            orientation="horizontal"
+            onChange={value => this.setVolume(value)}
+            value={this.state.volume}
+            min={-40}
+            max={0}
+            tooltip={false} />
         </div>
         </div>
         </div>
