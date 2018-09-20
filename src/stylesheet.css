@@ -56,6 +56,8 @@ Default background colour on this div is the green of the first
 .sliderTitle {
   margin-top: 0px;
   margin-bottom: 0px;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
   text-align: center;
 }
 

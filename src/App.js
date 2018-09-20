@@ -23,12 +23,7 @@ import './sliderstyles.css'
 
 TODO:
 
-- Make things not look dreadful
-  - Sliders need to look better
-  - nice buttons
-  - Better fonts
 
-- vertically center text in buttons
 - visuals
 - errors with multiple of the same values on input
 - Input formatting
@@ -156,7 +151,6 @@ class App extends Component {
     }
     if (isFinite(volumeValue)) {
     this.setState({volume: volumeValue})
-    console.log(String(volumeValue));
     //NOTE: The use of signal `.value` call is essential here.
     //Documented here: https://github.com/Tonejs/Tone.js/wiki/Signals
     Tone.Master.volume.rampTo(volumeValue,0.1)
