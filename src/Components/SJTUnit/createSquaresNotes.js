@@ -3,7 +3,9 @@
 //Class for generating notes
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
 import Tone from 'tone';
-import permute from './SJT.js'
+import permute from './SJT.js';
+import Konva from 'konva';
+
 
 
 //callback function added in order to pass information out of scope
@@ -12,6 +14,7 @@ const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbe
 var synth = new Tone.PolySynth().toMaster();
 let numberOfVoices = 1;
 const totalRects = noteArray.length;
+const elementName = "konva-test"
 
 //Function to permute available notes
 const permuteNotes = (notesToPermute) => {
@@ -41,6 +44,116 @@ const generateVoices = (numberOfVoices) => {
 
 //generate an array of synths to be used
 const voiceArray = generateVoices(numberOfVoices)
+
+
+
+/*
+*
+*
+* KONVA CODE STARTS HERE.
+*
+* initially attempted based on https://konvajs.github.io/docs/animations/Rotation.html
+*
+*
+*/
+
+const konvaWidth = document.getElementById(elementName).offsetWidth;
+const konvaHeight = document.getElementById(elementName).offsetHeight;
+
+const stage = new Konva.Stage({
+  container: elementName,
+  width: konvaWidth,
+  height: konvaHeight
+});
+
+const layer = new Konva.Layer();
+
+console.log(stage);
+
+let availableRects = [];
+//TODO: adapt this to spawn dynamically
+
+let i;
+for(i=0; i<totalRects; i++){
+  availableRects.push(new Konva.Rect({
+    x: (10 + (konvaWidth/totalRects*i)),
+    y: 10,
+    width: (konvaWidth/totalRects),
+    height: (konvaHeight-10),
+    fill: '#FFFFFF'}))
+}
+console.log(availableRects);
+
+layer.add(availableRects[1])
+
+/*
+for (i=0; i<totalRects; i++) {
+  layer.add(availableRects[i])
+}
+*/
+stage.add(layer);
+
+/*
+  var angularSpeed = 90;
+    var anim = new Konva.Animation(function(frame) {
+        var angleDiff = frame.timeDiff * angularSpeed / 1000;
+        availableRects[1].rotate(angleDiff);
+    }, layer);
+
+    anim.start();
+    */
+
+/*
+var movie = bonsai.run(
+  document.getElementById(elementName),
+  {
+    code: function() {
+      // receive data from the other side
+      //array of available rectangles
+      let availableRects = [];
+      let totalWidth = 0;
+      let totalHeight = 0;
+      //This is a message which takes the properties of the div
+      stage.on('message:divProperties', function(data) {
+        const totalWidth = data.width-30;
+        const totalHeight = data.height;
+        const totalRectsData = data.totalRects
+        for(i=0; i<totalRectsData; i++) {
+          //THIS NEEDS COMPANSATING FOR THE GRID
+          availableRects.push(new Rect(10 + (totalWidth/totalRectsData*i),10,totalWidth/totalRectsData,totalHeight)
+          .attr({fillColor: 'red', opacity: 0.2}))
+        }
+        stage.children(availableRects)
+      });
+      stage.sendMessage('ready', {});
+      //the keyframe animation to symbolise 'played'
+      var animation = new KeyframeAnimation('.2s', {
+        from: {opacity: 0.2},
+        '5%': {opacity: 1},
+        to: {opacity: 0.2}
+      });
+      stage.on('message:animateSquare', function(data) {
+        animation.removeSubjects(availableRects)
+        animation.addSubjects([availableRects[data.square]])
+        animation.play();
+      });
+    },
+    width: elementWidth,
+    height: elementHeight
+  },
+);
+movie.on('load', function() {
+  // receive event from the runner context
+  movie.on('message:ready', function() {
+    // send the window properties to bonsai.
+    movie.sendMessage('divProperties', {
+      width: elementWidth,
+      height: elementHeight,
+      totalRects: totalRects
+    })
+  });
+});
+*/
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (

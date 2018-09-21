@@ -23,7 +23,7 @@ TODO:
 - errors with multiple of the same values on input
 - Input formatting
 - formatting input values to scales
-- onChange={() => console.log(this.loop[1].iterator)} WILL log iterator, so this.loop[1] carries CURRENT information as loop is repeatedly executing a function. Create an event listener to grab information from within the loop to be displayed alongside the stop/play/delete buttons.
+- refresh loop information on first creation.
 */
 
 //This works to start the transport
@@ -182,7 +182,7 @@ class App extends Component {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
               return(
-              <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}}>
+              <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}} id="konva-test">
                 <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Initialise Loop {i+1}</a>
               </div>
           )
@@ -197,7 +197,8 @@ class App extends Component {
         }
 
         {/* This could do with being extracted out */}
-        <div className="slidersDiv">
+        {/* NOTE: This is the testing div with an id of konva-test */}
+        <div className="slidersDiv" >
           <div className="slider">
           <p className="sliderTitle">Tempo: {this.state.tempoValue}</p>
        <Slider
