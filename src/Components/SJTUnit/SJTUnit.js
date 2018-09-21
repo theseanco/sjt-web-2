@@ -49,6 +49,16 @@ class SJTUnit extends React.Component {
       noteArrayString: "",
       //Is the loop playing?
       loopPlaying: false,
+      //placeholder for loop data fed out of createSquaresNotes callback function
+      loopData: {
+        generation: 0,
+        generationIndex: 0,
+        iterator: 0,
+        maxIndex: 600,
+        note: 0,
+        noteArray: [0,0,0],
+        scaleSize: 5
+      }
     }
   }
 
@@ -104,7 +114,13 @@ class SJTUnit extends React.Component {
       stuff.offsetsOn,
       stuff.offsetNumbers,
       stuff.initialIteration,
-      stuff.noteLength
+      stuff.noteLength,
+      //callback function that handles data
+      (data) => {
+        //TODO: Delete this.
+        console.log(data)
+        this.setState({loopData: data})
+      }
     )
   )
   }
@@ -187,7 +203,14 @@ class SJTUnit extends React.Component {
           this.clearLoop()
         }}>Clear Loop</a>
       </div>
-      </div>
+        <div className="loopInformation">
+          <span>Note: {this.state.loopData.note}</span>
+          <span>Scale: {String(this.state.loopData.noteArray[0])}</span>
+          <span>Note Number: {this.state.loopData.generationIndex}</span>
+          <span>Generation: {this.state.loopData.generation}</span>
+          <span>Total Number of Notes: {this.state.loopData.maxIndex}</span>
+        </div>
+        </div>
       )
     } else {
       buttons = (
