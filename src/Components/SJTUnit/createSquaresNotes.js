@@ -80,11 +80,52 @@ for(i=0; i<totalRects; i++){
     y: 10,
     width: (konvaWidth/totalRects),
     height: (konvaHeight-10),
-    fill: '#FFFFFF'}))
+    fill: '#FFFFFF',
+  opacity: 0.2}))
 }
 console.log(availableRects);
 
-layer.add(availableRects[1])
+//A for loop to create rectangles and add tweening animations to them.
+for (i=0; i<totalRects; i++) {
+  layer.add(availableRects[i])
+  }
+
+  /*
+  TODO: This for loop doesn't work, why?
+for (i=0; i<totalRects; i++) {
+   availableRects[i].tween = new Konva.Tween({
+  node: availableRects[i],
+  opacity: 1,
+  easing: Konva.Easings.EaseOut,
+  duration: 0.1,
+  onFinish: function() {
+   availableRects[i].tween.reverse()
+  }
+})
+}
+*/
+
+//TODO: THIS ONLY WORKS FOR TWO INDICES, WHY?
+availableRects[0].tween = new Konva.Tween({
+  node: availableRects[0],
+  opacity: 1,
+  easing: Konva.Easings.EaseOut,
+  duration: 0.5,
+  onFinish: function() {
+    availableRects[0].tween.reverse()
+  }
+})
+
+availableRects[1].tween = new Konva.Tween({
+  node: availableRects[1],
+  opacity: 1,
+  easing: Konva.Easings.EaseOut,
+  duration: 0.5,
+  onFinish: function() {
+    availableRects[1].tween.reverse()
+  }
+})
+
 
 /*
 for (i=0; i<totalRects; i++) {
@@ -93,67 +134,7 @@ for (i=0; i<totalRects; i++) {
 */
 stage.add(layer);
 
-/*
-  var angularSpeed = 90;
-    var anim = new Konva.Animation(function(frame) {
-        var angleDiff = frame.timeDiff * angularSpeed / 1000;
-        availableRects[1].rotate(angleDiff);
-    }, layer);
 
-    anim.start();
-    */
-
-/*
-var movie = bonsai.run(
-  document.getElementById(elementName),
-  {
-    code: function() {
-      // receive data from the other side
-      //array of available rectangles
-      let availableRects = [];
-      let totalWidth = 0;
-      let totalHeight = 0;
-      //This is a message which takes the properties of the div
-      stage.on('message:divProperties', function(data) {
-        const totalWidth = data.width-30;
-        const totalHeight = data.height;
-        const totalRectsData = data.totalRects
-        for(i=0; i<totalRectsData; i++) {
-          //THIS NEEDS COMPANSATING FOR THE GRID
-          availableRects.push(new Rect(10 + (totalWidth/totalRectsData*i),10,totalWidth/totalRectsData,totalHeight)
-          .attr({fillColor: 'red', opacity: 0.2}))
-        }
-        stage.children(availableRects)
-      });
-      stage.sendMessage('ready', {});
-      //the keyframe animation to symbolise 'played'
-      var animation = new KeyframeAnimation('.2s', {
-        from: {opacity: 0.2},
-        '5%': {opacity: 1},
-        to: {opacity: 0.2}
-      });
-      stage.on('message:animateSquare', function(data) {
-        animation.removeSubjects(availableRects)
-        animation.addSubjects([availableRects[data.square]])
-        animation.play();
-      });
-    },
-    width: elementWidth,
-    height: elementHeight
-  },
-);
-movie.on('load', function() {
-  // receive event from the runner context
-  movie.on('message:ready', function() {
-    // send the window properties to bonsai.
-    movie.sendMessage('divProperties', {
-      width: elementWidth,
-      height: elementHeight,
-      totalRects: totalRects
-    })
-  });
-});
-*/
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (
@@ -167,6 +148,8 @@ return (
     })
     synth.triggerAttackRelease(midiNoteArray,noteLength);
 
+    console.log(voiceArray[0].generationIndex)
+    availableRects[voiceArray[0].generationIndex].tween.play()
     /*
     //UNCOMMENT THIS FOR DEBUGGING
     console.log(voiceArray[0], offsets);

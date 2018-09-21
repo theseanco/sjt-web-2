@@ -18,7 +18,14 @@ import './sliderstyles.css'
 TODO:
 
 
-- visuals using React Konva
+VISUALS:
+- For loop for creating tweens for each rectangle does not work. Tweens end up needing to be hardcoded. This isn't right
+- Graphics currently erase the content of nearest div with the same ID (for testing). This needs solving.
+- Graphics need to fit within the parent div
+- Graphics need to be the colour of parent div
+- Graphics need to be under the content of the parent div
+- Animation of the correct index needs to play. This isn't it. 
+
 - Mute doesn't work
 - errors with multiple of the same values on input
 - Input formatting
@@ -197,7 +204,6 @@ class App extends Component {
         }
 
         {/* This could do with being extracted out */}
-        {/* NOTE: This is the testing div with an id of konva-test */}
         <div className="slidersDiv" >
           <div className="slider">
           <p className="sliderTitle">Tempo: {this.state.tempoValue}</p>
