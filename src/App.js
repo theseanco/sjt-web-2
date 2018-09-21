@@ -18,7 +18,8 @@ import './sliderstyles.css'
 TODO:
 
 
-- visuals using React Konva 
+- visuals using React Konva
+- Mute doesn't work
 - errors with multiple of the same values on input
 - Input formatting
 - formatting input values to scales
@@ -62,7 +63,8 @@ class App extends Component {
       colours: ["rgba(71, 151, 97, 0.5)",
       "rgba(161, 110, 131, 0.5)",
       "rgba(206, 188, 129, 0.5)",
-      "rgba(177, 159, 158, 0.5)" ]
+      "rgba(177, 159, 158, 0.5)" ],
+      muted: false
     }
   }
 
@@ -143,10 +145,20 @@ class App extends Component {
       volumeValue = parseFloat(e)
     }
     if (isFinite(volumeValue)) {
+      if (parseInt(volumeValue) === minVolume) {
+        console.log("muted")
+        Tone.Master.mute = true
+        this.setState({muted: true})
+      } else if (parseInt(volumeValue) != minVolume && this.state.muted === true) {
+        console.log("unmuted")
+        Tone.Master.mute = false;
+        this.setState({muted: false});
+      }
     this.setState({volume: volumeValue})
     //NOTE: The use of signal `.value` call is essential here.
     //Documented here: https://github.com/Tonejs/Tone.js/wiki/Signals
     Tone.Master.volume.rampTo(volumeValue,0.1)
+
   }
 }
 
