@@ -24,7 +24,7 @@ VISUALS:
 - Graphics need to fit within the parent div
 - Graphics need to be the colour of parent div
 - Graphics need to be under the content of the parent div
-- Animation of the correct index needs to play. This isn't it. 
+- Animation of the correct index needs to play. This isn't it.
 
 - Mute doesn't work
 - errors with multiple of the same values on input
@@ -189,15 +189,22 @@ class App extends Component {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
               return(
-              <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}} id="konva-test">
+                //This returns a div with a button asking whether you want to initialise a loop
+              <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}}>
                 <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Initialise Loop {i+1}</a>
               </div>
           )
             } else {
               return (
-                  <div className="div-styling" key={i} style={{background: this.state.colours[i]}}>
-                    <SJTUnit key={i} externalFunction={() => this.invertState(i)} />
+                //This returns a div contaning an SJTUnit component, which is wrapped in a div which will be used to generate Konva squares. The ID of the konva div will then be passed into the SJTUnit, which will be passed into the creation argument of createSquaresNotes. This passing-down can probably be done better, but will be tackled during a refactor.
+                <div className="div-styling">
+                <div className="konva-container" id={`konva-${i}`}>
+                </div>
+                  <div className="SJTUnit-container" key={i} style={{background: this.state.colours[i]}}>
+                    <SJTUnit key={i} externalFunction={() => this.invertState(i)} konvaIdName={`konva-${i}`}/>
                   </div>
+                </div>
+
               )
             }
           })

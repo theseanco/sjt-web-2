@@ -8,13 +8,13 @@ import Konva from 'konva';
 
 
 
-//callback function added in order to pass information out of scope
-const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '8n', /*elementName = "konva-test",*/ callback) => {
+//callback function added in order to pass information out of scope that allows animation
+//After the callback there are attributes which will determine the colour of block to animate
+const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '8n', callback, elementName = "konva-test", blockColour = "#FFFFFF") => {
 
 var synth = new Tone.PolySynth().toMaster();
 let numberOfVoices = 1;
 const totalRects = noteArray.length;
-const elementName = "konva-test"
 
 //Function to permute available notes
 const permuteNotes = (notesToPermute) => {
@@ -80,7 +80,7 @@ for(i=0; i<totalRects; i++){
     y: 10,
     width: (konvaWidth/totalRects),
     height: (konvaHeight-10),
-    fill: '#FFFFFF',
+    fill: blockColour,
   opacity: 0.2}))
 }
 console.log(availableRects);
@@ -127,7 +127,13 @@ return (
     synth.triggerAttackRelease(midiNoteArray,noteLength);
 
     console.log(voiceArray[0].generationIndex)
-    availableRects[voiceArray[0].generationIndex].tween.play()
+    /*
+
+    An extremely ugly function which uses the current note playing and plots it
+    against the original voice array to determine which note of the original voice array
+    is playing. this is used to visualise the playing of each particular note
+    */
+    availableRects[noteArray.indexOf(voiceArray[0].note)].tween.play()
     /*
     //UNCOMMENT THIS FOR DEBUGGING
     console.log(voiceArray[0], offsets);
