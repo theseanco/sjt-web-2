@@ -38,17 +38,29 @@
   height: 100%;
   width: 100%;
   display: flex;
+  flex-wrap: wrap
 }
 
 /* div container to align buttons WITHIN createdLoopLayout, which will then be styled with createdLoopButton*/
 .createdLoopButtonContainer {
-  height: 100%;
+  height: 70%;
   width: 50%
 }
 
 .createdLoopButton {
   width:  50%;
+  height: 70%;
+}
+
+/* houses information about the loops that are created, uses flexbox to space out information */
+.loopInformation {
+  font-family: 'Roboto', sans-serif;
+  color: #FFFFFF;
   height: 30%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 /* Styling for components within the */

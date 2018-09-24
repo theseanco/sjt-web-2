@@ -18,11 +18,19 @@ import './sliderstyles.css'
 TODO:
 
 
-- visuals using React Konva 
+VISUALS:
+x For loop for creating tweens for each rectangle does not work. Tweens end up needing to be hardcoded. This isn't right
+x Graphics currently erase the content of nearest div with the same ID (for testing). This needs solving.
+x Graphics need to fit within the parent div
+x Graphics need to be the colour of parent div (SORT OF)
+x Graphics need to be under the content of the parent div
+x Animation of the correct index needs to play. This isn't it.
+
+- Mute doesn't work
 - errors with multiple of the same values on input
 - Input formatting
 - formatting input values to scales
-- onChange={() => console.log(this.loop[1].iterator)} WILL log iterator, so this.loop[1] carries CURRENT information as loop is repeatedly executing a function. Create an event listener to grab information from within the loop to be displayed alongside the stop/play/delete buttons.
+- refresh loop information on first creation.
 */
 
 //This works to start the transport
@@ -62,7 +70,8 @@ class App extends Component {
       colours: ["rgba(71, 151, 97, 0.5)",
       "rgba(161, 110, 131, 0.5)",
       "rgba(206, 188, 129, 0.5)",
-      "rgba(177, 159, 158, 0.5)" ]
+      "rgba(177, 159, 158, 0.5)" ],
+      muted: false
     }
   }
 
@@ -143,10 +152,20 @@ class App extends Component {
       volumeValue = parseFloat(e)
     }
     if (isFinite(volumeValue)) {
+      if (parseInt(volumeValue) === minVolume) {
+        console.log("muted")
+        Tone.Master.mute = true
+        this.setState({muted: true})
+      } else if (parseInt(volumeValue) != minVolume && this.state.muted === true) {
+        console.log("unmuted")
+        Tone.Master.mute = false;
+        this.setState({muted: false});
+      }
     this.setState({volume: volumeValue})
     //NOTE: The use of signal `.value` call is essential here.
     //Documented here: https://github.com/Tonejs/Tone.js/wiki/Signals
     Tone.Master.volume.rampTo(volumeValue,0.1)
+
   }
 }
 
@@ -170,22 +189,29 @@ class App extends Component {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
               return(
+                //This returns a div with a button asking whether you want to initialise a loop
               <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}}>
                 <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Initialise Loop {i+1}</a>
               </div>
           )
             } else {
               return (
-                  <div className="div-styling" key={i} style={{background: this.state.colours[i]}}>
-                    <SJTUnit key={i} externalFunction={() => this.invertState(i)} />
+                //This returns a div contaning an SJTUnit component, which is wrapped in a div which will be used to generate Konva squares. The ID of the konva div will then be passed into the SJTUnit, which will be passed into the creation argument of createSquaresNotes. This passing-down can probably be done better, but will be tackled during a refactor.
+                <div className="div-styling">
+                <div className="konva-container" id={`konva-${i}`}>
+                </div>
+                  <div className="SJTUnit-container" key={i} style={{background: this.state.colours[i]}}>
+                    <SJTUnit key={i} externalFunction={() => this.invertState(i)} konvaIdName={`konva-${i}`}/>
                   </div>
+                </div>
+
               )
             }
           })
         }
 
         {/* This could do with being extracted out */}
-        <div className="slidersDiv">
+        <div className="slidersDiv" >
           <div className="slider">
           <p className="sliderTitle">Tempo: {this.state.tempoValue}</p>
        <Slider
