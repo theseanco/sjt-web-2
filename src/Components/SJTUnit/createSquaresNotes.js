@@ -10,7 +10,7 @@ import Konva from 'konva';
 
 //callback function added in order to pass information out of scope that allows animation
 //After the callback there are attributes which will determine the colour of block to animate
-const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '8n', callback, elementName = "konva-test", blockColour = "#FFFFFF") => {
+const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF") => {
 
 var synth = new Tone.PolySynth().toMaster();
 let numberOfVoices = 1;
@@ -76,10 +76,10 @@ let availableRects = [];
 let i;
 for(i=0; i<totalRects; i++){
   availableRects.push(new Konva.Rect({
-    x: (10 + (konvaWidth/totalRects*i)),
-    y: 10,
+    x: (konvaWidth/totalRects*i),
+    y: 0,
     width: (konvaWidth/totalRects),
-    height: (konvaHeight-10),
+    height: konvaHeight,
     fill: blockColour,
   opacity: 0.2}))
 }
