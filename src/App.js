@@ -18,13 +18,12 @@ import './sliderstyles.css'
 TODO:
 
 
-VISUALS:
-x For loop for creating tweens for each rectangle does not work. Tweens end up needing to be hardcoded. This isn't right
-x Graphics currently erase the content of nearest div with the same ID (for testing). This needs solving.
-x Graphics need to fit within the parent div
-x Graphics need to be the colour of parent div (SORT OF)
-x Graphics need to be under the content of the parent div
-x Animation of the correct index needs to play. This isn't it.
+SCALES:
+- Make a scale selector dropdown
+- Make parallel octave and transposition sliders
+- Make a 'normal' and 'advanced' mode dropdown.
+  - Normal has major/minor/chromatic, octave
+  - Advanced has a whole bunch more, octave, transposition.
 
 - Mute doesn't work
 - errors with multiple of the same values on input

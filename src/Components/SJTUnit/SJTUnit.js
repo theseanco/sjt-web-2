@@ -22,9 +22,9 @@ import createNotesAndSquares from "./createSquaresNotes.js";
 import './SJT.js';
 import Tone from 'tone';
 //stylesheet for buttons
-import './SJTUnit_Styles.css'
-import Slider from 'react-rangeslider'
-import '../../sliderstyles.css'
+import './SJTUnit_Styles.css';
+import Slider from 'react-rangeslider';
+import '../../sliderstyles.css';
 
 
 class SJTUnit extends React.Component {

@@ -65,3 +65,9 @@ https://github.com/whoisandy/react-rangeslider
 Not so much luck, didn't look great either.
 
 Attempted to use react-input-range
+
+### Scales
+
+attempted to use:
+
+https://github.com/danigb/tonal

@@ -5,8 +5,7 @@ import NoteInfoGenerator from "./NoteInfoGenerator.js";
 import Tone from 'tone';
 import permute from './SJT.js';
 import Konva from 'konva';
-
-
+import {transpose, Scale} from 'tonal';
 
 //callback function added in order to pass information out of scope that allows animation
 //After the callback there are attributes which will determine the colour of block to animate
@@ -15,6 +14,85 @@ const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbe
 var synth = new Tone.PolySynth().toMaster();
 let numberOfVoices = 1;
 const totalRects = noteArray.length;
+
+
+/*
+
+MUSIC SCALE STUFF BEGINS HERE
+
+Working out:
+
+To generate scales we need to generate an array.
+
+inputs:
+- indices
+- major/minor
+- root note
+- octave
+
+If the max index specified is greater than the number of indexes in the scale, then:
+
+- Work out how many octaves need to be generated
+- Generate them
+- concat all generated arrays
+- Select all relevant indices
+- return the relevant array
+
+Test.
+
+//Pseudocode:
+let scale;
+const scaleLength = scale.key.length;
+const maxIndex = Math.max(...indices);
+//this could be compressed into a function maybe
+if (h.max(...indices) <= scaleLength) {
+  scale = Scale.notes(`${rootnote}${octave} ${major/minor}` )
+} else {
+  let numTimes = Math.floor(maxIndex/scaleLength);
+  let newScale;
+  for(i=0; i<numTimes; i++) {
+    newScale = Scale.notes(`${rootNote}${octave+i} ${major/minor}`)
+    scale.concat(newScale)
+  }
+}
+indicesToBePlayed = indices.map(index => scale[index])
+
+TODO: Write this.
+
+//This returns an array comprised of scale degrees that match the 'indices' array, combining two arrays.
+const noteArray = indices.map(index => scale[index])
+*/
+
+
+//Function to turn a degree list, key, root note and octave into a sorted array of notes.
+const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote = "C", octave = "4") => {
+  //Holding values for a scale (empty array to allow .concat method) and a final value
+  let scale = [], indexedScale;
+  //Returns how many degrees are in the scale to see how many octaves need to be generated
+  const scaleLength = Scale.notes(`${rootNote}${octave} ${key}`).length
+  //See which octave boundaries degrees fall into
+  const maxIndex = Math.max(...degreeList);
+  //If statement which either generates one octave or generates multiple octaves.
+  if (maxIndex <= scaleLength) {
+    scale = Scale.notes(`${rootNote}${octave} ${key}`)
+  } else {
+    //Get the number of octaves to generate, this is +1 as it is zero-indexed
+    let numTimes = Math.floor(maxIndex/scaleLength)+1;
+    //holding value for generated scales to be concatenated onto the empty `scale` array
+    let newScale;
+    //Work out if more scales are needed, and generate them accordingly, appending them to the empty `scale` variable
+    for(i=0; i<numTimes; i++) {
+      newScale = Scale.notes(`${rootNote}${String(parseInt(octave)+i)} ${key}`);
+      scale = scale.concat(newScale);
+    }
+  }
+  //Select which indexes of the generated scale list needs to be returned in the final processed array
+  indexedScale = degreeList.map(index => scale[index])
+  return(indexedScale)
+}
+
+console.log(generateScaleArray());
+
 
 //Function to permute available notes
 const permuteNotes = (notesToPermute) => {
