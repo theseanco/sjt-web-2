@@ -140,7 +140,7 @@ class SJTUnit extends React.Component {
         offsetsOn: [true],
         offsetNumbers: [50],
         initialIteration: 0,
-        noteLength: "16n"
+        noteLength: "4n"
       }})
   }
 

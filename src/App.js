@@ -28,7 +28,6 @@ SCALES:
 - Mute doesn't work
 - errors with multiple of the same values on input
 - Input formatting
-- formatting input values to scales
 - refresh loop information on first creation.
 */
 

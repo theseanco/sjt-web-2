@@ -1,5 +1,5 @@
 
-//TODO: Maybe offsets don't need to be generated in an array
+//TODO: Clean up TestScaleArray, call it something else
 //Class for generating notes
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
 import Tone from 'tone';
@@ -15,55 +15,6 @@ var synth = new Tone.PolySynth().toMaster();
 let numberOfVoices = 1;
 const totalRects = noteArray.length;
 
-
-/*
-
-MUSIC SCALE STUFF BEGINS HERE
-
-Working out:
-
-To generate scales we need to generate an array.
-
-inputs:
-- indices
-- major/minor
-- root note
-- octave
-
-If the max index specified is greater than the number of indexes in the scale, then:
-
-- Work out how many octaves need to be generated
-- Generate them
-- concat all generated arrays
-- Select all relevant indices
-- return the relevant array
-
-Test.
-
-//Pseudocode:
-let scale;
-const scaleLength = scale.key.length;
-const maxIndex = Math.max(...indices);
-//this could be compressed into a function maybe
-if (h.max(...indices) <= scaleLength) {
-  scale = Scale.notes(`${rootnote}${octave} ${major/minor}` )
-} else {
-  let numTimes = Math.floor(maxIndex/scaleLength);
-  let newScale;
-  for(i=0; i<numTimes; i++) {
-    newScale = Scale.notes(`${rootNote}${octave+i} ${major/minor}`)
-    scale.concat(newScale)
-  }
-}
-indicesToBePlayed = indices.map(index => scale[index])
-
-TODO: Write this.
-
-//This returns an array comprised of scale degrees that match the 'indices' array, combining two arrays.
-const noteArray = indices.map(index => scale[index])
-*/
-
-
 //Function to turn a degree list, key, root note and octave into a sorted array of notes.
 const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote = "C", octave = "4") => {
   //Holding values for a scale (empty array to allow .concat method) and a final value
@@ -73,7 +24,7 @@ const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote =
   //See which octave boundaries degrees fall into
   const maxIndex = Math.max(...degreeList);
   //If statement which either generates one octave or generates multiple octaves.
-  if (maxIndex <= scaleLength) {
+  if (maxIndex < scaleLength) {
     scale = Scale.notes(`${rootNote}${octave} ${key}`)
   } else {
     //Get the number of octaves to generate, this is +1 as it is zero-indexed
@@ -81,7 +32,7 @@ const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote =
     //holding value for generated scales to be concatenated onto the empty `scale` array
     let newScale;
     //Work out if more scales are needed, and generate them accordingly, appending them to the empty `scale` variable
-    for(i=0; i<numTimes; i++) {
+    for(i=0; i<=numTimes; i++) {
       newScale = Scale.notes(`${rootNote}${String(parseInt(octave)+i)} ${key}`);
       scale = scale.concat(newScale);
     }
@@ -91,7 +42,6 @@ const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote =
   return(indexedScale)
 }
 
-console.log(generateScaleArray());
 
 
 //Function to permute available notes
@@ -110,21 +60,21 @@ const createOffsetArray = (createOffset = [false], offsetNumber = [0,0,0,0,0,0,0
 }
 
 //for loop to generate an array of permutation classes. This should be a function in itself so that it can be refreshed if needs be.
-const generateVoices = (numberOfVoices) => {
+const generateVoices = (numberOfVoices, arrayOfNotes, initialIteration) => {
   let voicesArray = [];
   let i=0;
-  const notePermutations = permuteNotes(noteArray);
+  const notePermutations = permuteNotes(arrayOfNotes);
   for (i=0; i<numberOfVoices; i++) {
     voicesArray.push(new NoteInfoGenerator(notePermutations, initialIteration));
   }
   return voicesArray
 }
 
+const arrayNoteNames = generateScaleArray(noteArray)
 //generate an array of synths to be used
-const voiceArray = generateVoices(numberOfVoices)
+const voiceArray = generateVoices(numberOfVoices, arrayNoteNames, initialIteration)
 
-
-
+console.log("voice array: ",voiceArray)
 /*
 *
 *
@@ -146,10 +96,7 @@ const stage = new Konva.Stage({
 
 const layer = new Konva.Layer();
 
-console.log(stage);
-
 let availableRects = [];
-//TODO: adapt this to spawn dynamically
 
 let i;
 for(i=0; i<totalRects; i++){
@@ -161,7 +108,6 @@ for(i=0; i<totalRects; i++){
     fill: blockColour,
   opacity: 0.2}))
 }
-console.log(availableRects);
 
 //A for loop to create rectangles and add tweening animations to them.
 for (i=0; i<totalRects; i++) {
@@ -180,7 +126,6 @@ for (i=0; i<totalRects; i++) {
      availableRects[index].tween.reverse()
    }
  })
-console.log("tween added to index", index);
 }
 
  // this now works with the above function
@@ -198,20 +143,23 @@ return (
     //an array of offsets
     const offsets = createOffsetArray(offsetsOn, offsetNumbers)
     //a map function which plays the note of every index of array of SJT classes and then returns them.
+    //TODO: Why do we need this? It's called MIDINoteArray, but that's probably not necessary.
+    //TODO: Rewrite this.
     const midiNoteArray = voiceArray.map((data,i) => {
       voiceArray[i].playNote();
-      return(Tone.Frequency(data.note+offsets[i],"midi"))
+      //Old return which returns this as a frequency - Used for converting MIDI only.
+      /*
+      return(Tone.Frequency(data.note))
+      */
+      return(data.note)
     })
-    synth.triggerAttackRelease(midiNoteArray,noteLength);
-
-    console.log(voiceArray[0].generationIndex)
+    synth.triggerAttackRelease(midiNoteArray[0], noteLength)
     /*
-
     An extremely ugly function which uses the current note playing and plots it
     against the original voice array to determine which note of the original voice array
     is playing. this is used to visualise the playing of each particular note
     */
-    availableRects[noteArray.indexOf(voiceArray[0].note)].tween.play()
+    availableRects[arrayNoteNames.indexOf(voiceArray[0].note)].tween.play();
     /*
     //UNCOMMENT THIS FOR DEBUGGING
     console.log(voiceArray[0], offsets);
