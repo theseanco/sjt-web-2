@@ -9,7 +9,7 @@ import Konva from 'konva';
 
 
 //callback function added in order to pass information out of scope
-const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '8n', callback) => {
+const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '8n', /*elementName = "konva-test",*/ callback) => {
 
 var synth = new Tone.PolySynth().toMaster();
 let numberOfVoices = 1;
@@ -90,50 +90,28 @@ for (i=0; i<totalRects; i++) {
   layer.add(availableRects[i])
   }
 
-  /*
-  TODO: This for loop doesn't work, why?
-for (i=0; i<totalRects; i++) {
-   availableRects[i].tween = new Konva.Tween({
-  node: availableRects[i],
-  opacity: 1,
-  easing: Konva.Easings.EaseOut,
-  duration: 0.1,
-  onFinish: function() {
-   availableRects[i].tween.reverse()
-  }
-})
+  //a function to add a tween to a square. This needed to be created in order to get availableRects correctly assigned.
+  //This could do with being refactored as it's quite messy.
+  const addTween = (index, availableRects) => {
+    availableRects[index].tween = new Konva.Tween({
+    node: availableRects[index],
+    opacity: 1,
+    easing: Konva.Easings.EaseOut,
+    duration: 0.1,
+    onFinish: function() {
+     availableRects[index].tween.reverse()
+   }
+ })
+console.log("tween added to index", index);
 }
-*/
 
-//TODO: THIS ONLY WORKS FOR TWO INDICES, WHY?
-availableRects[0].tween = new Konva.Tween({
-  node: availableRects[0],
-  opacity: 1,
-  easing: Konva.Easings.EaseOut,
-  duration: 0.5,
-  onFinish: function() {
-    availableRects[0].tween.reverse()
-  }
-})
-
-availableRects[1].tween = new Konva.Tween({
-  node: availableRects[1],
-  opacity: 1,
-  easing: Konva.Easings.EaseOut,
-  duration: 0.5,
-  onFinish: function() {
-    availableRects[1].tween.reverse()
-  }
-})
-
-
-/*
+ // this now works with the above function
+ // TODO: Refactor this, it's dependent on side-effects and is quite messy
 for (i=0; i<totalRects; i++) {
-  layer.add(availableRects[i])
+  addTween(i,availableRects);
 }
-*/
+
 stage.add(layer);
-
 
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
