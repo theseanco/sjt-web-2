@@ -9,7 +9,22 @@ import {transpose, Scale} from 'tonal';
 
 //callback function added in order to pass information out of scope that allows animation
 //After the callback there are attributes which will determine the colour of block to animate
-const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF") => {
+/*
+
+noteArray = Array of indices inputted at the start
+offsetsOn = Not sure if this is needed
+offsetNumbers = Not sure if this is needed
+initialIteration = Initial note number. Not sure if this is needed
+noteLength = Length of the notes fed to createAttackRelease
+callback = function used to pass data out of this component and be read by the SJTUnit component
+elementName = id of div to create konva canvas onto
+blockColour = colour of blocks to be drawn behind the SJTUnit informarion
+scaleRootNote = Root note of scale to be used in Tonal scale generation (where previously indices were used)
+scaleKey = Key of scale to be used in Tonal scale generation
+scaleOctabe = Octave of scale to be used in Tonal scale generation
+
+*/
+const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF", scaleRootNote = "C", scaleKey="minor", scaleOctave="4") => {
 
 var synth = new Tone.PolySynth().toMaster();
 let numberOfVoices = 1;
