@@ -85,7 +85,7 @@ const generateVoices = (numberOfVoices, arrayOfNotes, initialIteration) => {
   return voicesArray
 }
 
-const arrayNoteNames = generateScaleArray(noteArray)
+const arrayNoteNames = generateScaleArray(noteArray, scaleKey, scaleRootNote, scaleOctave)
 //generate an array of synths to be used
 const voiceArray = generateVoices(numberOfVoices, arrayNoteNames, initialIteration)
 
@@ -155,17 +155,11 @@ stage.add(layer);
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (
   [new Tone.Loop(function(time){
-    //an array of offsets
-    const offsets = createOffsetArray(offsetsOn, offsetNumbers)
     //a map function which plays the note of every index of array of SJT classes and then returns them.
     //TODO: Why do we need this? It's called MIDINoteArray, but that's probably not necessary.
     //TODO: Rewrite this.
     const midiNoteArray = voiceArray.map((data,i) => {
       voiceArray[i].playNote();
-      //Old return which returns this as a frequency - Used for converting MIDI only.
-      /*
-      return(Tone.Frequency(data.note))
-      */
       return(data.note)
     })
     synth.triggerAttackRelease(midiNoteArray[0], noteLength)

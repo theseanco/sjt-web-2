@@ -11,6 +11,8 @@ This component returns a div that has:
 This needs to broken out into components.
 
 TODO: A function to set default loop state
+TODO: REMOVING OLD ARGUMENTS FROM SETTING THE LOOP STATE
+TODO: condense event handler arguments down to one function. This would be done by parsing information from e.target and filing these through a conditional statement
 
 */
 
@@ -45,7 +47,10 @@ class SJTUnit extends React.Component {
         offsetsOn: [true],
         offsetNumbers: [50],
         initialIteration: 0,
-        noteLength: "4n"
+        noteLength: "4n",
+        rooteNote: "C",
+        scaleKey: "minor",
+        octave: 4
       },
       //This will be added as a string then converted into noteArray on creation
       noteArrayString: "",
@@ -76,6 +81,7 @@ class SJTUnit extends React.Component {
     this.setState({loopPlaying: true})
   }
 
+  /*
   //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares, old version where noteArray is designed to take an array
   createLoop_old = (stuff = {
     noteArray: [0,2,5,7,12],
@@ -95,7 +101,8 @@ class SJTUnit extends React.Component {
       stuff.noteLength
     )
   )
-  }
+}*/
+
 
   //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares, old version.
   createLoop = (stuff = {
@@ -127,6 +134,11 @@ class SJTUnit extends React.Component {
       },
       //element name
       this.props.konvaIdName,
+      //blockColour
+      '#FFFFFF',
+      stuff.rootNote,
+      stuff.scaleKey,
+      stuff.octave
     )
   )
   }
@@ -188,10 +200,45 @@ class SJTUnit extends React.Component {
   )
   }
 
-  //THIS NEEDS TO BE DONE DYNAMICALLY
+  setRoot = (e) => {
+    const rootNote = e.target.value;
+    this.setState(prevState => ({
+      loopState: {
+        ...prevState.loopState,
+        rootNote: rootNote
+      }
+    })
+  )
+  }
 
+  setScaleKey = (e) => {
+    const scaleKey = e.target.value;
+    this.setState(prevState => ({
+      loopState: {
+        ...prevState.loopState,
+        scaleKey: scaleKey
+      }
+    })
+  )
+  }
 
-//	  Tone.Transport.start();
+  setOctave = (e) => {
+    const octave = e.target.value;
+    this.setState(prevState => ({
+      loopState: {
+        ...prevState.loopState,
+        octave: octave
+      }
+    })
+  )
+  }
+
+          /*
+          rooteNote: "C",
+        scaleKey: "minor",
+        octave: 4
+        */
+
   render() {
     let buttons, loop;
 
@@ -231,13 +278,40 @@ class SJTUnit extends React.Component {
 
         <div className="dataInputUnit center-contents">
           <label>
-            initial MIDI note: {this.state.loopState.offsetNumbers[0]}
-            <Slider
-              onChange={this.setInitialOffset}
-              min={30}
-              max={90}
-              value={this.state.loopState.offsetNumbers[0]}
-              tooltip={false}/>
+            Scale Root:
+            <select defaultValue="C" onChange={this.setRoot}>
+              <option value="A">A</option>
+              <option value="Bb">Bb</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="C#">C#</option>
+              <option value="D">D</option>
+              <option value="Eb">Eb</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="F#">F#</option>
+              <option value="G">G</option>
+              <option value="G#">G#</option>
+            </select>
+          </label>
+          <label>
+            Octave:
+            <select defaultValue="4" onChange={this.setOctave}>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </label>
+          <label>
+            Key:
+            <select defaultValue="minor" onChange={this.setScaleKey}>
+              <option value="major">Major</option>
+              <option value="minor">Minor</option>
+              <option value="mixolydian">Mixolydian</option>
+              <option value="chromatic">Chromatic</option>
+            </select>
           </label>
         </div>
 
