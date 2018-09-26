@@ -1,5 +1,7 @@
 
 //TODO: Clean up TestScaleArray, call it something else
+//TODO: Chromatic scale doesn't work.
+//TODO: Refactor this to remove all old code from previous versions
 //Class for generating notes
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
 import Tone from 'tone';

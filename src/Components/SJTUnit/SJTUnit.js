@@ -12,7 +12,7 @@ This needs to broken out into components.
 
 TODO: A function to set default loop state
 TODO: REMOVING OLD ARGUMENTS FROM SETTING THE LOOP STATE
-TODO: condense event handler arguments down to one function. This would be done by parsing information from e.target and filing these through a conditional statement
+TODO: condense event handler arguments down to one function. This would be done by parsing information from e.target and filing these through a conditional statement. This is done by assigning an id to each selector and using e.target.id and maybe a switch statement to organise by case
 
 */
 
@@ -233,6 +233,61 @@ class SJTUnit extends React.Component {
   )
   }
 
+  eventHandler = (e) => {
+    const eventId = e.target.id;
+    const eventValue = e.target.value;
+    //A holder for stateKey so that the writeToState function can be called at the end of the function rather than for each case
+    let stateKey;
+    let modifier = false;
+
+    //function to print returned value
+    //For setting state, this should be replaced with a function which aps the previous state onto the current state and sets it based on a conditional (switch) which determines the state key that will be changed with the resulting value.
+    const returnValues = (string, id, val) => {
+      console.log(string, id,val)
+    }
+
+    //TODO: This doesn't work, why?
+    const writeToState = (stateKey, valueToWrite) => {
+      //
+      this.setState(prevState => ({
+        loopState: {
+        ...prevState.loopState,
+        //writes state key and value to previous loopState value
+        [stateKey]: valueToWrite
+      }
+      }))
+    }
+
+    switch(eventId) {
+      case "scaleKey":
+        returnValues("Key:", eventId, eventValue);
+        stateKey = "scaleKey";
+        writeToState(stateKey, eventValue)
+        break;
+      case "scaleOctave":
+        returnValues("Octaves:", eventId, eventValue);
+        stateKey = "octave"
+        writeToState(stateKey, eventValue)
+        break;
+      case "scaleRoot":
+        returnValues("Root:", eventId, eventValue);
+        stateKey = "rootNote"
+        writeToState(stateKey, eventValue)
+        break;
+      case "noteLength":
+        returnValues("Length:", eventId, eventValue);
+        stateKey = "noteLength"
+        writeToState(stateKey, eventValue)
+        break;
+      case "scaleIndices":
+        returnValues("Indices: ", eventId, eventValue);
+        this.setState({noteArrayString: eventValue});
+        break;
+    }
+
+  }
+
+
           /*
           rooteNote: "C",
         scaleKey: "minor",
@@ -272,14 +327,14 @@ class SJTUnit extends React.Component {
           <div className="dataInputUnit center-contents">
           <label>
             Scale Indices:
-            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.setIndices} />
+            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.eventHandler} id="scaleIndices" />
           </label>
         </div>
 
         <div className="dataInputUnit center-contents">
           <label>
             Scale Root:
-            <select defaultValue="C" onChange={this.setRoot}>
+            <select defaultValue="C" onChange={/*this.setRoot*/ this.eventHandler} id="scaleRoot">
               <option value="A">A</option>
               <option value="Bb">Bb</option>
               <option value="B">B</option>
@@ -296,7 +351,7 @@ class SJTUnit extends React.Component {
           </label>
           <label>
             Octave:
-            <select defaultValue="4" onChange={this.setOctave}>
+            <select defaultValue="4" onChange={/*this.setOctave*/ this.eventHandler} id="scaleOctave">
               <option value="2">2</option>
               <option value="3">3</option>
               <option value="4">4</option>
@@ -306,7 +361,7 @@ class SJTUnit extends React.Component {
           </label>
           <label>
             Key:
-            <select defaultValue="minor" onChange={this.setScaleKey}>
+            <select defaultValue="minor" onChange={/*this.setScaleKey*/ this.eventHandler} id="scaleKey">
               <option value="major">Major</option>
               <option value="minor">Minor</option>
               <option value="mixolydian">Mixolydian</option>
@@ -318,7 +373,7 @@ class SJTUnit extends React.Component {
           <div className="dataInputUnit center-contents">
           <label>
           {`Note Duration:    `}
-            <select defaultValue="4n" onChange={this.setNoteLength}>
+            <select defaultValue="4n" onChange={/*this.setNoteLength*/ this.eventHandler} id="noteLength">
               <option value="2n" >2n</option>
               <option value="4n">4n</option>
               <option value="8n">8n</option>
@@ -326,6 +381,15 @@ class SJTUnit extends React.Component {
             </select>
           </label>
         </div>
+
+        <label>
+          EVENT HANDLER TEST
+            <select defaultValue="event" onChange={this.eventHandler} id="doesthisshowup">
+              <option value="one">one</option>
+              <option value="foo">foo</option>
+              <option value="event">event</option>
+            </select>
+        </label>
 
           <div className="dataInputUnit center-contents flow-table">
           <a className="SJTUnitButton center-contents" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</a>
