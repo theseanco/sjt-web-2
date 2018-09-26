@@ -58,7 +58,9 @@ class SJTUnit extends React.Component {
         note: 0,
         noteArray: [0,0,0],
         scaleSize: 5
-      }
+      },
+      //updated scale information sent from createSquaresNotes
+      scaleInfo: ["C"],
     }
   }
 
@@ -102,7 +104,17 @@ class SJTUnit extends React.Component {
     //this splits the array, then converts the whole array to integers
     const newNoteString = noteString.split(" ")
     const intNoteString = newNoteString.map(x => parseInt(x, 10));
-    const processedNotes = intNoteString.filter(data => Number.isInteger(data))
+    /*
+    Processes the notes: Checks if:
+    - Rejects strings
+    - Rejects negative integers
+    - Rejects integers over 30
+    */
+    const processedNotes = intNoteString.filter((data) => {
+      if (Number.isInteger(data) && data >= 0 && data < 30) {
+        return true
+      }
+    })
     console.log(processedNotes)
 
     return(
@@ -112,8 +124,8 @@ class SJTUnit extends React.Component {
       stuff.noteLength,
       //callback function that handles data
       (data) => {
-        //TODO: Delete this.
-        this.setState({loopData: data})
+        //an array is put out through the callback function. One will be the loop data and on
+        this.setState({loopData: data});
       },
       //element name
       this.props.konvaIdName,
@@ -185,13 +197,6 @@ class SJTUnit extends React.Component {
 
   }
 
-
-          /*
-          rooteNote: "C",
-        scaleKey: "minor",
-        octave: 4
-        */
-
   render() {
     let buttons ;
 
@@ -211,7 +216,7 @@ class SJTUnit extends React.Component {
       </div>
         <div className="loopInformation">
           <span>Note: {this.state.loopData.note}</span>
-          <span>Scale: {String(this.state.loopData.noteArray[0])}</span>
+          <span>Scale: {String(this.state.loopData.initialScaleNoteNames)}</span>
           <span>Note Number: {this.state.loopData.iterator}</span>
           <span>Generation: {`${this.state.loopData.generation+1}/${this.state.loopData.noteArray.length}`}</span>
           <span>Total Number of Notes: {this.state.loopData.maxIndex}</span>
@@ -225,7 +230,7 @@ class SJTUnit extends React.Component {
           <div className="dataInputUnit center-contents">
           <label>
             Scale Indices:
-            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.eventHandler} id="scaleIndices" />
+            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.eventHandler} id="scaleIndices" pattern="(\d{1,2}\s){1,6}"/>
           </label>
         </div>
 

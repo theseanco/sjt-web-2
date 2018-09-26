@@ -61,18 +61,24 @@ const permuteNotes = (notesToPermute) => {
   return permute.all(notesToPermute)
 }
 
-
-//TODO: Make this permutation function possibly generate two arrays which can be cross-referenced in parallel to generate correct visuals. 
+//TODO: Make this permutation function possibly generate two arrays which can be cross-referenced in parallel to generate correct visuals.
+//USE A SJT ARRAY AND THEN JUST USE THAT TO REFERENCE THE ARRAY SOMEHOW.
+//This function generates a SEQUENTIAL ARRAY, and then performs STEINHAUS-JOHNSON-TROTTER on it.
+//This will then be cross-referenced against an array of note values to play them, as well as used as direct reference to trigger visuals
 const generateSynthVoice = (arrayOfNotes, initialIteration) => {
-  const notePermutations = permuteNotes(arrayOfNotes);
+  const incrementalArray = arrayOfNotes.map((data,i) => i)
+  const notePermutations = permuteNotes(incrementalArray);
   const player = new NoteInfoGenerator(notePermutations, initialIteration);
   return player
 }
 
-//TODO: This could be abstracted out into a function
+//This generates an array of note names. These will be referenced within the tonejs timing loop
 const arrayNoteNames = generateScaleArray(noteArray, scaleKey, scaleRootNote, scaleOctave)
 //generate an array of synths to be used
-const synthVoice = generateSynthVoice(arrayNoteNames, initialIteration)
+let synthVoice = generateSynthVoice(arrayNoteNames, initialIteration)
+//add the initial scale by  note name to the SynthVoice object
+synthVoice.initialScaleNoteNames = noteArray.map((data, i) => arrayNoteNames[i])
+
 
 const konvaWidth = document.getElementById(elementName).offsetWidth;
 const konvaHeight = document.getElementById(elementName).offsetHeight;
@@ -86,6 +92,7 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 
 let availableRects = [];
+
 
 //THIS IS MESSY - Needs to be abstracted out into a function.
 
@@ -132,16 +139,13 @@ callback(synthVoice);
 return (
   [new Tone.Loop(function(time){
     synthVoice.playNote();
-    synth.triggerAttackRelease(synthVoice.note, noteLength)
-    /*
-    An extremely ugly function which uses the current note playing and plots it
-    against the original voice array to determine which note of the original voice array
-    is playing. this is used to visualise the playing of each particular note
-    */
-    availableRects[arrayNoteNames.indexOf(synthVoice.note)].tween.play();
+    //uses the master SJT array to refer to notes by index against an array of note names generated earlier.
+    synth.triggerAttackRelease(arrayNoteNames[synthVoice.note], noteLength)
+    availableRects[synthVoice.note].tween.play();
     //console log synthVoice for debugging if needed
+    synthVoice.note = arrayNoteNames[synthVoice.note];
     callback(synthVoice)
-}, noteLength) , synthVoice]
+}, noteLength), synthVoice]
 )
 }
 

@@ -16,17 +16,20 @@ import './sliderstyles.css'
 
 TODO:
 
+- Input formatting: This can be done by using a regex.
+- The correct regex is: (\d{1,2}\s){1,6}
 
 SCALES:
 - Make a 'normal' and 'advanced' mode dropdown.
   - Normal has major/minor/chromatic, octave
   - Advanced has a whole bunch more, octave, transposition.
 
+- Currently all negative integers are rejected. These could be accepted.
+- createSquaresNotes and SJTUnit need rewriting, they're getting very messy
 - Mute doesn't work
-- Change of tempo can stop loops working for some reason.
-- Because visual blocks are currently generated based on matching the contents of array indices, any array which has two matching numbers will just get mashed and the first similar note will light up, instead of
-- errors with multiple of the same values on input
-- Input formatting
+x Change of tempo can stop loops working for some reason.
+  - Some loops will inexplicably not work.
+  - THIS COULD BE SOLVED BY MAKING TEMPO CHANGES ONLY HAPPEN ON RELEASE
 */
 
 //This works to stop the transport
