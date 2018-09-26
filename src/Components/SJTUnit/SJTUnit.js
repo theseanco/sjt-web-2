@@ -104,7 +104,17 @@ class SJTUnit extends React.Component {
     //this splits the array, then converts the whole array to integers
     const newNoteString = noteString.split(" ")
     const intNoteString = newNoteString.map(x => parseInt(x, 10));
-    const processedNotes = intNoteString.filter(data => Number.isInteger(data))
+    /*
+    Processes the notes: Checks if:
+    - Rejects strings
+    - Rejects negative integers
+    - Rejects integers over 30
+    */
+    const processedNotes = intNoteString.filter((data) => {
+      if (Number.isInteger(data) && data >= 0 && data < 30) {
+        return true
+      }
+    })
     console.log(processedNotes)
 
     return(
@@ -220,7 +230,7 @@ class SJTUnit extends React.Component {
           <div className="dataInputUnit center-contents">
           <label>
             Scale Indices:
-            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.eventHandler} id="scaleIndices" />
+            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.eventHandler} id="scaleIndices" pattern="(\d{1,2}\s){1,6}"/>
           </label>
         </div>
 
