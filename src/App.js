@@ -23,7 +23,8 @@ SCALES:
   - Advanced has a whole bunch more, octave, transposition.
 
 - Mute doesn't work
-- Change of tempo can stop loops working for some reason.
+x Change of tempo can stop loops working for some reason.
+  - Some loops will inexplicably not work.
 - Because visual blocks are currently generated based on matching the contents of array indices, any array which has two matching numbers will just get mashed and the first similar note will light up, instead of
 - errors with multiple of the same values on input
 - Input formatting
