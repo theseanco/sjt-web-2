@@ -2,13 +2,6 @@
 
 A class that handles iterating over array indexes of the Steinhaus-Johnson-Trotter algorithm
 
-it needs:
-
-- iterator
-- generation of pattern being played
-- Number within pattern
-- Note to be played
-
 */
 
 export default class NoteInfoGenerator {
@@ -62,7 +55,7 @@ export default class NoteInfoGenerator {
     this.generationIndex = this.iterator%this.scaleSize;
     this.note = this.noteArray[this.generation][this.generationIndex]
 
-    //return all of the relevant information to be used later on by the visuals side. 
+    //return all of the relevant information to be used later on by the visuals side.
     return {
       iteration: this.iterator,
       generation: this.generation,

@@ -141,27 +141,6 @@ class SJTUnit extends React.Component {
   )
   }
 
-  setInitialOffset = (e) => {
-    let offsetEvent;
-    if (typeof(e) === 'object') {
-      //parse the target value object
-      offsetEvent = parseInt(e.target.value)
-    } else if (typeof(e) === 'number') {
-      //directly assign the target value object
-      offsetEvent = parseInt(e)
-    }
-    //using this method to inherit object properties  https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react
-    this.setState(prevState => ({
-      loopState: {
-        ...prevState.loopState,
-        offsetNumbers: [offsetEvent]
-      }
-    })
-  )
-  }
-
-
-
   eventHandler = (e) => {
     const eventId = e.target.id;
     const eventValue = e.target.value;

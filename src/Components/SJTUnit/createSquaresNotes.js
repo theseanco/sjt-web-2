@@ -1,7 +1,5 @@
 
-//TODO: Clean up TestScaleArray, call it something else
 //TODO: Chromatic scale doesn't work.
-//TODO: Refactor this to remove all old code from previous versions
 //Class for generating notes
 import NoteInfoGenerator from "./NoteInfoGenerator.js";
 import Tone from 'tone';
@@ -14,8 +12,6 @@ import {transpose, Scale} from 'tonal';
 /*
 
 noteArray = Array of indices inputted at the start
-offsetsOn = Not sure if this is needed
-offsetNumbers = Not sure if this is needed
 initialIteration = Initial note number. Not sure if this is needed
 noteLength = Length of the notes fed to createAttackRelease
 callback = function used to pass data out of this component and be read by the SJTUnit component
@@ -76,22 +72,16 @@ const createOffsetArray = (createOffset = [false], offsetNumber = [0,0,0,0,0,0,0
   return offsetArray
 }
 
-//for loop to generate an array of permutation classes. This should be a function in itself so that it can be refreshed if needs be.
-const generateVoices = (numberOfVoices, arrayOfNotes, initialIteration) => {
-  let voicesArray = [];
-  let i=0;
+const generateSynthVoice = (arrayOfNotes, initialIteration) => {
   const notePermutations = permuteNotes(arrayOfNotes);
-  for (i=0; i<numberOfVoices; i++) {
-    voicesArray.push(new NoteInfoGenerator(notePermutations, initialIteration));
-  }
-  return voicesArray
+  const player = new NoteInfoGenerator(notePermutations, initialIteration);
+  return player
 }
 
+//TODO: This could be abstracted out into a function
 const arrayNoteNames = generateScaleArray(noteArray, scaleKey, scaleRootNote, scaleOctave)
 //generate an array of synths to be used
-const voiceArray = generateVoices(numberOfVoices, arrayNoteNames, initialIteration)
-
-console.log("voice array: ",voiceArray)
+const synthVoice = generateSynthVoice(arrayNoteNames, initialIteration)
 
 const konvaWidth = document.getElementById(elementName).offsetWidth;
 const konvaHeight = document.getElementById(elementName).offsetHeight;
@@ -105,6 +95,8 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 
 let availableRects = [];
+
+//THIS IS MESSY - Needs to be abstracted out into a function.
 
 let i;
 for(i=0; i<totalRects; i++){
@@ -143,34 +135,22 @@ for (i=0; i<totalRects; i++) {
 }
 
 stage.add(layer);
-callback(voiceArray[0]);
-
+callback(synthVoice);
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (
   [new Tone.Loop(function(time){
-    //a map function which plays the note of every index of array of SJT classes and then returns them.
-    //TODO: Why do we need this? It's called MIDINoteArray, but that's probably not necessary.
-    //TODO: Rewrite this.
-    const midiNoteArray = voiceArray.map((data,i) => {
-      voiceArray[i].playNote();
-      return(data.note)
-    })
-    console.log(voiceArray);
-    synth.triggerAttackRelease(midiNoteArray[0], noteLength)
+    synthVoice.playNote();
+    synth.triggerAttackRelease(synthVoice.note, noteLength)
     /*
     An extremely ugly function which uses the current note playing and plots it
     against the original voice array to determine which note of the original voice array
     is playing. this is used to visualise the playing of each particular note
     */
-    availableRects[arrayNoteNames.indexOf(voiceArray[0].note)].tween.play();
-    /*
-    //UNCOMMENT THIS FOR DEBUGGING
-    console.log(voiceArray[0], offsets);
-    */
-    callback(voiceArray[0])
-
-}, noteLength) , voiceArray[0]]
+    availableRects[arrayNoteNames.indexOf(synthVoice.note)].tween.play();
+    //console log synthVoice for debugging if needed
+    callback(synthVoice)
+}, noteLength) , synthVoice]
 )
 }
 
