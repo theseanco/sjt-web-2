@@ -75,7 +75,6 @@ class SJTUnit extends React.Component {
       //This will be added as a string then converted into noteArray on creation
       noteArrayString: "0 4 7"
     })
-    console.log("loop state reset")
   }
 
   loopStop = (loop) => {
@@ -89,6 +88,7 @@ class SJTUnit extends React.Component {
   }
 
   //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares, old version.
+  //TODO: See if this can interrupt processing and re-spawn the input field
   createLoop = (stuff = {
     noteArray: [0,2,5,7,12],
     initialIteration: 0,
@@ -101,7 +101,9 @@ class SJTUnit extends React.Component {
 
     //this splits the array, then converts the whole array to integers
     const newNoteString = noteString.split(" ")
-    const processedNotes = newNoteString.map(x => parseInt(x, 10));
+    const intNoteString = newNoteString.map(x => parseInt(x, 10));
+    const processedNotes = intNoteString.filter(data => Number.isInteger(data))
+    console.log(processedNotes)
 
     return(
     createNotesAndSquares(
@@ -111,7 +113,6 @@ class SJTUnit extends React.Component {
       //callback function that handles data
       (data) => {
         //TODO: Delete this.
-        console.log(data)
         this.setState({loopData: data})
       },
       //element name
@@ -146,12 +147,6 @@ class SJTUnit extends React.Component {
     //A holder for stateKey so that the writeToState function can be called at the end of the function rather than for each case
     let stateKey;
 
-    //function to print returned value
-    //For setting state, this should be replaced with a function which aps the previous state onto the current state and sets it based on a conditional (switch) which determines the state key that will be changed with the resulting value.
-    const returnValues = (string, id, val) => {
-      console.log(string, id,val)
-    }
-
     //TODO: This doesn't work, why?
     const writeToState = (stateKey, valueToWrite) => {
       //
@@ -166,27 +161,22 @@ class SJTUnit extends React.Component {
 
     switch(eventId) {
       case "scaleKey":
-        returnValues("Key:", eventId, eventValue);
         stateKey = "scaleKey";
         writeToState(stateKey, eventValue)
         break;
       case "scaleOctave":
-        returnValues("Octaves:", eventId, eventValue);
         stateKey = "octave"
         writeToState(stateKey, eventValue)
         break;
       case "scaleRoot":
-        returnValues("Root:", eventId, eventValue);
         stateKey = "rootNote"
         writeToState(stateKey, eventValue)
         break;
       case "noteLength":
-        returnValues("Length:", eventId, eventValue);
         stateKey = "noteLength"
         writeToState(stateKey, eventValue)
         break;
       case "scaleIndices":
-        returnValues("Indices: ", eventId, eventValue);
         this.setState({noteArrayString: eventValue});
         break;
       default:

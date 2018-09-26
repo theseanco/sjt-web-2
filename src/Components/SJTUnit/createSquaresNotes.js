@@ -62,6 +62,7 @@ const permuteNotes = (notesToPermute) => {
 }
 
 
+//TODO: Make this permutation function possibly generate two arrays which can be cross-referenced in parallel to generate correct visuals. 
 const generateSynthVoice = (arrayOfNotes, initialIteration) => {
   const notePermutations = permuteNotes(arrayOfNotes);
   const player = new NoteInfoGenerator(notePermutations, initialIteration);

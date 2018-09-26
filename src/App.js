@@ -18,30 +18,20 @@ TODO:
 
 
 SCALES:
-- Make a scale selector dropdown
-- Make parallel octave and transposition sliders
 - Make a 'normal' and 'advanced' mode dropdown.
   - Normal has major/minor/chromatic, octave
   - Advanced has a whole bunch more, octave, transposition.
 
 - Mute doesn't work
+- Change of tempo can stop loops working for some reason.
+- Because visual blocks are currently generated based on matching the contents of array indices, any array which has two matching numbers will just get mashed and the first similar note will light up, instead of
 - errors with multiple of the same values on input
 - Input formatting
-- refresh loop information on first creation.
-*/
-
-/*
-//This works to start the transport
-const stopPlaying = () => {
-  Tone.Transport.stop();
-  console.log("stopped")
-}
 */
 
 //This works to stop the transport
 const startPlaying = () => {
   Tone.Transport.start("+0.1");
-  console.log("started")
 }
 
 /*
@@ -50,7 +40,7 @@ A default tempo value.
 TODO: Perhaps this isn't the best way to do this, starting with a hardcoded value, but it works for now.
 */
 //Some values that are used in tempo and bpm calculation
-const defaultTempo = 100;
+const defaultTempo = 60;
 const defaultVolume = -3;
 const minVolume = -40;
 
@@ -152,11 +142,9 @@ class App extends Component {
     }
     if (isFinite(volumeValue)) {
       if (parseInt(volumeValue, 10) === minVolume) {
-        console.log("muted")
         Tone.Master.mute = true
         this.setState({muted: true})
       } else if (parseInt(volumeValue, 10) !== minVolume && this.state.muted === true) {
-        console.log("unmuted")
         Tone.Master.mute = false;
         this.setState({muted: false});
       }
@@ -217,8 +205,8 @@ class App extends Component {
         value={this.state.tempoValue}
         orientation="horizontal"
         onChange={value => this.setBpm(value)}
-        min={60}
-        max={160}
+        min={40}
+        max={100}
         tooltip={false}
       />
         </div>
