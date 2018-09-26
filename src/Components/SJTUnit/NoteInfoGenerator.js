@@ -51,7 +51,7 @@ export default class NoteInfoGenerator {
   getNoteInfo() {
 
     //get size of scale and use it to work out how many generations have elapsed
-    this.generation = parseInt(this.iterator/this.scaleSize);
+    this.generation = parseInt(this.iterator/this.scaleSize, 10);
     this.generationIndex = this.iterator%this.scaleSize;
     this.note = this.noteArray[this.generation][this.generationIndex]
 

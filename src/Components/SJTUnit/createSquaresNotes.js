@@ -5,7 +5,7 @@ import NoteInfoGenerator from "./NoteInfoGenerator.js";
 import Tone from 'tone';
 import permute from './SJT.js';
 import Konva from 'konva';
-import {transpose, Scale} from 'tonal';
+import {Scale} from 'tonal';
 
 //callback function added in order to pass information out of scope that allows animation
 //After the callback there are attributes which will determine the colour of block to animate
@@ -25,7 +25,6 @@ scaleOctabe = Octave of scale to be used in Tonal scale generation
 const creatorFunction = (noteArray = [0,3,7,12], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF", scaleRootNote = "C", scaleKey="minor", scaleOctave="4") => {
 
 var synth = new Tone.PolySynth().toMaster();
-let numberOfVoices = 1;
 const totalRects = noteArray.length;
 
 //Function to turn a degree list, key, root note and octave into a sorted array of notes.
@@ -46,7 +45,7 @@ const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote =
     let newScale;
     //Work out if more scales are needed, and generate them accordingly, appending them to the empty `scale` variable
     for(i=0; i<=numTimes; i++) {
-      newScale = Scale.notes(`${rootNote}${String(parseInt(octave)+i)} ${key}`);
+      newScale = Scale.notes(`${rootNote}${String(parseInt(octave, 10)+i)} ${key}`);
       scale = scale.concat(newScale);
     }
   }
@@ -62,15 +61,6 @@ const permuteNotes = (notesToPermute) => {
   return permute.all(notesToPermute)
 }
 
-const createOffsetArray = (createOffset = [false], offsetNumber = [0,0,0,0,0,0,0]) => {
-  let offsetArray = [];
-  const createoffsetArray = createOffset.map((data,i) => {
-    if (data) {
-      offsetNumber[i] == null ? offsetArray.push(0) : offsetArray.push(offsetNumber[i])
-    }
-  })
-  return offsetArray
-}
 
 const generateSynthVoice = (arrayOfNotes, initialIteration) => {
   const notePermutations = permuteNotes(arrayOfNotes);

@@ -6,7 +6,6 @@ import './stylesheet.css'
 import './buttons.css'
 //components
 import SJTUnit from "./Components/SJTUnit/SJTUnit"
-import PlayPause from "./Components/PlayPause/PlayPause"
 import Tone from 'tone'
 //Import enhanced range slider
 import Slider from 'react-rangeslider'
@@ -31,11 +30,13 @@ SCALES:
 - refresh loop information on first creation.
 */
 
+/*
 //This works to start the transport
 const stopPlaying = () => {
   Tone.Transport.stop();
   console.log("stopped")
 }
+*/
 
 //This works to stop the transport
 const startPlaying = () => {
@@ -115,10 +116,10 @@ class App extends Component {
     let tempoValue;
     if (typeof(e) === 'object') {
       //parse the target value object
-      tempoValue = parseInt(e.target.value)
+      tempoValue = parseInt(e.target.value, 10)
     } else if (typeof(e) === 'number') {
       //directly assign the target value object
-      tempoValue = parseInt(e)
+      tempoValue = parseInt(e, 10)
     }
     const currentState = this.state.tempoValue;
     const difference = Math.abs(tempoValue - currentState);
@@ -147,14 +148,14 @@ class App extends Component {
       volumeValue = parseFloat(e.target.value)
     } else if (typeof(e) === 'number') {
       //directly assign the target value object
-      volumeValue = parseFloat(e)
+      volumeValue = parseFloat(e, 10)
     }
     if (isFinite(volumeValue)) {
-      if (parseInt(volumeValue) === minVolume) {
+      if (parseInt(volumeValue, 10) === minVolume) {
         console.log("muted")
         Tone.Master.mute = true
         this.setState({muted: true})
-      } else if (parseInt(volumeValue) != minVolume && this.state.muted === true) {
+      } else if (parseInt(volumeValue, 10) !== minVolume && this.state.muted === true) {
         console.log("unmuted")
         Tone.Master.mute = false;
         this.setState({muted: false});
@@ -223,9 +224,8 @@ class App extends Component {
         </div>
         <div className="slider">
           <p className="sliderTitle">{`Volume: `}
-{parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))} </p>
+{parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]), 10)} </p>
           <Slider
-            value={this.state.volumeValue}
             orientation="horizontal"
             onChange={value => this.setVolume(value)}
             value={this.state.volume}

@@ -19,10 +19,8 @@ import React from 'react';
 import createNotesAndSquares from "./createSquaresNotes.js";
 //Steinhaus Johnson Trotter permutation algorithm
 import './SJT.js';
-import Tone from 'tone';
 //stylesheet for buttons
 import './SJTUnit_Styles.css';
-import Slider from 'react-rangeslider';
 import '../../sliderstyles.css';
 
 
@@ -103,7 +101,7 @@ class SJTUnit extends React.Component {
 
     //this splits the array, then converts the whole array to integers
     const newNoteString = noteString.split(" ")
-    const processedNotes = newNoteString.map(x => parseInt(x));
+    const processedNotes = newNoteString.map(x => parseInt(x, 10));
 
     return(
     createNotesAndSquares(
@@ -141,12 +139,12 @@ class SJTUnit extends React.Component {
   )
   }
 
+  //NOTE: This is dependent upon side-effects and could do with Redux integration
   eventHandler = (e) => {
     const eventId = e.target.id;
     const eventValue = e.target.value;
     //A holder for stateKey so that the writeToState function can be called at the end of the function rather than for each case
     let stateKey;
-    let modifier = false;
 
     //function to print returned value
     //For setting state, this should be replaced with a function which aps the previous state onto the current state and sets it based on a conditional (switch) which determines the state key that will be changed with the resulting value.
@@ -191,6 +189,8 @@ class SJTUnit extends React.Component {
         returnValues("Indices: ", eventId, eventValue);
         this.setState({noteArrayString: eventValue});
         break;
+      default:
+        return true;
     }
 
   }
@@ -203,7 +203,7 @@ class SJTUnit extends React.Component {
         */
 
   render() {
-    let buttons, loop;
+    let buttons ;
 
     if (this.state.loopCreated) {
       buttons = (
