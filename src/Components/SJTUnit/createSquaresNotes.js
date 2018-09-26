@@ -26,7 +26,7 @@ scaleKey = Key of scale to be used in Tonal scale generation
 scaleOctabe = Octave of scale to be used in Tonal scale generation
 
 */
-const creatorFunction = (noteArray = [0,3,7,12], offsetsOn = [true], offsetNumbers = [50], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF", scaleRootNote = "C", scaleKey="minor", scaleOctave="4") => {
+const creatorFunction = (noteArray = [0,3,7,12], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF", scaleRootNote = "C", scaleKey="minor", scaleOctave="4") => {
 
 var synth = new Tone.PolySynth().toMaster();
 let numberOfVoices = 1;
@@ -92,15 +92,6 @@ const arrayNoteNames = generateScaleArray(noteArray, scaleKey, scaleRootNote, sc
 const voiceArray = generateVoices(numberOfVoices, arrayNoteNames, initialIteration)
 
 console.log("voice array: ",voiceArray)
-/*
-*
-*
-* KONVA CODE STARTS HERE.
-*
-* initially attempted based on https://konvajs.github.io/docs/animations/Rotation.html
-*
-*
-*/
 
 const konvaWidth = document.getElementById(elementName).offsetWidth;
 const konvaHeight = document.getElementById(elementName).offsetHeight;
@@ -152,6 +143,7 @@ for (i=0; i<totalRects; i++) {
 }
 
 stage.add(layer);
+callback(voiceArray[0]);
 
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
@@ -164,6 +156,7 @@ return (
       voiceArray[i].playNote();
       return(data.note)
     })
+    console.log(voiceArray);
     synth.triggerAttackRelease(midiNoteArray[0], noteLength)
     /*
     An extremely ugly function which uses the current note playing and plots it

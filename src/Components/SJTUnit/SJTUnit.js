@@ -10,9 +10,6 @@ This component returns a div that has:
 
 This needs to broken out into components.
 
-TODO: A function to set default loop state
-TODO: REMOVING OLD ARGUMENTS FROM SETTING THE LOOP STATE
-TODO: condense event handler arguments down to one function. This would be done by parsing information from e.target and filing these through a conditional statement. This is done by assigning an id to each selector and using e.target.id and maybe a switch statement to organise by case
 
 */
 
@@ -44,8 +41,6 @@ class SJTUnit extends React.Component {
       //loopState is added in order to initialise values that will later be used to create a loop
       loopState: {
         noteArray: [0,2,3,5,7,12],
-        offsetsOn: [true],
-        offsetNumbers: [50],
         initialIteration: 0,
         noteLength: "4n",
         rooteNote: "C",
@@ -53,7 +48,7 @@ class SJTUnit extends React.Component {
         octave: 4
       },
       //This will be added as a string then converted into noteArray on creation
-      noteArrayString: "",
+      noteArrayString: "0 4 7",
       //Is the loop playing?
       loopPlaying: false,
       //placeholder for loop data fed out of createSquaresNotes callback function
@@ -69,7 +64,21 @@ class SJTUnit extends React.Component {
     }
   }
 
-
+  setDefaultLoopState = () => {
+    this.setState({
+      loopState: {
+        noteArray: [0,2,3,5,7,12],
+        initialIteration: 0,
+        noteLength: "4n",
+        rooteNote: "C",
+        scaleKey: "minor",
+        octave: 4
+      },
+      //This will be added as a string then converted into noteArray on creation
+      noteArrayString: "0 4 7"
+    })
+    console.log("loop state reset")
+  }
 
   loopStop = (loop) => {
     this.setState({loopPlaying: false})
@@ -81,36 +90,14 @@ class SJTUnit extends React.Component {
     this.setState({loopPlaying: true})
   }
 
-  /*
-  //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares, old version where noteArray is designed to take an array
-  createLoop_old = (stuff = {
-    noteArray: [0,2,5,7,12],
-    offsetsOn: [true],
-    offsetNumbers: [50],
-    initialIteration: 0,
-    noteLength: "4n"
-  }) => {
-    this.setState({loopCreated: true});
-    console.log("created")
-    return(
-    createNotesAndSquares(
-      stuff.noteArray,
-      stuff.offsetsOn,
-      stuff.offsetNumbers,
-      stuff.initialIteration,
-      stuff.noteLength
-    )
-  )
-}*/
-
-
   //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares, old version.
   createLoop = (stuff = {
     noteArray: [0,2,5,7,12],
-    offsetsOn: [true],
-    offsetNumbers: [50],
     initialIteration: 0,
-    noteLength: "4n"
+    noteLength: "4n",
+    rooteNote: "C",
+    scaleKey: "minor",
+    octave: 4
   }, noteString = "0 2 5 7 12") => {
     this.setState({loopCreated: true});
 
@@ -118,12 +105,9 @@ class SJTUnit extends React.Component {
     const newNoteString = noteString.split(" ")
     const processedNotes = newNoteString.map(x => parseInt(x));
 
-    console.log("created")
     return(
     createNotesAndSquares(
       processedNotes,
-      stuff.offsetsOn,
-      stuff.offsetNumbers,
       stuff.initialIteration,
       stuff.noteLength,
       //callback function that handles data
@@ -146,14 +130,7 @@ class SJTUnit extends React.Component {
   clearLoop = () => {
     //This will make the state remove the relevant buttons from the DOM.
     this.setState({loopCreated: false});
-    //An object containing information used to create a loop.
-    this.setState({loopState: {
-        noteArray: [0,2,5,7,12],
-        offsetsOn: [true],
-        offsetNumbers: [50],
-        initialIteration: 0,
-        noteLength: "4n"
-      }})
+    this.setDefaultLoopState();
   }
 
   //for testing
@@ -183,55 +160,7 @@ class SJTUnit extends React.Component {
   )
   }
 
-  //function to update component state with a string.
-  setIndices = (e) => {
-    this.setState({noteArrayString: e.target.value});
-  }
 
-  //function to update component state with the note length
-  setNoteLength = (e) => {
-    const noteLengthValue = e.target.value;
-    this.setState(prevState => ({
-      loopState: {
-        ...prevState.loopState,
-        noteLength: noteLengthValue
-      }
-    })
-  )
-  }
-
-  setRoot = (e) => {
-    const rootNote = e.target.value;
-    this.setState(prevState => ({
-      loopState: {
-        ...prevState.loopState,
-        rootNote: rootNote
-      }
-    })
-  )
-  }
-
-  setScaleKey = (e) => {
-    const scaleKey = e.target.value;
-    this.setState(prevState => ({
-      loopState: {
-        ...prevState.loopState,
-        scaleKey: scaleKey
-      }
-    })
-  )
-  }
-
-  setOctave = (e) => {
-    const octave = e.target.value;
-    this.setState(prevState => ({
-      loopState: {
-        ...prevState.loopState,
-        octave: octave
-      }
-    })
-  )
-  }
 
   eventHandler = (e) => {
     const eventId = e.target.id;
@@ -381,15 +310,6 @@ class SJTUnit extends React.Component {
             </select>
           </label>
         </div>
-
-        <label>
-          EVENT HANDLER TEST
-            <select defaultValue="event" onChange={this.eventHandler} id="doesthisshowup">
-              <option value="one">one</option>
-              <option value="foo">foo</option>
-              <option value="event">event</option>
-            </select>
-        </label>
 
           <div className="dataInputUnit center-contents flow-table">
           <a className="SJTUnitButton center-contents" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</a>
