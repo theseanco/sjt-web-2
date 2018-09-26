@@ -6,7 +6,6 @@ import './stylesheet.css'
 import './buttons.css'
 //components
 import SJTUnit from "./Components/SJTUnit/SJTUnit"
-import PlayPause from "./Components/PlayPause/PlayPause"
 import Tone from 'tone'
 //Import enhanced range slider
 import Slider from 'react-rangeslider'
@@ -19,28 +18,20 @@ TODO:
 
 
 SCALES:
-- Make a scale selector dropdown
-- Make parallel octave and transposition sliders
 - Make a 'normal' and 'advanced' mode dropdown.
   - Normal has major/minor/chromatic, octave
   - Advanced has a whole bunch more, octave, transposition.
 
 - Mute doesn't work
+- Change of tempo can stop loops working for some reason.
+- Because visual blocks are currently generated based on matching the contents of array indices, any array which has two matching numbers will just get mashed and the first similar note will light up, instead of
 - errors with multiple of the same values on input
 - Input formatting
-- refresh loop information on first creation.
 */
-
-//This works to start the transport
-const stopPlaying = () => {
-  Tone.Transport.stop();
-  console.log("stopped")
-}
 
 //This works to stop the transport
 const startPlaying = () => {
   Tone.Transport.start("+0.1");
-  console.log("started")
 }
 
 /*
@@ -49,7 +40,7 @@ A default tempo value.
 TODO: Perhaps this isn't the best way to do this, starting with a hardcoded value, but it works for now.
 */
 //Some values that are used in tempo and bpm calculation
-const defaultTempo = 100;
+const defaultTempo = 60;
 const defaultVolume = -3;
 const minVolume = -40;
 
@@ -115,10 +106,10 @@ class App extends Component {
     let tempoValue;
     if (typeof(e) === 'object') {
       //parse the target value object
-      tempoValue = parseInt(e.target.value)
+      tempoValue = parseInt(e.target.value, 10)
     } else if (typeof(e) === 'number') {
       //directly assign the target value object
-      tempoValue = parseInt(e)
+      tempoValue = parseInt(e, 10)
     }
     const currentState = this.state.tempoValue;
     const difference = Math.abs(tempoValue - currentState);
@@ -147,15 +138,13 @@ class App extends Component {
       volumeValue = parseFloat(e.target.value)
     } else if (typeof(e) === 'number') {
       //directly assign the target value object
-      volumeValue = parseFloat(e)
+      volumeValue = parseFloat(e, 10)
     }
     if (isFinite(volumeValue)) {
-      if (parseInt(volumeValue) === minVolume) {
-        console.log("muted")
+      if (parseInt(volumeValue, 10) === minVolume) {
         Tone.Master.mute = true
         this.setState({muted: true})
-      } else if (parseInt(volumeValue) != minVolume && this.state.muted === true) {
-        console.log("unmuted")
+      } else if (parseInt(volumeValue, 10) !== minVolume && this.state.muted === true) {
         Tone.Master.mute = false;
         this.setState({muted: false});
       }
@@ -216,16 +205,15 @@ class App extends Component {
         value={this.state.tempoValue}
         orientation="horizontal"
         onChange={value => this.setBpm(value)}
-        min={60}
-        max={160}
+        min={40}
+        max={100}
         tooltip={false}
       />
         </div>
         <div className="slider">
           <p className="sliderTitle">{`Volume: `}
-{parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]))} </p>
+{parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]), 10)} </p>
           <Slider
-            value={this.state.volumeValue}
             orientation="horizontal"
             onChange={value => this.setVolume(value)}
             value={this.state.volume}

@@ -10,7 +10,6 @@ This component returns a div that has:
 
 This needs to broken out into components.
 
-TODO: A function to set default loop state
 
 */
 
@@ -20,10 +19,8 @@ import React from 'react';
 import createNotesAndSquares from "./createSquaresNotes.js";
 //Steinhaus Johnson Trotter permutation algorithm
 import './SJT.js';
-import Tone from 'tone';
 //stylesheet for buttons
 import './SJTUnit_Styles.css';
-import Slider from 'react-rangeslider';
 import '../../sliderstyles.css';
 
 
@@ -42,13 +39,14 @@ class SJTUnit extends React.Component {
       //loopState is added in order to initialise values that will later be used to create a loop
       loopState: {
         noteArray: [0,2,3,5,7,12],
-        offsetsOn: [true],
-        offsetNumbers: [50],
         initialIteration: 0,
-        noteLength: "4n"
+        noteLength: "4n",
+        rooteNote: "C",
+        scaleKey: "minor",
+        octave: 4
       },
       //This will be added as a string then converted into noteArray on creation
-      noteArrayString: "",
+      noteArrayString: "0 4 7",
       //Is the loop playing?
       loopPlaying: false,
       //placeholder for loop data fed out of createSquaresNotes callback function
@@ -64,7 +62,20 @@ class SJTUnit extends React.Component {
     }
   }
 
-
+  setDefaultLoopState = () => {
+    this.setState({
+      loopState: {
+        noteArray: [0,2,3,5,7,12],
+        initialIteration: 0,
+        noteLength: "4n",
+        rooteNote: "C",
+        scaleKey: "minor",
+        octave: 4
+      },
+      //This will be added as a string then converted into noteArray on creation
+      noteArrayString: "0 4 7"
+    })
+  }
 
   loopStop = (loop) => {
     this.setState({loopPlaying: false})
@@ -76,57 +87,41 @@ class SJTUnit extends React.Component {
     this.setState({loopPlaying: true})
   }
 
-  //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares, old version where noteArray is designed to take an array
-  createLoop_old = (stuff = {
-    noteArray: [0,2,5,7,12],
-    offsetsOn: [true],
-    offsetNumbers: [50],
-    initialIteration: 0,
-    noteLength: "4n"
-  }) => {
-    this.setState({loopCreated: true});
-    console.log("created")
-    return(
-    createNotesAndSquares(
-      stuff.noteArray,
-      stuff.offsetsOn,
-      stuff.offsetNumbers,
-      stuff.initialIteration,
-      stuff.noteLength
-    )
-  )
-  }
-
   //This is a function which takes an object containing properties of the SJT loop to be created. This is then created using createNotesAndSquares, old version.
+  //TODO: See if this can interrupt processing and re-spawn the input field
   createLoop = (stuff = {
     noteArray: [0,2,5,7,12],
-    offsetsOn: [true],
-    offsetNumbers: [50],
     initialIteration: 0,
-    noteLength: "4n"
+    noteLength: "4n",
+    rooteNote: "C",
+    scaleKey: "minor",
+    octave: 4
   }, noteString = "0 2 5 7 12") => {
     this.setState({loopCreated: true});
 
     //this splits the array, then converts the whole array to integers
     const newNoteString = noteString.split(" ")
-    const processedNotes = newNoteString.map(x => parseInt(x));
+    const intNoteString = newNoteString.map(x => parseInt(x, 10));
+    const processedNotes = intNoteString.filter(data => Number.isInteger(data))
+    console.log(processedNotes)
 
-    console.log("created")
     return(
     createNotesAndSquares(
       processedNotes,
-      stuff.offsetsOn,
-      stuff.offsetNumbers,
       stuff.initialIteration,
       stuff.noteLength,
       //callback function that handles data
       (data) => {
         //TODO: Delete this.
-        console.log(data)
         this.setState({loopData: data})
       },
       //element name
       this.props.konvaIdName,
+      //blockColour
+      '#FFFFFF',
+      stuff.rootNote,
+      stuff.scaleKey,
+      stuff.octave
     )
   )
   }
@@ -134,14 +129,7 @@ class SJTUnit extends React.Component {
   clearLoop = () => {
     //This will make the state remove the relevant buttons from the DOM.
     this.setState({loopCreated: false});
-    //An object containing information used to create a loop.
-    this.setState({loopState: {
-        noteArray: [0,2,5,7,12],
-        offsetsOn: [true],
-        offsetNumbers: [50],
-        initialIteration: 0,
-        noteLength: "4n"
-      }})
+    this.setDefaultLoopState();
   }
 
   //for testing
@@ -152,48 +140,60 @@ class SJTUnit extends React.Component {
   )
   }
 
-  setInitialOffset = (e) => {
-    let offsetEvent;
-    if (typeof(e) === 'object') {
-      //parse the target value object
-      offsetEvent = parseInt(e.target.value)
-    } else if (typeof(e) === 'number') {
-      //directly assign the target value object
-      offsetEvent = parseInt(e)
+  //NOTE: This is dependent upon side-effects and could do with Redux integration
+  eventHandler = (e) => {
+    const eventId = e.target.id;
+    const eventValue = e.target.value;
+    //A holder for stateKey so that the writeToState function can be called at the end of the function rather than for each case
+    let stateKey;
+
+    //TODO: This doesn't work, why?
+    const writeToState = (stateKey, valueToWrite) => {
+      //
+      this.setState(prevState => ({
+        loopState: {
+        ...prevState.loopState,
+        //writes state key and value to previous loopState value
+        [stateKey]: valueToWrite
+      }
+      }))
     }
-    //using this method to inherit object properties  https://stackoverflow.com/questions/43638938/updating-an-object-with-setstate-in-react
-    this.setState(prevState => ({
-      loopState: {
-        ...prevState.loopState,
-        offsetNumbers: [offsetEvent]
-      }
-    })
-  )
+
+    switch(eventId) {
+      case "scaleKey":
+        stateKey = "scaleKey";
+        writeToState(stateKey, eventValue)
+        break;
+      case "scaleOctave":
+        stateKey = "octave"
+        writeToState(stateKey, eventValue)
+        break;
+      case "scaleRoot":
+        stateKey = "rootNote"
+        writeToState(stateKey, eventValue)
+        break;
+      case "noteLength":
+        stateKey = "noteLength"
+        writeToState(stateKey, eventValue)
+        break;
+      case "scaleIndices":
+        this.setState({noteArrayString: eventValue});
+        break;
+      default:
+        return true;
+    }
+
   }
 
-  //function to update component state with a string.
-  setIndices = (e) => {
-    this.setState({noteArrayString: e.target.value});
-  }
 
-  //function to update component state with the note length
-  setNoteLength = (e) => {
-    const noteLengthValue = e.target.value;
-    this.setState(prevState => ({
-      loopState: {
-        ...prevState.loopState,
-        noteLength: noteLengthValue
-      }
-    })
-  )
-  }
+          /*
+          rooteNote: "C",
+        scaleKey: "minor",
+        octave: 4
+        */
 
-  //THIS NEEDS TO BE DONE DYNAMICALLY
-
-
-//	  Tone.Transport.start();
   render() {
-    let buttons, loop;
+    let buttons ;
 
     if (this.state.loopCreated) {
       buttons = (
@@ -225,26 +225,53 @@ class SJTUnit extends React.Component {
           <div className="dataInputUnit center-contents">
           <label>
             Scale Indices:
-            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.setIndices} />
+            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.eventHandler} id="scaleIndices" />
           </label>
         </div>
 
         <div className="dataInputUnit center-contents">
           <label>
-            initial MIDI note: {this.state.loopState.offsetNumbers[0]}
-            <Slider
-              onChange={this.setInitialOffset}
-              min={30}
-              max={90}
-              value={this.state.loopState.offsetNumbers[0]}
-              tooltip={false}/>
+            Scale Root:
+            <select defaultValue="C" onChange={/*this.setRoot*/ this.eventHandler} id="scaleRoot">
+              <option value="A">A</option>
+              <option value="Bb">Bb</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="C#">C#</option>
+              <option value="D">D</option>
+              <option value="Eb">Eb</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+              <option value="F#">F#</option>
+              <option value="G">G</option>
+              <option value="G#">G#</option>
+            </select>
+          </label>
+          <label>
+            Octave:
+            <select defaultValue="4" onChange={/*this.setOctave*/ this.eventHandler} id="scaleOctave">
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </label>
+          <label>
+            Key:
+            <select defaultValue="minor" onChange={/*this.setScaleKey*/ this.eventHandler} id="scaleKey">
+              <option value="major">Major</option>
+              <option value="minor">Minor</option>
+              <option value="mixolydian">Mixolydian</option>
+              <option value="chromatic">Chromatic</option>
+            </select>
           </label>
         </div>
 
           <div className="dataInputUnit center-contents">
           <label>
           {`Note Duration:    `}
-            <select defaultValue="4n" onChange={this.setNoteLength}>
+            <select defaultValue="4n" onChange={/*this.setNoteLength*/ this.eventHandler} id="noteLength">
               <option value="2n" >2n</option>
               <option value="4n">4n</option>
               <option value="8n">8n</option>
