@@ -9,8 +9,11 @@ import SJTUnit from "./Components/SJTUnit/SJTUnit"
 import Tone from 'tone'
 //Import enhanced range slider
 import Slider from 'react-rangeslider'
+//import overlay that explains the app
+import Overlay from "./Components/Overlay/Overlay"
 //Custom stylesheet for Slider - Makes the slider smaller to better sit underneath loop generators.
 import './sliderstyles.css'
+
 
 /*
 
@@ -18,6 +21,7 @@ TODO:
 
 - Input formatting: This can be done by using a regex.
 - The correct regex is: (\d{1,2}\s){1,6}
+- Change the colour of links once already clicked
 
 SCALES:
 - Make a 'normal' and 'advanced' mode dropdown.
@@ -175,6 +179,8 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+          <Overlay />
+
         {
           this.state.arrayOfIndexes.map((data, i) => {
             if (!data) {
@@ -225,7 +231,7 @@ class App extends Component {
             tooltip={false} />
         </div>
         </div>
-        </div>
+      </div>
     );
   }
 }

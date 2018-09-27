@@ -115,3 +115,12 @@ Border colours have been changed to make things look a bit better
   height: 50%;
   width: 60%
 }
+
+/* make sure that the overlay is placed on top of the rest of the app */
+.overlay-container {
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  margin: 0 0;
+}
