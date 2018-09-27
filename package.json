@@ -1,6 +1,7 @@
 {
   "name": "sjt-web",
   "version": "0.1.0",
+  "homepage": "https://theseanco.github.io/sjt-web-2",
   "private": true,
   "dependencies": {
     "bonsai": "^0.4.2",
@@ -21,6 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
