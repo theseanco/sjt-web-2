@@ -79,3 +79,16 @@
   justify-content: center;
   align-items: center;
 }
+
+/* Flexbox container which will be used to grid-out the four dropdown menu buttons */
+.scale-dropdown-menus {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+}
+
+.dropdown-layout {
+  width: 50%;
+  height: 50%;
+  text-align: center
+}
