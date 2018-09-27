@@ -1,0 +1,57 @@
+.overlay-styling {
+  position: absolute;
+  z-index: 10;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  background-color: rgba(25, 24, 26, 0.9);
+  height: 100%;
+  width: 100%;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+  transition: height 500ms 0ms, opacity 500ms 500ms z-index 500ms 500ms;
+  overflow: auto
+}
+
+.overlay-styling.hide {
+  transition: height 500ms 500ms, opacity 500ms 0ms z-index 500ms 500ms;
+  opacity: 0;
+  height: 0px;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.overlayText {
+  padding-top: 0rem;
+  padding-left: 1rem;
+  padding-right: 2rem;
+}
+
+.overlayText:nth-child(1) {
+  margin-top: 0
+}
+
+
+.closeButton {
+  padding: 0.35em 1.2em;
+  border: 0.1em solid rgba(255,255,255,0.5);
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  color: #FFFFFF;
+  text-align: center;
+  transition: all 0.2s;
+  width: 30%
+}
+.closeButton:hover {
+  color: #000000;
+  background-color: rgba(255,255,255,0.9)
+}
+
+.bottom-alignment {
+  margin-top: 2em;
+}

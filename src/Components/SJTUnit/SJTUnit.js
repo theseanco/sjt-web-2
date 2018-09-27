@@ -234,7 +234,9 @@ class SJTUnit extends React.Component {
           </label>
         </div>
 
-        <div className="dataInputUnit center-contents">
+        <div className="scale-dropdown-menus">
+
+        <div className="dropdown-layout center-contents">
           <label>
             Scale Root:
             <select defaultValue="C" onChange={/*this.setRoot*/ this.eventHandler} id="scaleRoot">
@@ -252,6 +254,9 @@ class SJTUnit extends React.Component {
               <option value="G#">G#</option>
             </select>
           </label>
+        </div>
+
+        <div className="dropdown-layout center-contents">
           <label>
             Octave:
             <select defaultValue="4" onChange={/*this.setOctave*/ this.eventHandler} id="scaleOctave">
@@ -262,6 +267,9 @@ class SJTUnit extends React.Component {
               <option value="6">6</option>
             </select>
           </label>
+        </div>
+
+        <div className="dropdown-layout center-contents">
           <label>
             Key:
             <select defaultValue="minor" onChange={/*this.setScaleKey*/ this.eventHandler} id="scaleKey">
@@ -273,17 +281,19 @@ class SJTUnit extends React.Component {
           </label>
         </div>
 
-          <div className="dataInputUnit center-contents">
+
+          <div className="dropdown-layout center-contents">
           <label>
           {`Note Duration:    `}
             <select defaultValue="4n" onChange={/*this.setNoteLength*/ this.eventHandler} id="noteLength">
-              <option value="2n" >2n</option>
-              <option value="4n">4n</option>
-              <option value="8n">8n</option>
-              <option value="16n">16n</option>
+              <option value="2n" >1/2</option>
+              <option value="4n">1/4</option>
+              <option value="8n">1/8</option>
+              <option value="16n">1/16</option>
             </select>
           </label>
         </div>
+      </div>
 
           <div className="dataInputUnit center-contents flow-table">
           <a className="SJTUnitButton center-contents" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</a>

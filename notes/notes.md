@@ -71,3 +71,9 @@ Attempted to use react-input-range
 attempted to use:
 
 https://github.com/danigb/tonal
+
+### Overlay
+
+Following this guide to get the overlay explaining about the app working:
+
+https://medium.com/@joethedave/achieving-ui-animations-with-react-the-right-way-562fa8a91935
