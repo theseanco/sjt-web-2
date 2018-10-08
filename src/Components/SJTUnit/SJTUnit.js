@@ -130,7 +130,7 @@ class SJTUnit extends React.Component {
       //element name
       this.props.konvaIdName,
       //blockColour
-      '#FFFFFF',
+      '#e0e0e0',
       stuff.rootNote,
       stuff.scaleKey,
       stuff.octave
@@ -229,8 +229,8 @@ class SJTUnit extends React.Component {
           {/* The button is created using loopState as it is when the button is pressed */}
           <div className="dataInputUnit center-contents">
           <label>
-            Scale Indices:
-            <input type="text" name="indices" placeholder="0 2 4 6 8" onChange={this.eventHandler} id="scaleIndices" pattern="(\d{1,2}\s){1,6}"/>
+            {`Scale Indices: `}
+            <input type="text" name="indices" placeholder="Default: 0 4 7" onChange={this.eventHandler} id="scaleIndices" pattern="(\d{1,2}\s){1,6}"/>
           </label>
         </div>
 
@@ -238,7 +238,7 @@ class SJTUnit extends React.Component {
 
         <div className="dropdown-layout center-contents">
           <label>
-            Scale Root:
+            {`Scale Root: `}
             <select defaultValue="C" onChange={/*this.setRoot*/ this.eventHandler} id="scaleRoot">
               <option value="A">A</option>
               <option value="Bb">Bb</option>
@@ -258,7 +258,7 @@ class SJTUnit extends React.Component {
 
         <div className="dropdown-layout center-contents">
           <label>
-            Octave:
+            {`Octave: `}
             <select defaultValue="4" onChange={/*this.setOctave*/ this.eventHandler} id="scaleOctave">
               <option value="2">2</option>
               <option value="3">3</option>
@@ -271,10 +271,11 @@ class SJTUnit extends React.Component {
 
         <div className="dropdown-layout center-contents">
           <label>
-            Key:
+            {`Key: `}
             <select defaultValue="minor" onChange={/*this.setScaleKey*/ this.eventHandler} id="scaleKey">
               <option value="major">Major</option>
               <option value="minor">Minor</option>
+              <option valye="dorian">Dorian</option>
               <option value="mixolydian">Mixolydian</option>
               <option value="chromatic">Chromatic</option>
             </select>

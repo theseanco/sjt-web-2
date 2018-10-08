@@ -104,7 +104,7 @@ for(i=0; i<totalRects; i++){
     width: (konvaWidth/totalRects),
     height: konvaHeight,
     fill: blockColour,
-  opacity: 0.2}))
+  opacity: 0.05}))
 }
 
 //A for loop to create rectangles and add tweening animations to them.
@@ -117,7 +117,7 @@ for (i=0; i<totalRects; i++) {
   const addTween = (index, availableRects) => {
     availableRects[index].tween = new Konva.Tween({
     node: availableRects[index],
-    opacity: 1,
+    opacity: 0.8,
     easing: Konva.Easings.EaseOut,
     duration: 0.1,
     onFinish: function() {

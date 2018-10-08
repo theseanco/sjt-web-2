@@ -179,6 +179,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+        {/* Component rendering an infobox upon opening then page  */}
           <Overlay />
 
         {
@@ -193,10 +194,11 @@ class App extends Component {
             } else {
               return (
                 //This returns a div contaning an SJTUnit component, which is wrapped in a div which will be used to generate Konva squares. The ID of the konva div will then be passed into the SJTUnit, which will be passed into the creation argument of createSquaresNotes. This passing-down can probably be done better, but will be tackled during a refactor.
-                <div className="div-styling">
+                <div className="div-styling" style={{background: this.state.colours[i]}} >
+
                 <div className="konva-container" id={`konva-${i}`}>
                 </div>
-                  <div className="SJTUnit-container" key={i} style={{background: this.state.colours[i]}}>
+                  <div className="SJTUnit-container" key={i} >
                     <SJTUnit key={i} externalFunction={() => this.invertState(i)} konvaIdName={`konva-${i}`}/>
                   </div>
                 </div>
