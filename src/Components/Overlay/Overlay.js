@@ -29,7 +29,7 @@ class Overlay extends React.Component {
 
        <ol>
          <li>On one of the fields click 'Initialise Loop'</li>
-         <li>Enter the degrees of the scale you wish to use, separated by spaces (e.g. 0 2 4 7) - Up to eight</li>
+         <li>Enter the degrees of the scale you wish to use as a pattern (with 0 being the root note of the scale), separated by spaces (e.g. 0 2 4 7) - Up to eight values are permitted</li>
          <li>Choose a scale root, octave, key and note duration (optional)</li>
          <li>Click 'Create Loop', which applies Steinhaus-Johnson-Trotter permutations to your sequence</li>
          <li>Click 'Play Loop' to hear the playback of the permuted sequence, and see visualisation of that sequence </li>
