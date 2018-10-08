@@ -275,6 +275,7 @@ class SJTUnit extends React.Component {
             <select defaultValue="minor" onChange={/*this.setScaleKey*/ this.eventHandler} id="scaleKey">
               <option value="major">Major</option>
               <option value="minor">Minor</option>
+              <option valye="dorian">Dorian</option>
               <option value="mixolydian">Mixolydian</option>
               <option value="chromatic">Chromatic</option>
             </select>
