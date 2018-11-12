@@ -11,7 +11,7 @@
     "react-input-range": "^1.3.0",
     "react-konva": "^1.7.15",
     "react-rangeslider": "^2.2.0",
-    "react-scripts": "1.1.5",
+    "react-scripts": "^2.1.1",
     "react-transition-group": "^2.5.0",
     "requirejs": "^2.3.6",
     "tonal": "^2.0.0",

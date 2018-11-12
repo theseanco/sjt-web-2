@@ -27,7 +27,8 @@ SCALES:
 - Make a 'normal' and 'advanced' mode dropdown.
   - Normal has major/minor/chromatic, octave
   - Advanced has a whole bunch more, octave, transposition.
-
+  - Add the Tizita scale (request from HB)
+  
 - Currently all negative integers are rejected. These could be accepted.
 - createSquaresNotes and SJTUnit need rewriting, they're getting very messy
 - Mute doesn't work

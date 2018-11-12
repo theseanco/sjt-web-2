@@ -112,7 +112,7 @@ for (i=0; i<totalRects; i++) {
   layer.add(availableRects[i])
   }
 
-  //a function to add a tween to a square. This needed to be created in order to get availableRects correctly assigned.
+  //a function   to add a tween to a square. This needed to be created in order to get availableRects correctly assigned.
   //This could do with being refactored as it's quite messy.
   const addTween = (index, availableRects) => {
     availableRects[index].tween = new Konva.Tween({
