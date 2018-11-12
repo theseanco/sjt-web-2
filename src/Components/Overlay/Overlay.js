@@ -7,7 +7,7 @@ const componentClasses = ['overlay-styling'];
 class Overlay extends React.Component {
 
   constructor(props) {
-    super(props),
+    super(props)
     this.state = {hide: false}
   }
 
@@ -23,7 +23,9 @@ class Overlay extends React.Component {
       <div className="overlayText">
        <h1>Steinhaus-Johnson-Trotter Web</h1>
 
-       <p>This is a four-channel change-ringing simulator, built using <a href="">Reactjs</a>, <a href="">Tonejs</a> and the <a href="">Tonal</a> library.</p>
+       <p>This is a four-channel change-ringing simulator, built using <a href="https://reactjs.org/">Reactjs</a>, <a href="https://konvajs.github.io/">Konva</a> <a href="https://tonejs.github.io/">Tonejs</a> and the <a href="https://github.com/danigb/tonal">Tonal</a> library.</p>
+
+       This is best viewed on a laptop/desktop computer
 
        <h3>How to use</h3>
 

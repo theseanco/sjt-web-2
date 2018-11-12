@@ -229,8 +229,10 @@ class SJTUnit extends React.Component {
           {/* The button is created using loopState as it is when the button is pressed */}
           <div className="dataInputUnit center-contents">
           <label>
-            {`Scale Indices: `}
-            <input type="text" name="indices" placeholder="Default: 0 4 7" onChange={this.eventHandler} id="scaleIndices" pattern="(\d{1,2}\s){1,6}"/>
+            {`Indices: `}
+            <div>
+            <input type="text" name="indices" placeholder="Default: 0 4 7" onChange={this.eventHandler} id="scaleIndices" pattern="(\d{1,2}\s){1,6}" size="10"/>
+            </div>
           </label>
         </div>
 
@@ -238,7 +240,8 @@ class SJTUnit extends React.Component {
 
         <div className="dropdown-layout center-contents">
           <label>
-            {`Scale Root: `}
+            {`Root: `}
+            <div>
             <select defaultValue="C" onChange={/*this.setRoot*/ this.eventHandler} id="scaleRoot">
               <option value="A">A</option>
               <option value="Bb">Bb</option>
@@ -253,12 +256,14 @@ class SJTUnit extends React.Component {
               <option value="G">G</option>
               <option value="G#">G#</option>
             </select>
+            </div>
           </label>
         </div>
 
         <div className="dropdown-layout center-contents">
           <label>
             {`Octave: `}
+            <div>
             <select defaultValue="4" onChange={/*this.setOctave*/ this.eventHandler} id="scaleOctave">
               <option value="2">2</option>
               <option value="3">3</option>
@@ -266,6 +271,7 @@ class SJTUnit extends React.Component {
               <option value="5">5</option>
               <option value="6">6</option>
             </select>
+            </div>
           </label>
         </div>
 
@@ -285,13 +291,15 @@ class SJTUnit extends React.Component {
 
           <div className="dropdown-layout center-contents">
           <label>
-          {`Note Duration:    `}
+          {`Duration:    `}
+          <div>
             <select defaultValue="4n" onChange={/*this.setNoteLength*/ this.eventHandler} id="noteLength">
               <option value="2n" >1/2</option>
               <option value="4n">1/4</option>
               <option value="8n">1/8</option>
               <option value="16n">1/16</option>
             </select>
+            </div>
           </label>
         </div>
       </div>

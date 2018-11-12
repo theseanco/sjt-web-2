@@ -135,6 +135,7 @@ for (i=0; i<totalRects; i++) {
 stage.add(layer);
 callback(synthVoice);
 
+
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (
   [new Tone.Loop(function(time){
