@@ -44,7 +44,7 @@ const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote =
     //holding value for generated scales to be concatenated onto the empty `scale` array
     let newScale;
     //Work out if more scales are needed, and generate them accordingly, appending them to the empty `scale` variable
-    for(i=0; i<=numTimes; i++) {
+    for(let i=0; i<=numTimes; i++) {
       newScale = Scale.notes(`${rootNote}${String(parseInt(octave, 10)+i)} ${key}`);
       scale = scale.concat(newScale);
     }
@@ -96,8 +96,7 @@ let availableRects = [];
 
 //THIS IS MESSY - Needs to be abstracted out into a function.
 
-let i;
-for(i=0; i<totalRects; i++){
+for(let i=0; i<totalRects; i++){
   availableRects.push(new Konva.Rect({
     x: (konvaWidth/totalRects*i),
     y: 0,
@@ -108,7 +107,7 @@ for(i=0; i<totalRects; i++){
 }
 
 //A for loop to create rectangles and add tweening animations to them.
-for (i=0; i<totalRects; i++) {
+for (let i=0; i<totalRects; i++) {
   layer.add(availableRects[i])
   }
 
@@ -128,13 +127,12 @@ for (i=0; i<totalRects; i++) {
 
  // this now works with the above function
  // TODO: Refactor this, it's dependent on side-effects and is quite messy
-for (i=0; i<totalRects; i++) {
+for (let i=0; i<totalRects; i++) {
   addTween(i,availableRects);
 }
 
 stage.add(layer);
 callback(synthVoice);
-
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (
