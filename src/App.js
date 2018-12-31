@@ -216,17 +216,7 @@ class App extends Component {
         {/* This could do with being extracted out */}
         <div className="slidersDiv" >
         <TempoChanger />
-        <div className="slider">
-          <p className="sliderTitle">{`Volume: `}
-{parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]), 10)} </p>
-          <Slider
-            orientation="horizontal"
-            onChange={value => this.setVolume(value)}
-            value={this.state.volume}
-            min={-40}
-            max={0}
-            tooltip={false} />
-        </div>
+        <VolumeChanger />
         </div>
       </div>
     );

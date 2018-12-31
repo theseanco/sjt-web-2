@@ -3,15 +3,24 @@ import Slider from 'react-rangeslider'
 import Tone from 'tone'
 import './VolumeChanger.css'
 
+//TODO: set default voume within component
+
 class VolumeChanger extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       volume: 80,
-      minVolume: -40
+      minVolume: -40,
+      defaultVolume: -3
     }
   }
 
+  componentDidMount() {
+    //set default tempo and volume values
+    Tone.Master.volume.value = this.state.defaultVolume
+    //set the default volume to the default volume state. 
+    this.setState({volume:this.state.defaultVolume})
+  }
 
   setVolume = (e) => {
       let volumeValue
@@ -36,6 +45,11 @@ class VolumeChanger extends React.Component {
       Tone.Master.volume.rampTo(volumeValue,0.1)
 
     }
+  }
+
+  //Function taken from https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges to scale volume value printouts to 0-100 to be more user-accessible for people who don't know about decibels
+  convertRange = ( value, r1, r2 ) => {
+    return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
   }
 
   render() {

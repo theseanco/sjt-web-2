@@ -1,5 +1,6 @@
 import React from 'react';
 import Tone from 'tone';
+import './TempoChanger.css'
 
 class TempoChange extends React.Component {
 
@@ -24,7 +25,7 @@ class TempoChange extends React.Component {
     const difference = Math.abs(tempoValue - currentState);
     //check if value is finite
     if (isFinite(tempoValue)) {
-    //Check the difference in the values. If it's more than 2, it's a good idea to ramp it.
+    //Check the differenc e in the values. If it's more than 2, it's a good idea to ramp it.
     if(difference <= 2) {
       //no ramp
       Tone.Transport.bpm.value = tempoValue;
@@ -42,8 +43,8 @@ class TempoChange extends React.Component {
 
   render() {
   return (
-    <div className="slider">
-      <p className="sliderTitle">Tempo: {this.state.tempoValue}</p>
+    <div className="tempoChanger">
+      <span className="tempoChangerTitle">Tempo:</span>
       <select
         value={this.state.tempoValue}
         orientation="horizontal"
