@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "bonsai": "^0.4.2",
+    "gh-pages": "^2.0.1",
     "konva": "^2.4.0",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",

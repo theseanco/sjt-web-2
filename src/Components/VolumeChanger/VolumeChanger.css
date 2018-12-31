@@ -1,0 +1,15 @@
+.volumeSliderTitle {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+}
+
+.volumeSlider {
+  width: 40%
+}
+
+.noOutline {
+  outline: none
+}
