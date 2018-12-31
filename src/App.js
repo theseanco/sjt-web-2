@@ -11,6 +11,8 @@ import Tone from 'tone'
 import Slider from 'react-rangeslider'
 //import overlay that explains the app
 import Overlay from "./Components/Overlay/Overlay"
+//import tempo changing checkbox
+import TempoChanger from "./Components/TempoChanger/TempoChanger"
 //Custom stylesheet for Slider - Makes the slider smaller to better sit underneath loop generators.
 import './sliderstyles.css'
 
@@ -28,7 +30,7 @@ SCALES:
   - Normal has major/minor/chromatic, octave
   - Advanced has a whole bunch more, octave, transposition.
   - Add the Tizita scale (request from HB)
-  
+
 - Currently all negative integers are rejected. These could be accepted.
 - createSquaresNotes and SJTUnit need rewriting, they're getting very messy
 - Mute doesn't work
@@ -211,6 +213,9 @@ class App extends Component {
 
         {/* This could do with being extracted out */}
         <div className="slidersDiv" >
+
+        <TempoChanger />
+        {/*
           <div className="slider">
           <p className="sliderTitle">Tempo: {this.state.tempoValue}</p>
        <Slider
@@ -222,7 +227,9 @@ class App extends Component {
         tooltip={false}
       />
         </div>
+        */}
         <div className="slider">
+
           <p className="sliderTitle">{`Volume: `}
 {parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]), 10)} </p>
           <Slider

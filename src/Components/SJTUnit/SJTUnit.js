@@ -219,7 +219,7 @@ class SJTUnit extends React.Component {
           <span>Scale: {String(this.state.loopData.initialScaleNoteNames)}</span>
           <span>Note Number: {this.state.loopData.iterator}</span>
           <span>Generation: {`${this.state.loopData.generation+1}/${this.state.loopData.noteArray.length}`}</span>
-          <span>Total Number of Notes: {this.state.loopData.maxIndex}</span>
+          <span>Total Notes: {this.state.loopData.maxIndex}</span>
         </div>
         </div>
       )
