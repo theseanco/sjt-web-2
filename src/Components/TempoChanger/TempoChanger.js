@@ -8,8 +8,16 @@ class TempoChange extends React.Component {
     super(props);
     //playing defaults to true because loops are created independently of one another.
     this.state = {
-      tempoValue: 75
+      tempoValue: 60,
+      defaultTempo: 60
     }
+  }
+
+  componentDidMount() {
+    //set default tempo and volume values
+    Tone.Transport.bpm.value = this.state.tempoValue
+    //set the default tempo
+    this.setState({tempoValue:this.state.defaultTempo})
   }
 
   setBpm = (e) => {

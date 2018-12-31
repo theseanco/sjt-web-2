@@ -104,81 +104,8 @@ class App extends Component {
     this.setState({arrayOfIndexes: stateArray})
   }
 
-
-  testFunction = (index) => {
-    console.log("works", index);
-  }
-
-
-
-  //function to set the bpm of  the transport and apply it to state to be printed to the page.
-  //TODO: A LOT of errors that are: "Failed to execute 'setValueAtTime' on 'AudioParam': The provided float value is non-finite."
-  //This is now deprecated in favour of using react-input-range component grabbed from npm.
-  setBpm = (e) => {
-    let tempoValue;
-    if (typeof(e) === 'object') {
-      //parse the target value object
-      tempoValue = parseInt(e.target.value, 10)
-    } else if (typeof(e) === 'number') {
-      //directly assign the target value object
-      tempoValue = parseInt(e, 10)
-    }
-    const currentState = this.state.tempoValue;
-    const difference = Math.abs(tempoValue - currentState);
-    //check if value is finite
-    if (isFinite(tempoValue)) {
-    //Check the difference in the values. If it's more than 2, it's a good idea to ramp it.
-    if(difference <= 2) {
-      //no ramp
-      Tone.Transport.bpm.value = tempoValue;
-      this.setState({tempoValue: tempoValue});
-    } else if (difference < 10) {
-      //ramp
-      this.setState({tempoValue: tempoValue});
-      Tone.Transport.bpm.rampTo(tempoValue,difference/50)
-    } else {
-      this.setState({tempoValue: tempoValue});
-      Tone.Transport.bpm.rampTo(tempoValue,1)
-    }
-  }
-  }
-
-  setVolume = (e) => {
-    let volumeValue
-    if (typeof(e) === 'object') {
-      //parse the target value object
-      volumeValue = parseFloat(e.target.value)
-    } else if (typeof(e) === 'number') {
-      //directly assign the target value object
-      volumeValue = parseFloat(e, 10)
-    }
-    if (isFinite(volumeValue)) {
-      if (parseInt(volumeValue, 10) === minVolume) {
-        Tone.Master.mute = true
-        this.setState({muted: true})
-      } else if (parseInt(volumeValue, 10) !== minVolume && this.state.muted === true) {
-        Tone.Master.mute = false;
-        this.setState({muted: false});
-      }
-    this.setState({volume: volumeValue})
-    //NOTE: The use of signal `.value` call is essential here.
-    //Documented here: https://github.com/Tonejs/Tone.js/wiki/Signals
-    Tone.Master.volume.rampTo(volumeValue,0.1)
-
-  }
-}
-
-
-  //Function taken from https://stackoverflow.com/questions/14224535/scaling-between-two-number-ranges to scale volume value printouts to 0-100 to be more user-accessible for people who don't know about decibels
-  convertRange = ( value, r1, r2 ) => {
-    return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
-  }
-
   componentDidMount() {
     startPlaying();
-    //set default tempo and volume values
-    Tone.Transport.bpm.value = defaultTempo;
-    Tone.Master.volume.value = defaultVolume
   }
 
   render() {
