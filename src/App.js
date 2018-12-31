@@ -13,6 +13,8 @@ import Slider from 'react-rangeslider'
 import Overlay from "./Components/Overlay/Overlay"
 //import tempo changing checkbox
 import TempoChanger from "./Components/TempoChanger/TempoChanger"
+//import volume slider
+import VolumeChanger from "./Components/VolumeChanger/VolumeChanger"
 //Custom stylesheet for Slider - Makes the slider smaller to better sit underneath loop generators.
 import './sliderstyles.css'
 
@@ -213,23 +215,8 @@ class App extends Component {
 
         {/* This could do with being extracted out */}
         <div className="slidersDiv" >
-
         <TempoChanger />
-        {/*
-          <div className="slider">
-          <p className="sliderTitle">Tempo: {this.state.tempoValue}</p>
-       <Slider
-        value={this.state.tempoValue}
-        orientation="horizontal"
-        onChange={value => this.setBpm(value)}
-        min={40}
-        max={100}
-        tooltip={false}
-      />
-        </div>
-        */}
         <div className="slider">
-
           <p className="sliderTitle">{`Volume: `}
 {parseInt(this.convertRange(this.state.volume,[minVolume,0],[0,100]), 10)} </p>
           <Slider
