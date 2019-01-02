@@ -11,7 +11,7 @@
   -o-transition: 0.5s;
   transition: 0.5s;
   transition: height 500ms 0ms, opacity 500ms 500ms z-index 500ms 500ms;
-  overflow: auto
+  overflow: auto;
 }
 
 .overlay-styling.hide {
@@ -22,16 +22,34 @@
   overflow: hidden;
 }
 
+/* media queries for the overlay container */
 .overlayText {
-  padding-top: 0rem;
-  padding-left: 1rem;
-  padding-right: 2rem;
+  padding: 1rem 1rem;
 }
 
-.overlayText:nth-child(1) {
-  margin-top: 0
+.overlayText h1 {
+  text-align: center
 }
 
+@media only screen and (min-width: 768px) {
+.overlayText h1 {
+  text-align: center
+}
+
+.overlayText {
+  margin: 2rem 5rem
+}
+}
+
+@media only screen and (min-width: 960px) {
+.overlayText h1 {
+  text-align: center
+}
+
+.overlayText {
+  margin: 2rem 10rem
+}
+}
 
 .closeButton {
   padding: 0.35em 1.2em;

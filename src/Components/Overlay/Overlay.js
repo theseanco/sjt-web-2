@@ -20,7 +20,7 @@ class Overlay extends React.Component {
 
   return (
     <div className={componentClasses.join(' ')}>
-      <div className="overlayText">
+        <div className="overlayText">
        <h1>Steinhaus-Johnson-Trotter Web</h1>
 
        <p>This is a four-channel change-ringing simulator, built using <a href="https://reactjs.org/">Reactjs</a>, <a href="https://konvajs.github.io/">Konva</a> <a href="https://tonejs.github.io/">Tonejs</a> and the <a href="https://github.com/danigb/tonal">Tonal</a> library.</p>
@@ -65,7 +65,7 @@ class Overlay extends React.Component {
        <a className="closeButton" onClick={() => {this.setState({hide: true})}}>Start</a>
      </div>
      </div>
-    </div>
+     </div>
   )
 }
 }

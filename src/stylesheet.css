@@ -67,29 +67,10 @@ Default background colour on this div is the green of the first
 
 .slidersDiv {
   display: flex;
+  margin-bottom: .05%;
   justify-content: space-around;
-  margin-bottom: 20px;
   margin-top: 0px
 }
-
-/*
-Old CSS for styling tempo and volume sliders, now extracted out into components
-.sliderTitle {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  color: #FFFFFF;
-  font-family: 'Roboto', sans-serif;
-  text-align: center;
-}
-
-.slider {
-  width: 40%
-}
-
-#slider-styling{
-  height: 0.2rem;
-}
-*/
 
 /*
 Border colours have been changed to make things look a bit better

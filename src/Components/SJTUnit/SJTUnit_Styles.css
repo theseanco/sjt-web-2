@@ -63,11 +63,15 @@
   justify-content: space-around;
 }
 
-/* Styling for components within the */
 .dataInputUnit {
   width: 50%;
   height: 100%;
   text-align:center
+}
+
+/* info units within SJT units */
+.infoText {
+  text-align: center;
 }
 
 .flow-table{
