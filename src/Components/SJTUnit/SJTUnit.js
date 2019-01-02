@@ -215,11 +215,12 @@ class SJTUnit extends React.Component {
         }}>Clear Loop</a>
       </div>
         <div className="loopInformation">
-          <span>Note: {this.state.loopData.note}</span>
-          <span>Scale: {String(this.state.loopData.initialScaleNoteNames)}</span>
-          <span>Note Number: {this.state.loopData.iterator}</span>
-          <span>Generation: {`${this.state.loopData.generation+1}/${this.state.loopData.noteArray.length}`}</span>
-          <span>Total Notes: {this.state.loopData.maxIndex}</span>
+        {/* each piece of text is separated into a div to make the layout correct*/}
+          <div className="infoText"><div>Note:</div> <div>{this.state.loopData.note}</div></div>
+          <div className="infoText"><div>Scale:</div> <div>{String(this.state.loopData.initialScaleNoteNames)}</div></div>
+          <div className="infoText"><div>Note Number:</div> <div>{this.state.loopData.iterator}</div></div>
+          <div className="infoText"><div>Generation:</div> <div>{`${this.state.loopData.generation+1}/${this.state.loopData.noteArray.length}`}</div></div>
+          <div className="infoText"><div>Total Notes:</div> <div>{this.state.loopData.maxIndex}</div></div>
         </div>
         </div>
       )
