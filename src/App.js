@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import './App.css';
 //Styling imported, ported from old project
-import './stylesheet.css'
+import './stylesheet.css';
 //buttons
-import './buttons.css'
+import './buttons.css';
 //components
-import SJTUnit from "./Components/SJTUnit/SJTUnit"
-import Tone from 'tone'
+import SJTUnit from "./Components/SJTUnit/SJTUnit";
+import Tone from 'tone';
 //Import enhanced range slider
-import Slider from 'react-rangeslider'
+import Slider from 'react-rangeslider';
 //import overlay that explains the app
-import Overlay from "./Components/Overlay/Overlay"
+import Overlay from "./Components/Overlay/Overlay";
 //import tempo changing checkbox
-import TempoChanger from "./Components/TempoChanger/TempoChanger"
+import TempoChanger from "./Components/TempoChanger/TempoChanger";
 //import volume slider
-import VolumeChanger from "./Components/VolumeChanger/VolumeChanger"
+import VolumeChanger from "./Components/VolumeChanger/VolumeChanger";
+//bottom bar for socials
+import BottomBar from "./Components/BottomBar/BottomBar";
 //Custom stylesheet for Slider - Makes the slider smaller to better sit underneath loop generators.
-import './sliderstyles.css'
+import './sliderstyles.css';
 
 
 /*
@@ -145,6 +147,7 @@ class App extends Component {
         <TempoChanger />
         <VolumeChanger />
         </div>
+        <BottomBar />
       </div>
     );
   }
