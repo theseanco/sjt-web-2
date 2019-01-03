@@ -1,5 +1,6 @@
 .SJTUnitButton {
   display: inline-block;
+  outline: none;
   padding: 0.35em 1.2em;
   background-color: rgba(255,255,255,0);
   border: 0.1em solid rgba(255,255,255,0.6);

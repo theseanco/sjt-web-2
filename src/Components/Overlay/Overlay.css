@@ -1,5 +1,6 @@
 .overlay-styling {
   position: absolute;
+  outline: none;
   z-index: 10;
   color: #FFFFFF;
   font-family: 'Roboto', sans-serif;

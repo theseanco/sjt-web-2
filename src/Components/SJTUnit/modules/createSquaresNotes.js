@@ -29,7 +29,6 @@ const generateScaleArray = (degreeList, key = "minor", rootNote = "C", octave = 
   if (degreeList.length === 0 || degreeList === undefined) {
     degreeList = [0, 4, 7]
   }
-  console.log(degreeList)
   //Holding values for a scale (empty array to allow .concat method) and a final value
   let scale = [], indexedScale;
   //Returns how many degrees are in the scale to see how many octaves need to be generated
@@ -73,7 +72,6 @@ const generateSynthVoice = (arrayOfNotes, initialIteration) => {
   //a function   to add a tween to a square. This needed to be created in order to get availableRects correctly assigned.
   //This could do with being refactored as it's quite messy.
   const addTween = (availableRects, index) => {
-    console.log("index", index, "availableRects", availableRects);
     availableRects[index].tween = new Konva.Tween({
     node: availableRects[index],
     opacity: 0.8,
@@ -139,8 +137,6 @@ stage.add(layer);
 //return the data to component state
 callback(synthVoice);
 
-console.log(synthVoice);
-
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (
   new Tone.Loop(function(time){
@@ -150,7 +146,6 @@ return (
     availableRects[synthVoice.note].tween.play();
     //console log synthVoice for debugging if needed
     synthVoice.note = scaleArray[synthVoice.note];
-    console.log(synthVoice);
     callback(synthVoice)
 }, noteLength)
 )

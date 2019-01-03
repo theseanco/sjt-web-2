@@ -57,7 +57,7 @@ class TempoChange extends React.Component {
         value={this.state.tempoValue}
         orientation="horizontal"
         onChange={value => this.setBpm(value)}
-        tooltip={false}
+        tooltip="false"
          >
          <option value={50}>50</option>
          <option value={60}>60</option>
