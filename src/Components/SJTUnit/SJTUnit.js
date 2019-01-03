@@ -208,19 +208,19 @@ class SJTUnit extends React.Component {
               !this.state.loopPlaying ?
               <a
                 className="SJTUnitButton createdLoopButton center-contents"
-                onClick={() => this.loopStart(this.loop[0])}>
+                onClick={() => this.loopStart(this.loop)}>
                 Play Loop
               </a> :
               <a
                 className="SJTUnitButton createdLoopButton center-contents"
-                onClick={() => this.loopStop(this.loop[0])}>
+                onClick={() => this.loopStop(this.loop)}>
                 Stop Loop
               </a>
             }
           </div>
           <div className="createdLoopButtonContainer center-contents">
             <a className="SJTUnitButton createdLoopButton center-contents" onClick={() => {
-              this.loopStop(this.loop[0]);
+              this.loopStop(this.loop);
               this.clearLoop()
             }}>Clear Loop</a>
           </div>

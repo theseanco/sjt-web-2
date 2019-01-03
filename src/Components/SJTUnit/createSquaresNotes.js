@@ -145,7 +145,7 @@ callback(synthVoice);
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (
-  [new Tone.Loop(function(time){
+  new Tone.Loop(function(time){
     synthVoice.playNote();
     //uses the master SJT array to refer to notes by index against an array of note names generated earlier.
     synth.triggerAttackRelease(scaleArray[synthVoice.note], noteLength)
@@ -153,7 +153,7 @@ return (
     //console log synthVoice for debugging if needed
     synthVoice.note = scaleArray[synthVoice.note];
     callback(synthVoice)
-}, noteLength), synthVoice]
+}, noteLength)
 )
 }
 
