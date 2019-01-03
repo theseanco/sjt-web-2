@@ -208,23 +208,23 @@ class SJTUnit extends React.Component {
           <div className="createdLoopButtonContainer center-contents">
             {
               !this.state.loopPlaying ?
-              <a
+              <button
                 className="SJTUnitButton createdLoopButton center-contents"
                 onClick={() => this.loopStart(this.loop)}>
                 Play Loop
-              </a> :
-              <a
+              </button> :
+              <button
                 className="SJTUnitButton createdLoopButton center-contents"
                 onClick={() => this.loopStop(this.loop)}>
                 Stop Loop
-              </a>
+              </button>
             }
           </div>
           <div className="createdLoopButtonContainer center-contents">
-            <a className="SJTUnitButton createdLoopButton center-contents" onClick={() => {
+            <button className="SJTUnitButton createdLoopButton center-contents" onClick={() => {
               this.loopStop(this.loop);
               this.clearLoop()
-            }}>Clear Loop</a>
+            }}>Clear Loop</button>
           </div>
           <div className="loopInformation">
             {/* each piece of text is separated into a div to make the layout correct*/}
@@ -320,8 +320,8 @@ class SJTUnit extends React.Component {
   </div>
 
   <div className="dataInputUnit center-contents flow-table">
-    <a className="SJTUnitButton center-contents" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</a>
-    <a className="SJTUnitButton center-contents" onClick={this.props.externalFunction}> Remove Loop </a>
+    <button className="SJTUnitButton center-contents" onClick={() => {this.loop = this.createLoop(this.state.loopState, this.state.noteArrayString)}}>Create Loop</button>
+    <button className="SJTUnitButton center-contents" onClick={this.props.externalFunction}> Remove Loop </button>
   </div>
 </div>
 )

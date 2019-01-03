@@ -119,7 +119,7 @@ class App extends Component {
               return(
                 //This returns a div with a button asking whether you want to initialise a loop
               <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}}>
-                <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Initialise Loop {i+1}</a>
+                <button className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Initialise Loop {i+1}</button>
               </div>
           )
             } else {
