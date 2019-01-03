@@ -128,7 +128,7 @@ class App extends Component {
             } else {
               return (
                 //This returns a div contaning an SJTUnit component, which is wrapped in a div which will be used to generate Konva squares. The ID of the konva div will then be passed into the SJTUnit, which will be passed into the creation argument of createSquaresNotes. This passing-down can probably be done better, but will be tackled during a refactor.
-                <div className="div-styling" style={{background: this.state.colours[i]}} >
+                <div className="div-styling" style={{background: this.state.colours[i]}} key={i}>
 
                 <div className="konva-container" id={`konva-${i}`}>
                 </div>

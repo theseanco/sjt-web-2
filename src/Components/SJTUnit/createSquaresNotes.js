@@ -22,17 +22,18 @@ scaleKey = Key of scale to be used in Tonal scale generation
 scaleOctabe = Octave of scale to be used in Tonal scale generation
 
 */
-const creatorFunction = (noteArray = [0,3,7,12], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF", scaleRootNote = "C", scaleKey="minor", scaleOctave="4") => {
-
-var synth = new Tone.PolySynth().toMaster();
-const totalRects = noteArray.length;
+const creatorFunction = (noteArray = [0,4,7], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF", scaleRootNote = "C", scaleKey="minor", scaleOctave="4") => {
 
 //Function to turn a degree list, key, root note and octave into a sorted array of notes.
-const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote = "C", octave = "4") => {
+const generateScaleArray = (degreeList, key = "minor", rootNote = "C", octave = "4") => {
+  if (degreeList.length === 0 || degreeList === undefined) {
+    degreeList = [0, 4, 7]
+  }
+  console.log(degreeList)
   //Holding values for a scale (empty array to allow .concat method) and a final value
   let scale = [], indexedScale;
   //Returns how many degrees are in the scale to see how many octaves need to be generated
-  const scaleLength = Scale.notes(`${rootNote}${octave} ${key}`).length
+  const scaleLength = Scale.notes(`${rootNote}${octave} ${key}`).length;
   //See which octave boundaries degrees fall into
   const maxIndex = Math.max(...degreeList);
   //If statement which either generates one octave or generates multiple octaves.
@@ -49,22 +50,19 @@ const generateScaleArray = (degreeList = [0, 1, 4, 8], key = "minor", rootNote =
       scale = scale.concat(newScale);
     }
   }
-  //Select which indexes of the generated scale list needs to be returned in the final processed array
-  indexedScale = degreeList.map(index => scale[index])
+
+  //mapping degreeList _against_ a scale to create a new
+  indexedScale = degreeList.map(index => scale[index]);
+
   return(indexedScale)
 }
-
-
 
 //Function to permute available notes
 const permuteNotes = (notesToPermute) => {
   return permute.all(notesToPermute)
 }
 
-//TODO: Make this permutation function possibly generate two arrays which can be cross-referenced in parallel to generate correct visuals.
-//USE A SJT ARRAY AND THEN JUST USE THAT TO REFERENCE THE ARRAY SOMEHOW.
 //This function generates a SEQUENTIAL ARRAY, and then performs STEINHAUS-JOHNSON-TROTTER on it.
-//This will then be cross-referenced against an array of note values to play them, as well as used as direct reference to trigger visuals
 const generateSynthVoice = (arrayOfNotes, initialIteration) => {
   const incrementalArray = arrayOfNotes.map((data,i) => i)
   const notePermutations = permuteNotes(incrementalArray);
@@ -72,17 +70,42 @@ const generateSynthVoice = (arrayOfNotes, initialIteration) => {
   return player
 }
 
+  //a function   to add a tween to a square. This needed to be created in order to get availableRects correctly assigned.
+  //This could do with being refactored as it's quite messy.
+  const addTween = (index, availableRects) => {
+    availableRects[index].tween = new Konva.Tween({
+    node: availableRects[index],
+    opacity: 0.8,
+    easing: Konva.Easings.EaseOut,
+    duration: 0.1,
+    onFinish: function() {
+     availableRects[index].tween.reverse()
+   }
+ })
+}
+
+
+
+var synth = new Tone.PolySynth().toMaster();
+
+if (noteArray.length === 0 || noteArray === [] || noteArray === undefined) {
+  noteArray = [0,4,7]
+}
+
+const totalRects = noteArray.length;
+
 //This generates an array of note names. These will be referenced within the tonejs timing loop
-const arrayNoteNames = generateScaleArray(noteArray, scaleKey, scaleRootNote, scaleOctave)
+const scaleArray = generateScaleArray(noteArray, scaleKey, scaleRootNote, scaleOctave)
 //generate an array of synths to be used
-let synthVoice = generateSynthVoice(arrayNoteNames, initialIteration)
+let synthVoice = generateSynthVoice(scaleArray, initialIteration)
 //add the initial scale by  note name to the SynthVoice object
-synthVoice.initialScaleNoteNames = noteArray.map((data, i) => arrayNoteNames[i])
+synthVoice.initialScaleNoteNames = noteArray.map((data, i) => scaleArray[i])
 
-
+//Generate Konva dimensions using JS
 const konvaWidth = document.getElementById(elementName).offsetWidth;
 const konvaHeight = document.getElementById(elementName).offsetHeight;
 
+//Create stage
 const stage = new Konva.Stage({
   container: elementName,
   width: konvaWidth,
@@ -92,8 +115,6 @@ const stage = new Konva.Stage({
 const layer = new Konva.Layer();
 
 let availableRects = [];
-
-
 //THIS IS MESSY - Needs to be abstracted out into a function.
 
 for(let i=0; i<totalRects; i++){
@@ -111,19 +132,7 @@ for (let i=0; i<totalRects; i++) {
   layer.add(availableRects[i])
   }
 
-  //a function   to add a tween to a square. This needed to be created in order to get availableRects correctly assigned.
-  //This could do with being refactored as it's quite messy.
-  const addTween = (index, availableRects) => {
-    availableRects[index].tween = new Konva.Tween({
-    node: availableRects[index],
-    opacity: 0.8,
-    easing: Konva.Easings.EaseOut,
-    duration: 0.1,
-    onFinish: function() {
-     availableRects[index].tween.reverse()
-   }
- })
-}
+
 
  // this now works with the above function
  // TODO: Refactor this, it's dependent on side-effects and is quite messy
@@ -139,10 +148,10 @@ return (
   [new Tone.Loop(function(time){
     synthVoice.playNote();
     //uses the master SJT array to refer to notes by index against an array of note names generated earlier.
-    synth.triggerAttackRelease(arrayNoteNames[synthVoice.note], noteLength)
+    synth.triggerAttackRelease(scaleArray[synthVoice.note], noteLength)
     availableRects[synthVoice.note].tween.play();
     //console log synthVoice for debugging if needed
-    synthVoice.note = arrayNoteNames[synthVoice.note];
+    synthVoice.note = scaleArray[synthVoice.note];
     callback(synthVoice)
 }, noteLength), synthVoice]
 )
