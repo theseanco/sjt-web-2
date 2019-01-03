@@ -7,8 +7,6 @@ import './buttons.css';
 //components
 import SJTUnit from "./Components/SJTUnit/SJTUnit";
 import Tone from 'tone';
-//Import enhanced range slider
-import Slider from 'react-rangeslider';
 //import overlay that explains the app
 import Overlay from "./Components/Overlay/Overlay";
 //import tempo changing checkbox
@@ -56,7 +54,6 @@ TODO: Perhaps this isn't the best way to do this, starting with a hardcoded valu
 //Some values that are used in tempo and bpm calculation
 const defaultTempo = 60;
 const defaultVolume = -3;
-const minVolume = -40;
 
 class App extends Component {
 
@@ -122,13 +119,13 @@ class App extends Component {
               return(
                 //This returns a div with a button asking whether you want to initialise a loop
               <div className="div-styling center-contents" key={i} style={{background: this.state.colours[i]}}>
-                <a className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Initialise Loop {i+1}</a>
+                <button className="initialiseButtonStyling initialiseButton center-contents" onClick={() => this.invertState(i)}>Initialise Loop {i+1}</button>
               </div>
           )
             } else {
               return (
                 //This returns a div contaning an SJTUnit component, which is wrapped in a div which will be used to generate Konva squares. The ID of the konva div will then be passed into the SJTUnit, which will be passed into the creation argument of createSquaresNotes. This passing-down can probably be done better, but will be tackled during a refactor.
-                <div className="div-styling" style={{background: this.state.colours[i]}} >
+                <div className="div-styling" style={{background: this.state.colours[i]}} key={i}>
 
                 <div className="konva-container" id={`konva-${i}`}>
                 </div>

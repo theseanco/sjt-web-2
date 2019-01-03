@@ -62,7 +62,7 @@ class Overlay extends React.Component {
        Information CC BY-SA from <a href="https://en.wikipedia.org/wiki/Steinhaus%E2%80%93Johnson%E2%80%93Trotter_algorithm">Wikipedia</a>
 
        <div className="bottom-alignment">
-       <a className="closeButton" onClick={() => {this.setState({hide: true})}}>Start</a>
+       <button className="closeButton" onClick={() => {this.setState({hide: true})}}>Start</button>
      </div>
      </div>
      </div>

@@ -70,7 +70,7 @@ export default class NoteInfoGenerator {
     }
   }
 
-  //there's probably a better way to do this but this will return note values as an object AND increment the iterator.
+  //return note values as an object AND increment the iterator.
   playNote() {
     const noteInfo = this.getNoteInfo();
     this.increment()

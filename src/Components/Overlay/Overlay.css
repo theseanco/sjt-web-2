@@ -51,23 +51,28 @@
 }
 }
 
-.closeButton {
+.closeButton{
+  display: inline-block;
   padding: 0.35em 1.2em;
-  border: 0.1em solid rgba(255,255,255,0.5);
+  background-color: rgba(255,255,255,0);
+  border: 0.1em solid rgba(255,255,255,0.6);
   margin: 0 0.3em 0.3em 0;
   border-radius: 0.12em;
   box-sizing: border-box;
   text-decoration: none;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+  font-size: 1em;
   color: #FFFFFF;
   text-align: center;
   transition: all 0.2s;
-  width: 30%
+  height: 30%;
+  width: 100px
 }
+
 .closeButton:hover {
   color: #000000;
-  background-color: rgba(255,255,255,0.9)
+  background-color: rgba(255,255,255,0.6)
 }
 
 .bottom-alignment {

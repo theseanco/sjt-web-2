@@ -76,7 +76,9 @@ Default background colour on this div is the green of the first
 Border colours have been changed to make things look a bit better
 */
 .initialiseButton {
+  display: inline-block;
   padding: 0.35em 1.2em;
+  background-color: rgba(255,255,255,0);
   border: 0.1em solid rgba(255,255,255,0.6);
   margin: 0 0.3em 0.3em 0;
   border-radius: 0.12em;
@@ -84,9 +86,12 @@ Border colours have been changed to make things look a bit better
   text-decoration: none;
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
+  font-size: 1em;
   color: #FFFFFF;
   text-align: center;
   transition: all 0.2s;
+  height: 30%;
+  width: 80%;
 }
 .initialiseButton:hover {
   color: #000000;
