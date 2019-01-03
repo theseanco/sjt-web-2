@@ -7,8 +7,6 @@ import './buttons.css';
 //components
 import SJTUnit from "./Components/SJTUnit/SJTUnit";
 import Tone from 'tone';
-//Import enhanced range slider
-import Slider from 'react-rangeslider';
 //import overlay that explains the app
 import Overlay from "./Components/Overlay/Overlay";
 //import tempo changing checkbox
@@ -56,7 +54,6 @@ TODO: Perhaps this isn't the best way to do this, starting with a hardcoded valu
 //Some values that are used in tempo and bpm calculation
 const defaultTempo = 60;
 const defaultVolume = -3;
-const minVolume = -40;
 
 class App extends Component {
 

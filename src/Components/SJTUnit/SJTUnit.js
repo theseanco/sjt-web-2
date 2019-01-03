@@ -16,9 +16,9 @@ This needs to broken out into components.
 
 import React from 'react';
 //class to generate loop of notes
-import createSquaresNotes from "./createSquaresNotes.js";
+import createSquaresNotes from "./modules/createSquaresNotes.js";
 //Steinhaus Johnson Trotter permutation algorithm
-import './SJT.js';
+import './modules/SJT.js';
 //stylesheet for buttons
 import './SJTUnit_Styles.css';
 import '../../sliderstyles.css';
@@ -128,9 +128,11 @@ class SJTUnit extends React.Component {
     - Rejects integers over 30
     */
     const processedNotes = intNoteString.filter((data) => {
+      let val;
       if (Number.isInteger(data) && data >= 0 && data < 30) {
-        return true
+        val = true
       }
+      return val;
     })
 
     return(
@@ -138,18 +140,18 @@ class SJTUnit extends React.Component {
         processedNotes,
         loopData.initialIteration,
         loopData.noteLength,
-        //callback function that handles data
-        (data) => {
-          //an array is put out through the callback function. One will be the loop data and on
-          this.setState({loopData: data});
-        },
+        loopData.rootNote,
+        loopData.scaleKey,
+        loopData.octave,
         //element name
         this.props.konvaIdName,
         //blockColour
         '#e0e0e0',
-        loopData.rootNote,
-        loopData.scaleKey,
-        loopData.octave
+        //callback function, to get createSquaresNotes to write to state, in this case with synthVoice
+        (data) => {
+          //an array is put out through the callback function. One will be the loop data and on
+          this.setState({loopData: data});
+        },
       )
     )
   }
@@ -277,7 +279,7 @@ class SJTUnit extends React.Component {
             <label>
               {`Octave: `}
               <div>
-                <select defaultValue="4" onChange={/*this.setOctave*/ this.eventHandler} id="scaleOctave">
+                <select defaultValue="4" onChange={this.eventHandler} id="scaleOctave">
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
@@ -291,7 +293,7 @@ class SJTUnit extends React.Component {
         <div className="dropdown-layout center-contents">
           <label>
             {`Key: `}
-            <select defaultValue="minor" onChange={/*this.setScaleKey*/ this.eventHandler} id="scaleKey">
+            <select defaultValue="minor" onChange={this.eventHandler} id="scaleKey">
             <option value="major">Major</option>
             <option value="minor">Minor</option>
             <option valye="dorian">Dorian</option>
@@ -306,7 +308,7 @@ class SJTUnit extends React.Component {
         <label>
           {`Duration:    `}
           <div>
-            <select defaultValue="4n" onChange={/*this.setNoteLength*/ this.eventHandler} id="noteLength">
+            <select defaultValue="4n" onChange={this.eventHandler} id="noteLength">
             <option value="2n" >1/2</option>
             <option value="4n">1/4</option>
             <option value="8n">1/8</option>

@@ -22,7 +22,7 @@ scaleKey = Key of scale to be used in Tonal scale generation
 scaleOctabe = Octave of scale to be used in Tonal scale generation
 
 */
-const creatorFunction = (noteArray = [0,4,7], initialIteration = 0, noteLength = '4n', callback, elementName = "konva-test", blockColour = "#FFFFFF", scaleRootNote = "C", scaleKey="minor", scaleOctave="4") => {
+const creatorFunction = (noteArray = [0,4,7], initialIteration = 0, noteLength = '4n', scaleRootNote = "C", scaleKey="minor", scaleOctave="4",elementName = "konva-test", blockColour = "#FFFFFF", callback) => {
 
 //Function to turn a degree list, key, root note and octave into a sorted array of notes.
 const generateScaleArray = (degreeList, key = "minor", rootNote = "C", octave = "4") => {
@@ -72,7 +72,8 @@ const generateSynthVoice = (arrayOfNotes, initialIteration) => {
 
   //a function   to add a tween to a square. This needed to be created in order to get availableRects correctly assigned.
   //This could do with being refactored as it's quite messy.
-  const addTween = (index, availableRects) => {
+  const addTween = (availableRects, index) => {
+    console.log("index", index, "availableRects", availableRects);
     availableRects[index].tween = new Konva.Tween({
     node: availableRects[index],
     opacity: 0.8,
@@ -84,14 +85,13 @@ const generateSynthVoice = (arrayOfNotes, initialIteration) => {
  })
 }
 
-
-
+//the synth to be used
 var synth = new Tone.PolySynth().toMaster();
 
+//if there are no usable notes, insert the defaults.
 if (noteArray.length === 0 || noteArray === [] || noteArray === undefined) {
   noteArray = [0,4,7]
 }
-
 const totalRects = noteArray.length;
 
 //This generates an array of note names. These will be referenced within the tonejs timing loop
@@ -129,29 +129,28 @@ for(let i=0; i<totalRects; i++){
 
 //A for loop to create rectangles and add tweening animations to them.
 for (let i=0; i<totalRects; i++) {
-  layer.add(availableRects[i])
-  }
-
-
-
- // this now works with the above function
- // TODO: Refactor this, it's dependent on side-effects and is quite messy
-for (let i=0; i<totalRects; i++) {
-  addTween(i,availableRects);
+  layer.add(availableRects[i]);
+  addTween(availableRects, i)
 }
 
+//add the Konva layer
 stage.add(layer);
+
+//return the data to component state
 callback(synthVoice);
+
+console.log(synthVoice);
 
 //This is returned so that the loop can be referenced. It also triggers the rest of the loop which is in scope.
 return (
   new Tone.Loop(function(time){
     synthVoice.playNote();
     //uses the master SJT array to refer to notes by index against an array of note names generated earlier.
-    synth.triggerAttackRelease(scaleArray[synthVoice.note], noteLength)
+    synth.triggerAttackRelease(scaleArray[synthVoice.note], noteLength);
     availableRects[synthVoice.note].tween.play();
     //console log synthVoice for debugging if needed
     synthVoice.note = scaleArray[synthVoice.note];
+    console.log(synthVoice);
     callback(synthVoice)
 }, noteLength)
 )
