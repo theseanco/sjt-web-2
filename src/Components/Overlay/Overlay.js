@@ -31,7 +31,7 @@ class Overlay extends React.Component {
 
        <ol>
          <li>On one of the fields click 'Initialise Loop'</li>
-         <li>Enter the degrees of the scale you wish to use as a pattern (with 0 being the root note of the scale), separated by spaces (e.g. 0 2 4 7) - Up to eight values are permitted</li>
+         <li>Enter the degrees of the scale you wish to use as a pattern (with 0 being the root note of the scale), separated by spaces (e.g. 0 4 7) - Up to ten values are permitted. This process requires exponentially more computation for each value, be aware of this when entering long sequences.</li>
          <li>Choose a scale root, octave, key and note duration (optional)</li>
          <li>Click 'Create Loop', which applies Steinhaus-Johnson-Trotter permutations to your sequence</li>
          <li>Click 'Play Loop' to hear the playback of the permuted sequence, and see visualisation of that sequence </li>
@@ -41,15 +41,14 @@ class Overlay extends React.Component {
       <ul>
       <li>Loops can be removed with the 'Clear Loop' button</li>
       <li>Tempo and Volume can be changed using the sliders below the loop fields</li>
+      <li>Any negative numbers, text, numbers over 30 and any more than 10 values will be silently rejected from input. This is to prevent errors, notes that are too high/low, and large permutation calculations crashing the browser</li>
     </ul>
 
        <h3>Known Issues</h3>
 
        <ul>
        <li>Tempo changes can cause playback of loops to stop working</li>
-       <li>Any negative numbers, text and numbers over 30 will be silently rejected from input</li>
        <li>Changing the dimensions of the browser will not change the dimensions of visuals</li>
-       <li>Sequences are limited to eight notes to prevent crashes from enormous datasets</li>
      </ul>
 
 

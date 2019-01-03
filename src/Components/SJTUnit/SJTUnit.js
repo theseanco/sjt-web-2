@@ -127,10 +127,12 @@ class SJTUnit extends React.Component {
     - Rejects negative integers
     - Rejects integers over 30
     */
-    const processedNotes = intNoteString.filter((data) => {
+    const processedNotes = intNoteString.filter((data, index) => {
       let val;
-      if (Number.isInteger(data) && data >= 0 && data < 30) {
-        val = true
+      if (Number.isInteger(data) && data >= 0 && data < 30 && index <= 9) {
+        val = true;
+      } else {
+        val = false;
       }
       return val;
     })
