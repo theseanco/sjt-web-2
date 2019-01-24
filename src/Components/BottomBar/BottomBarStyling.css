@@ -13,9 +13,17 @@
   color: #FFFFFF
 }
 
-.bottom-bar > a {
+.bottom-bar a {
   padding-left: 10px;
   padding-right: 10px;
   text-decoration: none;
   color: #FFFFFF
+}
+
+.bottom-bar a span {
+  height: 1px;
+ width: 1px;
+ position: absolute;
+ overflow: hidden;
+ top: -10px;
 }

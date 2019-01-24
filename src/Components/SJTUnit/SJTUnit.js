@@ -101,7 +101,6 @@ class SJTUnit extends React.Component {
 
   //for testing
   createDefaultLoop = (loopData) => {
-    console.log("bang")
     return(
       createSquaresNotes()
     )
