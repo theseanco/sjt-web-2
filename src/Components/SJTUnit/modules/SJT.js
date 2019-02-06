@@ -1,3 +1,9 @@
+/*
+
+From https://github.com/nodash/steinhaus-johnson-trotter
+
+*/
+
 function permute(arr) {
 
     var N = arr.length;
