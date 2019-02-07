@@ -123,12 +123,12 @@ class SJTUnit extends React.Component {
     /*
     Processes the notes:
     - Rejects strings
-    - Rejects negative integers
+    - Rejects integers that willbe negative after zero indexing
     - Rejects integers over 30
     */
     const processedNotes = intNoteString.filter((data, index) => {
       let val;
-      if (Number.isInteger(data) && data >= 0 && data < 30 && index <= 9) {
+      if (Number.isInteger(data) && data >= 1 && data < 30 && index <= 9) {
         val = true;
       } else {
         val = false;
@@ -136,9 +136,12 @@ class SJTUnit extends React.Component {
       return val;
     })
 
+    //Take one away from processedNotes to zero-index it
+    const processedNotesZeroIndexed = processedNotes.map(data => data - 1)
+
     return(
       createSquaresNotes(
-        processedNotes,
+        processedNotesZeroIndexed,
         loopData.initialIteration,
         loopData.noteLength,
         loopData.rootNote,
@@ -247,7 +250,7 @@ class SJTUnit extends React.Component {
             <label>
               {`Indices: `}
               <div>
-                <input type="text" name="indices" placeholder="Default: 0 4 7" onChange={this.eventHandler} id="scaleIndices" pattern="(\d{1,2}\s){1,6}" size="10"/>
+                <input type="text" name="indices" placeholder="Default: 1 3 8" onChange={this.eventHandler} id="scaleIndices" pattern="(\d{1,2}\s){1,6}" size="10"/>
               </div>
             </label>
           </div>

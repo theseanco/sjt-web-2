@@ -79,3 +79,11 @@
 .bottom-alignment {
   margin-top: 2em;
 }
+
+a {
+  color: white
+}
+
+a:hover {
+  color: orange
+}
